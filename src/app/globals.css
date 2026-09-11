@@ -20,10 +20,14 @@
   --surface: oklch(0.998 0.002 106);
   --surface-sunken: oklch(0.962 0.006 118);
 
-  /* Text, strongest to faintest. */
+  /*
+    Text, strongest to faintest. Every one of these clears WCAG AA (4.5:1)
+    against paper, surface, and sunken, including at the 11-13px sizes used for
+    metadata. `--ink-faint` is the binding constraint; do not lighten it.
+  */
   --ink: oklch(0.235 0.014 155);
   --ink-muted: oklch(0.475 0.013 155);
-  --ink-faint: oklch(0.605 0.011 155);
+  --ink-faint: oklch(0.540 0.011 155);
 
   /* Hairlines. `line` is the default rule weight across the site. */
   --line: oklch(0.905 0.008 132);
@@ -38,7 +42,7 @@
   /* Feedback. Distinct from the accent so success never reads as a button. */
   --danger: oklch(0.522 0.176 27);
   --danger-soft: oklch(0.955 0.028 27);
-  --warn: oklch(0.62 0.12 72);
+  --warn: oklch(0.546 0.120 72);
   --warn-soft: oklch(0.962 0.038 82);
   --success: oklch(0.512 0.128 150);
   --success-soft: oklch(0.952 0.041 150);
@@ -79,7 +83,7 @@
 
     --ink: oklch(0.948 0.006 106);
     --ink-muted: oklch(0.735 0.012 132);
-    --ink-faint: oklch(0.608 0.012 132);
+    --ink-faint: oklch(0.632 0.012 132);
 
     --line: oklch(0.318 0.013 150);
     --line-strong: oklch(0.418 0.016 150);

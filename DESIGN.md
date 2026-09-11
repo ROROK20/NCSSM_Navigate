@@ -28,7 +28,7 @@ Strategy: **Restrained.** Warm paper surface, near-black warm ink, one accent.
 | `--surface-sunken` | `oklch(0.962 0.006 118)` | Footer, alternate bands, skeletons |
 | `--ink` | `oklch(0.235 0.014 155)` | Body and headings |
 | `--ink-muted` | `oklch(0.475 0.013 155)` | Secondary prose |
-| `--ink-faint` | `oklch(0.605 0.011 155)` | Metadata, labels |
+| `--ink-faint` | `oklch(0.540 0.011 155)` | Metadata, labels |
 | `--line` | `oklch(0.905 0.008 132)` | Default rule weight, everywhere |
 | `--accent` | `oklch(0.475 0.105 158)` | Primary actions, current state, focus |
 
@@ -94,6 +94,10 @@ form-level alert that always offers the SG email as a fallback).
 - Result counts announce through `aria-live="polite"`.
 - Decorative SVGs are `aria-hidden`; a test asserts none escape.
 - No page scrolls horizontally at 360px wide; a test asserts this per route.
+- Every foreground/background token pair clears WCAG AA (4.5:1) in both themes,
+  including small metadata text on tinted callout backgrounds. `--ink-faint` is
+  the binding constraint in light mode at 4.51:1 against sunken; do not lighten
+  it without re-measuring.
 
 ## Bans observed
 

@@ -9,7 +9,10 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test:e2e": "playwright test",
-    "verify": "npm run lint && npm run typecheck && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run build",
+    "check:links": "node scripts/check-links.mjs",
+    "resources:export": "node scripts/resources-csv.mjs export",
+    "resources:import": "node scripts/resources-csv.mjs import"
   },
   "dependencies": {
     "next": "16.3.4",

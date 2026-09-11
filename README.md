@@ -24,6 +24,9 @@ npm run dev                  # http://localhost:3000
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript, no emit |
 | `npm run verify` | lint + typecheck + build, in that order |
+| `npm run check:links` | HEAD every URL in the content files, report dead ones |
+| `npm run resources:export -- out.csv` | Dump the directory to CSV for a spreadsheet |
+| `npm run resources:import -- in.csv` | Load a CSV back into `src/content/resources.ts` |
 | `npm run test:e2e` | Playwright end-to-end suite (builds and serves on port 3100) |
 
 First time running the tests: `npx playwright install chromium`.
@@ -94,6 +97,53 @@ Rules that matter:
 Adding a new category means adding one entry to `taxonomy.ts`. Filters, counts,
 tags, and dropdowns all read from there, so nothing else needs editing.
 
+### Aliases: why search works without an AI
+
+`aliases` is the words a student would actually type. It never renders. It is
+the reason typing "stressed", "broken dryer", "rec letter", or "my radiator is
+broken" lands on the right row, even though none of those words appear in the
+row's title.
+
+This is the whole substitute for an AI assistant layer, and it is better for the
+job: instant, free, offline, and structurally incapable of inventing a link that
+does not exist. An LLM asked "where do I get a transcript" can hallucinate a
+plausible URL. A substring match cannot.
+
+**When someone says they could not find something, add what they searched for to
+that row's aliases.** That is the maintenance loop. `e2e/public.spec.ts` has a
+table of plain-language queries and their expected top result; add to it.
+
+### Loading a lot of data at once
+
+Collecting thirty confirmed links is a group job, and a spreadsheet is the right
+tool for that. The CSV round-trip exists so the spreadsheet never becomes a
+second database:
+
+```bash
+npm run resources:export -- resources.csv   # seed a Google Sheet from what exists
+# ... SG fills in real URLs in the Sheet, File > Download > CSV ...
+npm run resources:import -- resources.csv   # write it back into src/content/
+git diff                                     # review before committing
+npm run check:links                          # catch the dead ones
+```
+
+Import validates every row against `taxonomy.ts` and **writes nothing at all if
+any row is bad**, listing each problem with its line number. A half-applied
+import cannot happen. It also refuses non-http URLs, which blocks a
+`javascript:` link from reaching an anchor tag.
+
+### Finding dead links
+
+```bash
+npm run check:links
+```
+
+Requests every URL in the content files and reports what is broken or redirected.
+Exits non-zero if anything is dead, so it can run in CI.
+
+It proves a page **exists**. It cannot prove the page is the **right** one, which
+is still a human check in `/admin`.
+
 ### The editor at `/admin`
 
 Sign in with `ADMIN_PASSWORD`. Five tabs:
@@ -129,13 +179,26 @@ A student posts the form to `POST /api/issues`. The route:
    server-side. The client check is a convenience, not a control.
 4. Delivers, then reports honestly.
 
-Two delivery paths, at least one required:
+Three delivery paths, at least one durable one required:
 
-- **Disk** — appended to `submissions.jsonl` in the data directory, readable
-  from `/admin`.
-- **Webhook** — if `ISSUE_WEBHOOK_URL` is set, a short notice is POSTed there
-  (Slack, Discord, Zapier, Google Apps Script). Only the title, category, and a
-  truncated excerpt are sent. **Contact details never leave the server.**
+| Path | Variable | Gets | Role |
+| --- | --- | --- | --- |
+| Disk | (none) | Full record | System of record on hosts with a writable disk |
+| Store | `ISSUE_STORE_URL` | Full record, contact included | System of record on Vercel |
+| Notify | `ISSUE_WEBHOOK_URL` | Title, category, excerpt. **No contact details** | Chat notification only |
+
+The split between store and notify is deliberate. A chat webhook URL is a bearer
+token sitting in a channel many people can read, and a student's email does not
+belong there. Choosing where the full record lands is a separate, deliberate act.
+
+**Setting up the store on a Google Sheet (free, no new accounts):**
+`scripts/apps-script-store.gs` is a complete Apps Script that appends each
+submission as a row in a private Sheet. Setup instructions are in the file
+header. It takes about five minutes and gives SG officers a spreadsheet instead
+of a new tool to learn.
+
+That Sheet can contain student emails. Restrict sharing to SG officers, never
+publish it, and delete rows once an issue is actioned.
 
 If neither path can durably accept the record, the API returns 503 and the form
 tells the student it was **not** received, pointing them at the SG email
@@ -203,11 +266,17 @@ vercel --prod
 Set the environment variables in the Vercel dashboard under Project Settings →
 Environment Variables.
 
-**Vercel's filesystem is read-only, so you must set `ISSUE_WEBHOOK_URL`**, or
-the submission form will correctly refuse every submission with a 503. With the
-webhook set, submissions are delivered reliably to your channel. Editor changes
-at `/admin` will still work for the life of an instance but will not persist;
-use the Export tab and commit the JSON, or edit `src/content/` and redeploy.
+**Vercel's filesystem is read-only, so you must set `ISSUE_STORE_URL`**, or the
+submission form will correctly refuse every submission with a 503. The fastest
+way to satisfy it is the Google Sheet sink in `scripts/apps-script-store.gs`.
+
+With that set, submissions are durable. Two things still behave differently on
+Vercel, and `/admin` says so at the top of the page:
+
+- The Submissions tab only lists what reached the current instance. The Sheet is
+  the real list.
+- Content edits made in `/admin` last until the next deploy. Use the Export tab
+  and commit the JSON, or edit `src/content/` and redeploy.
 
 ### After any deploy, check these four things
 
@@ -225,7 +294,10 @@ use the Export tab and commit the JSON, or edit `src/content/` and redeploy.
 Seed data is clearly labelled in the UI and in code comments. Replace it:
 
 - [ ] Replace every URL in `src/content/resources.ts` with a confirmed official
-      link, then mark each one verified in `/admin`.
+      link, then mark each one verified in `/admin`. Use
+      `npm run resources:export` to collect them in a spreadsheet first, and
+      `npm run check:links` to find the dead ones. **As shipped, 20 of the 42
+      seed URLs do not resolve.**
 - [ ] Replace `site.contact.email` in `src/content/site.ts` with a real,
       monitored SG address.
 - [ ] Confirm Senate and officer meeting details in `site.ts`, or delete the

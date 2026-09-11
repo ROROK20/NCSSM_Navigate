@@ -8,7 +8,7 @@ import {
   getSeedResources,
   getUpdates,
 } from "@/lib/content";
-import { listSubmissions } from "@/lib/submissions";
+import { deliveryConfig, listSubmissions } from "@/lib/submissions";
 import {
   ISSUE_CATEGORY_BY_ID,
   ISSUE_STATUS_BY_ID,
@@ -81,6 +81,7 @@ export default async function AdminPage(props: PageProps<"/admin">) {
   /* --------------------------------------------------------- dashboard */
   await probeStorage();
   const storage = storageMode();
+  const delivery = deliveryConfig();
 
   const [submissions, updates, overrides] = await Promise.all([
     listSubmissions(),
@@ -110,13 +111,26 @@ export default async function AdminPage(props: PageProps<"/admin">) {
 
       {storage.mode === "memory" ? (
         <div className="mt-6">
-          <Callout tone="danger" title="Changes will not survive a restart">
-            This server cannot write to disk, so edits and submissions are held
-            in memory for this instance only and are lost on the next deploy or
-            restart. Point <code className="text-ink">NAVIGATE_DATA_DIR</code> at
-            a writable volume, or deploy somewhere with a persistent disk. Use
-            the Export tab before you leave this page.
-          </Callout>
+          {delivery.store ? (
+            // Submissions are safe (they go to the configured system of
+            // record); only the editor's own content changes are at risk.
+            <Callout tone="warn" title="Submissions are safe, content edits are not">
+              This server cannot write to disk. Submissions are being delivered
+              to your configured system of record, so nothing students send is
+              lost, but the Submissions tab below only shows what reached this
+              instance. Content changes you make here last until the next deploy
+              or restart, so use the Export tab and commit the JSON before you
+              leave.
+            </Callout>
+          ) : (
+            <Callout tone="danger" title="This deployment is refusing submissions">
+              This server cannot write to disk and no{" "}
+              <code className="text-ink">ISSUE_STORE_URL</code> is configured, so
+              the form is correctly telling students their reports were not
+              received. Set one, or deploy somewhere with a persistent disk and
+              point <code className="text-ink">NAVIGATE_DATA_DIR</code> at it.
+            </Callout>
+          )}
         </div>
       ) : null}
 

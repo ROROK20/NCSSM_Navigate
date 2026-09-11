@@ -171,3 +171,45 @@ test("unknown routes render the 404 page", async ({ page }) => {
   expect(response?.status()).toBe(404);
   await expect(page.getByText("That page is not here")).toBeVisible();
 });
+
+/**
+ * The vocabulary test.
+ *
+ * These are phrasings a student would actually type, none of which appear in
+ * the title of the row that answers them. They work because of the `aliases`
+ * field, and this test is what stops someone deleting it as dead weight.
+ */
+const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
+  ["stressed", "Counseling Services"],
+  ["someone to talk to", "Counseling Services"],
+  ["broken dryer", "Facilities & maintenance request"],
+  ["my radiator is broken", "Facilities & maintenance request"],
+  ["rec letter", "College Counseling"],
+  ["wifi not working", "IT Help Desk"],
+  ["laptop broken", "IT Help Desk"],
+  ["drop a class", "Academic advising"],
+  ["leave campus for the weekend", "Sign-out & travel permissions"],
+  ["vegetarian food", "Dining hall menus & hours"],
+  ["join a club", "Clubs & organizations"],
+  ["send my grades to a college", "Transcript request"],
+  ["package delivery", "Mail room & package pickup"],
+  ["i am sick", "Student Health Services"],
+];
+
+test("plain-language searches surface the right resource first", async ({
+  page,
+}) => {
+  await page.goto("/resources");
+  const search = page.getByRole("searchbox", { name: /Search resources/i });
+  // Scoped to the results region so the header and footer nav lists cannot
+  // masquerade as the top result.
+  const results = page.locator('section[aria-label="Results"]');
+
+  for (const [query, expected] of PLAIN_LANGUAGE) {
+    await search.fill(query);
+    await expect(
+      results.locator("li").first(),
+      `"${query}" should surface ${expected}`,
+    ).toContainText(expected);
+  }
+});

@@ -33,6 +33,14 @@ export interface Resource {
   officialUrl: string;
   /** Who this is for, e.g. "Residential students" or "Juniors and seniors". */
   audience?: string;
+  /**
+   * Words a student would actually type that do not appear in `name` or
+   * `description`: "stressed", "broken dryer", "rec letter".
+   *
+   * Never rendered. This exists so search finds the row, and it is the reason
+   * the site does not need an AI layer to answer "who do I talk to about X".
+   */
+  aliases?: string;
   /** Public office/department contact. Never an individual student. */
   contactEmail?: string;
   contactNote?: string;

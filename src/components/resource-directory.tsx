@@ -8,7 +8,7 @@ import {
   RESOURCE_CATEGORIES,
   RESOURCE_CATEGORY_BY_ID,
 } from "@/content/taxonomy";
-import { matchesQuery } from "@/lib/search";
+import { scoreMatch } from "@/lib/search";
 import { formatDate } from "@/lib/format";
 import { cn } from "@/lib/cn";
 import { FilterBar } from "./filter-bar";
@@ -34,35 +34,47 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
   const [category, setCategory] = useState<string | null>(null);
   const [noLoginOnly, setNoLoginOnly] = useState(false);
 
-  /** Text searched for each row. Built once, reused on every keystroke. */
-  const haystacks = useMemo(() => {
-    const map = new Map<string, string>();
+  /** Searchable text per row, split by weight. Built once, not per keystroke. */
+  const fields = useMemo(() => {
+    const map = new Map<string, { name: string; aliases: string; body: string }>();
     for (const resource of resources) {
-      map.set(
-        resource.id,
-        [
-          resource.name,
+      map.set(resource.id, {
+        name: resource.name,
+        aliases: resource.aliases ?? "",
+        body: [
           resource.description,
           RESOURCE_CATEGORY_BY_ID[resource.category]?.label,
           resource.audience,
           PLATFORM_BY_ID[resource.platform]?.label,
-          resource.contactEmail,
+          resource.contactNote,
         ]
           .filter(Boolean)
           .join(" "),
-      );
+      });
     }
     return map;
   }, [resources]);
+
+  /** id -> relevance, for the rows that match. Empty query matches everything. */
+  const scores = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const resource of resources) {
+      const score = scoreMatch(
+        fields.get(resource.id) ?? { name: resource.name },
+        query,
+      );
+      if (score !== null) map.set(resource.id, score);
+    }
+    return map;
+  }, [resources, fields, query]);
 
   const afterTextFilters = useMemo(
     () =>
       resources.filter(
         (resource) =>
-          matchesQuery(haystacks.get(resource.id) ?? "", query) &&
-          (!noLoginOnly || !resource.loginRequired),
+          scores.has(resource.id) && (!noLoginOnly || !resource.loginRequired),
       ),
-    [resources, haystacks, query, noLoginOnly],
+    [resources, scores, noLoginOnly],
   );
 
   /**
@@ -79,13 +91,17 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
     [afterTextFilters],
   );
 
-  const visible = useMemo(
-    () =>
-      category
-        ? afterTextFilters.filter((r) => r.category === category)
-        : afterTextFilters,
-    [afterTextFilters, category],
-  );
+  const visible = useMemo(() => {
+    const rows = category
+      ? afterTextFilters.filter((r) => r.category === category)
+      : afterTextFilters;
+    // While browsing, keep the curated category order. While searching, the
+    // best answer belongs at the top.
+    if (query.trim().length === 0) return rows;
+    return [...rows].sort(
+      (a, b) => (scores.get(b.id) ?? 0) - (scores.get(a.id) ?? 0),
+    );
+  }, [afterTextFilters, category, query, scores]);
 
   /** Grouped while browsing, flat while searching. */
   const grouped = query.trim().length === 0;

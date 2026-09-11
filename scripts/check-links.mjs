@@ -15,7 +15,19 @@ import { readFile } from "node:fs/promises";
 
 const JSON_OUT = process.argv.includes("--json");
 const TIMEOUT_MS = 12_000;
-const CONCURRENCY = 6;
+
+/**
+ * One request at a time per host, with a gap between them.
+ *
+ * Most of this directory points at a handful of domains, and ncssm.edu starts
+ * answering 429 when hit in parallel. A checker that reports "broken" for a
+ * working link is worse than no checker, because someone acts on it.
+ * Different hosts still run concurrently, so this stays fast.
+ */
+const HOST_DELAY_MS = 700;
+const HOST_CONCURRENCY = 6;
+const RETRY_STATUSES = new Set([429, 503]);
+const RETRY_DELAY_MS = 4_000;
 
 /**
  * Pull URLs out of the content files by regex rather than importing them.
@@ -52,6 +64,8 @@ async function collect() {
   return rows;
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 async function check({ source, id, url }) {
   const started = Date.now();
   const attempt = async (method) =>
@@ -68,12 +82,21 @@ async function check({ source, id, url }) {
     if (response.status === 405 || response.status === 403 || response.status === 501) {
       response = await attempt("GET");
     }
+    // Throttling is the checker's problem, not the link's. Back off once and
+    // ask again before saying anything about this URL.
+    if (RETRY_STATUSES.has(response.status)) {
+      await sleep(RETRY_DELAY_MS);
+      response = await attempt("GET");
+    }
     return {
       source,
       id,
       url,
       status: response.status,
       ok: response.ok,
+      // Still throttled after a retry: unknown, not broken. Reported
+      // separately so nobody marks a working link outdated.
+      throttled: RETRY_STATUSES.has(response.status),
       ms: Date.now() - started,
       finalUrl: response.url !== url ? response.url : undefined,
     };
@@ -90,18 +113,39 @@ async function check({ source, id, url }) {
   }
 }
 
-async function pool(items, worker, size) {
-  const results = [];
+/**
+ * Run the checks grouped by host: serial within a host, parallel across hosts.
+ */
+async function pool(items, worker) {
+  const byHost = new Map();
+  for (const item of items) {
+    let host;
+    try {
+      host = new URL(item.url).host;
+    } catch {
+      host = "invalid";
+    }
+    if (!byHost.has(host)) byHost.set(host, []);
+    byHost.get(host).push(item);
+  }
+
+  const results = new Map();
+  const hosts = [...byHost.values()];
   let cursor = 0;
+
   await Promise.all(
-    Array.from({ length: Math.min(size, items.length) }, async () => {
-      while (cursor < items.length) {
-        const index = cursor++;
-        results[index] = await worker(items[index]);
+    Array.from({ length: Math.min(HOST_CONCURRENCY, hosts.length) }, async () => {
+      while (cursor < hosts.length) {
+        const group = hosts[cursor++];
+        for (let i = 0; i < group.length; i += 1) {
+          if (i > 0) await sleep(HOST_DELAY_MS);
+          results.set(group[i], await worker(group[i]));
+        }
       }
     }),
   );
-  return results;
+
+  return items.map((item) => results.get(item));
 }
 
 const rows = await collect();
@@ -110,12 +154,19 @@ if (rows.length === 0) {
   process.exit(1);
 }
 
-const results = await pool(rows, check, CONCURRENCY);
-const broken = results.filter((r) => !r.ok);
+const results = await pool(rows, check);
+const broken = results.filter((r) => !r.ok && !r.throttled);
+const throttled = results.filter((r) => r.throttled);
 const redirected = results.filter((r) => r.ok && r.finalUrl);
 
 if (JSON_OUT) {
-  console.log(JSON.stringify({ checked: results.length, broken, redirected, results }, null, 2));
+  console.log(
+    JSON.stringify(
+      { checked: results.length, broken, throttled, redirected, results },
+      null,
+      2,
+    ),
+  );
 } else {
   console.log(`Checked ${results.length} links.\n`);
 
@@ -128,6 +179,17 @@ if (JSON_OUT) {
     console.log("");
   }
 
+  if (throttled.length) {
+    console.log(
+      `RATE LIMITED (${throttled.length}) — the site asked us to slow down, so\n` +
+        "these are UNKNOWN, not broken. Open them by hand, or re-run later:",
+    );
+    for (const r of throttled) {
+      console.log(`  [${r.source}] ${r.id}\n      ${r.url}\n      HTTP ${r.status}`);
+    }
+    console.log("");
+  }
+
   if (redirected.length) {
     console.log(`REDIRECTED (${redirected.length}) — still work, but update to the final URL:`);
     for (const r of redirected) {
@@ -136,7 +198,7 @@ if (JSON_OUT) {
     console.log("");
   }
 
-  if (!broken.length && !redirected.length) {
+  if (!broken.length && !redirected.length && !throttled.length) {
     console.log("Every link resolved, with no redirects.");
   }
   console.log(

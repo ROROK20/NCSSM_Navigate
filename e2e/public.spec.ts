@@ -89,7 +89,9 @@ test("resource search and category filters narrow the list", async ({ page }) =>
 
   await search.fill("");
   await page.getByRole("button", { name: /^Technology/ }).click();
-  await expect(page.getByRole("link", { name: /^IT Help Desk/ })).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /^Information Technology Services/ }),
+  ).toBeVisible();
   await expect(page.getByRole("link", { name: /^Peer tutoring/ })).toHaveCount(0);
 
   expect(errors).toEqual([]);
@@ -173,15 +175,25 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["broken dryer", "Facilities & maintenance request"],
   ["my radiator is broken", "Facilities & maintenance request"],
   ["rec letter", "College Counseling"],
-  ["wifi not working", "IT Help Desk"],
-  ["laptop broken", "IT Help Desk"],
+  // A broken thing should reach the action, not a page describing the office.
+  ["wifi not working", "Submit a helpdesk ticket"],
+  ["laptop broken", "Submit a helpdesk ticket"],
   ["drop a class", "Academic advising"],
-  ["leave campus for the weekend", "Sign-out & travel permissions"],
+  ["leave campus for the weekend", "Orah"],
   ["vegetarian food", "Dining hall menus & hours"],
   ["join a club", "Clubs & organizations"],
   ["send my grades to a college", "Transcript request"],
   ["package delivery", "Mail room & package pickup"],
   ["i am sick", "Student Health Services"],
+  // The systems students actually use, rather than a page describing them.
+  ["worried about a friend", "CARE report"],
+  ["what time does class start", "Daily schedule"],
+  ["what are the rules", "Student handbook"],
+  ["3d printer", "FabLab"],
+  ["who do i email", "Faculty & staff directory"],
+  ["change my password", "Change your NCSSM password"],
+  ["miss class", "Absence request form"],
+  ["book a clinic appointment", "Clinic appointments"],
 ];
 
 test("plain-language searches surface the right resource first", async ({

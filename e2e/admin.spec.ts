@@ -54,13 +54,13 @@ test("an editor can verify a resource and it shows on the public directory", asy
   await tabs.getByRole("link", { name: "Resources" }).click();
   await expect(page.getByText("Needs review").first()).toBeVisible();
 
-  const row = page.locator("li").filter({ hasText: "IT Help Desk" }).first();
+  const row = page.locator("li").filter({ hasText: "Information Technology Services (ITS)" }).first();
   await row.getByRole("button", { name: "Mark verified" }).click();
 
   await expect(
     page
       .locator("li")
-      .filter({ hasText: "IT Help Desk" })
+      .filter({ hasText: "Information Technology Services (ITS)" })
       .first()
       .getByText(/^Verified/),
   ).toBeVisible({ timeout: 15_000 });
@@ -69,7 +69,7 @@ test("an editor can verify a resource and it shows on the public directory", asy
   await page.goto("/resources");
   await page
     .getByRole("searchbox", { name: /Search resources/i })
-    .fill("help desk");
+    .fill("Information Technology Services");
   await expect(page.getByText(/Checked \w+ \d+, \d{4}/)).toBeVisible();
 });
 

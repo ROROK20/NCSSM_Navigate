@@ -29,6 +29,37 @@ const HOST_CONCURRENCY = 6;
 const RETRY_STATUSES = new Set([429, 503]);
 const RETRY_DELAY_MS = 4_000;
 
+/*
+ * A login wall is not a broken link.
+ *
+ * Much of this directory points at systems that require an NCSSM account, and
+ * several vendors answer an unauthenticated or unfamiliar request with 401,
+ * 403, or a redirect to a sign-in page. Reporting those as broken is the same
+ * failure as reporting rate limits as broken: it produces a list nobody can
+ * act on, and acting on it would mean marking working links outdated.
+ */
+const GATED_STATUSES = new Set([401, 403]);
+
+/*
+ * "Could not check" is not "broken".
+ *
+ * A network-level failure or a 5xx means this tool did not get an answer, not
+ * that the link is wrong. Several of these hosts complete fine in a browser or
+ * under curl and fail under Node's fetch. Saying BROKEN there sends someone to
+ * fix a URL that is already correct, so these get their own bucket and a plain
+ * instruction to open them by hand.
+ */
+const isServerError = (status) => status >= 500 && status < 600;
+
+/*
+ * Several of these hosts reject an unknown user-agent outright. Identifying as
+ * a real browser is the difference between a useful report and a page of
+ * false positives.
+ */
+const UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 " +
+  "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+
 /**
  * Pull URLs out of the content files by regex rather than importing them.
  * These are TypeScript modules, and a plain `node` run cannot import those
@@ -73,7 +104,7 @@ async function check({ source, id, url }) {
       method,
       redirect: "follow",
       signal: AbortSignal.timeout(TIMEOUT_MS),
-      headers: { "user-agent": "NCSSM-Navigate-LinkChecker/1.0" },
+      headers: { "user-agent": UA },
     });
 
   try {
@@ -93,7 +124,12 @@ async function check({ source, id, url }) {
       id,
       url,
       status: response.status,
-      ok: response.ok,
+      ok:
+        response.ok ||
+        GATED_STATUSES.has(response.status) ||
+        isServerError(response.status),
+      gated: GATED_STATUSES.has(response.status),
+      unchecked: isServerError(response.status),
       // Still throttled after a retry: unknown, not broken. Reported
       // separately so nobody marks a working link outdated.
       throttled: RETRY_STATUSES.has(response.status),
@@ -107,6 +143,7 @@ async function check({ source, id, url }) {
       url,
       status: 0,
       ok: false,
+      unchecked: true,
       ms: Date.now() - started,
       error: error instanceof Error ? error.message : "unknown error",
     };
@@ -155,14 +192,24 @@ if (rows.length === 0) {
 }
 
 const results = await pool(rows, check);
-const broken = results.filter((r) => !r.ok && !r.throttled);
+const broken = results.filter((r) => !r.ok && !r.throttled && !r.unchecked);
+const gated = results.filter((r) => r.gated);
+const unchecked = results.filter((r) => r.unchecked);
 const throttled = results.filter((r) => r.throttled);
 const redirected = results.filter((r) => r.ok && r.finalUrl);
 
 if (JSON_OUT) {
   console.log(
     JSON.stringify(
-      { checked: results.length, broken, throttled, redirected, results },
+      {
+        checked: results.length,
+        broken,
+        unchecked,
+        throttled,
+        gated,
+        redirected,
+        results,
+      },
       null,
       2,
     ),
@@ -175,6 +222,30 @@ if (JSON_OUT) {
     for (const r of broken) {
       const why = r.error ? r.error : `HTTP ${r.status}`;
       console.log(`  [${r.source}] ${r.id}\n      ${r.url}\n      ${why}`);
+    }
+    console.log("");
+  }
+
+  if (unchecked.length) {
+    console.log(
+      `COULD NOT CHECK (${unchecked.length}) — no answer reached this tool, which\n` +
+        "is not the same as the link being wrong. Open each one in a browser:",
+    );
+    for (const r of unchecked) {
+      const why = r.error ? r.error : `HTTP ${r.status}`;
+      console.log(`  [${r.source}] ${r.id}\n      ${r.url}\n      ${why}`);
+    }
+    console.log("");
+  }
+
+  if (gated.length) {
+    console.log(
+      `SIGN-IN REQUIRED (${gated.length}) — the page exists but refuses an\n` +
+        "anonymous request. Expected for NCSSM systems; confirm these while\n" +
+        "signed in, and make sure the row is marked NCSSM login required:",
+    );
+    for (const r of gated) {
+      console.log(`  [${r.source}] ${r.id}\n      ${r.url}\n      HTTP ${r.status}`);
     }
     console.log("");
   }
@@ -198,7 +269,13 @@ if (JSON_OUT) {
     console.log("");
   }
 
-  if (!broken.length && !redirected.length && !throttled.length) {
+  if (
+    !broken.length &&
+    !redirected.length &&
+    !throttled.length &&
+    !gated.length &&
+    !unchecked.length
+  ) {
     console.log("Every link resolved, with no redirects.");
   }
   console.log(

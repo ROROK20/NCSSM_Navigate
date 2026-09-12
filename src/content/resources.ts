@@ -45,7 +45,7 @@ export const resources: Resource[] = [
     aliases:
       "crisis, urgent, panic attack, suicidal, self harm, hurting myself, need someone right now, mental health emergency",
     category: "urgent-support",
-    officialUrl: "https://dur-counseling.ncssm.edu",
+    officialUrl: "https://counseling.ncssm.edu/",
     audience: "All students",
     contactNote:
       "If it cannot wait and it is out of hours, go to a Community Coordinator desk. Call or text 988 any time. Call 911 if someone is in danger.",
@@ -143,7 +143,7 @@ export const resources: Resource[] = [
     aliases:
       "counselor, therapist, therapy, mental health, stress, stressed, anxiety, anxious, depressed, homesick, overwhelmed, burnout, lonely, someone to talk to",
     category: "advising-counseling",
-    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling/wellness-counseling",
+    officialUrl: "https://counseling.ncssm.edu/",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -200,22 +200,6 @@ export const resources: Resource[] = [
     verificationStatus: "needs-review",
   },
   {
-    id: "signout",
-    name: "Sign-out & travel permissions",
-    description:
-      "Leaving campus, weekend travel, and parent permission. Submitted through the student information system.",
-    aliases:
-      "leave campus, sign out, signout, weekend, travel, going home, parent permission, off campus",
-    category: "residential-life",
-    officialUrl: "https://ncssm.myschoolapp.com",
-    audience: "Residential students",
-    loginRequired: true,
-    platform: "blackbaud",
-    lastVerified: null,
-    verificationStatus: "needs-review",
-    featured: true,
-  },
-  {
     id: "maintenance-request",
     name: "Facilities & maintenance request",
     description:
@@ -258,7 +242,7 @@ export const resources: Resource[] = [
     aliases:
       "food, dining hall, cafeteria, menu, meal, meals, allergy, allergies, vegetarian, vegan, gluten, breakfast, lunch, dinner, dining hours",
     category: "dining-transportation",
-    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
+    officialUrl: "https://ncssm-durham.campus-dining.com/",
     contactNote:
       "Meals are free to students. Vegetarian, vegan, and gluten-free options are provided; talk to dining staff about an allergy so it is on file.",
     audience: "Residential students",
@@ -301,11 +285,11 @@ export const resources: Resource[] = [
   /* ---------------------------------------------------------- technology */
   {
     id: "it-helpdesk",
-    name: "IT Help Desk",
+    name: "Information Technology Services (ITS)",
     description:
       "Laptop problems, wifi that will not connect, printing, and account lockouts. Start here before anything else tech related.",
     aliases:
-      "laptop, computer broken, wifi not working, internet down, printer, printing, password reset, locked out of my account, tech support, it help, charger",
+      "its, technology office, tech help, computer help, software, network, printing, accounts, charger, equipment",
     category: "technology",
     officialUrl: "https://www.ncssm.edu/information-technology-services",
     audience: "All students",
@@ -369,7 +353,7 @@ export const resources: Resource[] = [
     aliases:
       "transcript, official transcript, records, registrar, send my grades, school records",
     category: "forms",
-    officialUrl: "https://registrar.ncssm.edu/",
+    officialUrl: "https://sites.google.com/ncssm.edu/registrar",
     audience: "All students and alumni",
     loginRequired: true,
     platform: "form",
@@ -431,7 +415,7 @@ export const resources: Resource[] = [
     aliases:
       "sports, team, tryouts, gym, weight room, intramural, practice, workout, fitness",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/residential/durham-athletics",
+    officialUrl: "https://www.gounis.com/",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -566,7 +550,7 @@ export const resources: Resource[] = [
     aliases:
       "harassment, sexual harassment, assault, discrimination, title 9, report misconduct, coordinator",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix",
+    officialUrl: "https://accessibility.ncssm.edu/",
     contactNote:
       "This is a formal reporting route with people trained for it. Navigate is not, and an issue like this should never go through the report form.",
     audience: "All students",
@@ -616,7 +600,7 @@ export const resources: Resource[] = [
     aliases:
       "research, lab, mentorship, mentor, science fair, independent study, publish, internship",
     category: "academic-support",
-    officialUrl: "https://www.ncssm.edu/residential/academics/student-research",
+    officialUrl: "https://research-innovation.ncssm.edu/home",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -632,7 +616,7 @@ export const resources: Resource[] = [
     aliases:
       "service hours, volunteering, community service, requirement, log hours, graduation requirement",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/residential/service-learning",
+    officialUrl: "https://sites.google.com/a/ncssm.edu/service-learning/contact",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -751,6 +735,546 @@ export const resources: Resource[] = [
     audience: "All students",
     loginRequired: false,
     platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+
+  /* ------------------------------------------------- the systems students
+     actually use day to day, supplied by SG. These are the destinations
+     that matter most: a marketing page about counseling is not the same
+     thing as the link that books a clinic appointment. */
+
+  {
+    id: "orah",
+    name: "Orah — sign-out & leave",
+    description:
+      "The system NCSSM actually uses to request leave, sign out, and check in. Submit before you go, not after.",
+    aliases:
+      "sign out, signout, orah, leave campus, weekend leave, going home, check in, check out, permission, day leave, overnight",
+    category: "residential-life",
+    officialUrl: "https://app.orah.com/login",
+    audience: "All students",
+    loginRequired: true,
+    platform: "other",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "absence-request",
+    name: "Absence request form",
+    description:
+      "Request an excused absence from class through the school's service desk.",
+    aliases:
+      "absence, miss class, excused absence, absent, skip class, sick note, cannot attend, miss a day",
+    category: "forms",
+    officialUrl: "https://ncssm.atlassian.net/servicedesk/customer/portal/11/group/29/create/122",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "helpdesk-ticket",
+    name: "Submit a helpdesk ticket",
+    description:
+      "The IT service desk. File a ticket for a broken laptop, account trouble, software, or anything network related.",
+    aliases:
+      "it ticket, helpdesk, help desk, laptop broken, computer broken, computer problem, tech support, wifi not working, internet down, no wifi, printer not working, locked out of my account, broken screen, it help",
+    category: "technology",
+    officialUrl: "https://ncssm.atlassian.net/servicedesk/customer/portal/1",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "change-password",
+    name: "Change your NCSSM password",
+    description:
+      "Reset or change the password on your NCSSM account.",
+    aliases:
+      "password, reset password, change password, forgot password, locked out, account locked, new password",
+    category: "technology",
+    officialUrl: "https://password.ncssm.edu/pwm/private/login",
+    audience: "All students",
+    loginRequired: true,
+    platform: "other",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "tech-requirements",
+    name: "Tech requirements & laptop specs",
+    description:
+      "What laptop you need, the specs that are supported, and what IT expects you to arrive with.",
+    aliases:
+      "laptop specs, what laptop, computer requirements, buy a laptop, tech requirements, minimum specs",
+    category: "technology",
+    officialUrl: "https://ncssm.atlassian.net/wiki/spaces/ITS/pages/71303203/Tech+requirements+and+laptop+specs",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "its-acceptable-use",
+    name: "ITS acceptable use regulation",
+    description:
+      "The rules for using NCSSM's network, accounts, and devices.",
+    aliases:
+      "acceptable use, network policy, it policy, internet policy, computer policy, aup, device policy, wifi policy",
+    category: "technology",
+    officialUrl: "https://drive.google.com/file/d/17UBxCGrQACNrPP_0kJYvj6NTDXuY-DIw/view",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "care-report",
+    name: "CARE report — concern about a student",
+    description:
+      "Raise a concern about a student who may be struggling, to the people trained to respond to it.",
+    aliases:
+      "worried about a friend, concerned, someone is struggling, mental health concern, care team, report a concern, help a friend, wellbeing",
+    category: "urgent-support",
+    officialUrl: "https://ncssm-advocate.symplicity.com/care_report/index.php/pid992479",
+    contactNote:
+      "Use this rather than Navigate for anything about a student's safety or wellbeing. It reaches staff who can actually act.",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "advocate-report",
+    name: "Advocate — submit a report",
+    description:
+      "The school's formal reporting system for conduct, harassment, and policy violations.",
+    aliases:
+      "report a problem, misconduct, harassment, bullying, conduct violation, incident report, formal report, advocate",
+    category: "urgent-support",
+    officialUrl: "https://ncssm-advocate.symplicity.com/public_report/index.php/pid750944",
+    contactNote:
+      "This is the formal route with people trained for it. Navigate's issue form is not, and never should be.",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "student-handbook",
+    name: "Student handbook (Durham)",
+    description:
+      "The rules, expectations, and procedures you are actually held to. Search it before asking whether something is allowed.",
+    aliases:
+      "handbook, rules, policy, what are the rules, am i allowed, student handbook, code of conduct, expectations",
+    category: "forms",
+    officialUrl: "https://drive.google.com/file/d/1ItwHjjNd2w4mL0pp4kHoXPq2f5fLtFLW/view",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "code-of-conduct",
+    name: "Code of student conduct (policy 7110)",
+    description:
+      "The formal conduct policy as adopted by the Board of Trustees.",
+    aliases:
+      "code of conduct, discipline, consequences, policy 7110, rules, disciplinary, honor code",
+    category: "forms",
+    officialUrl: "https://www.ncssm.edu/about/leadership/board-of-trustees/institutional-policies",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "daily-schedule",
+    name: "Daily schedule & timetable",
+    description:
+      "The bell schedule: when blocks run, when lunch is, and how the day is laid out.",
+    aliases:
+      "bell schedule, timetable, what time, class times, when does class start, lunch time, daily schedule, blocks",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/spreadsheets/d/1y6Rere9VTnsIOcRQ75O9sleb4jaT0QVeNRSiFdMh8X0/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "academic-calendar",
+    name: "Academic calendar (26-27)",
+    description:
+      "Term dates, breaks, exam periods, and the days school is closed.",
+    aliases:
+      "calendar, academic calendar, breaks, when is spring break, exam dates, term dates, holidays, last day, first day",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/spreadsheets/d/1wFU9AKbCzql_wdGXXwA8q9LHW5XHEoJFMPmoEsYA4lY/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "monthly-calendar",
+    name: "Monthly calendar (26-27)",
+    description:
+      "The month-by-month calendar as a single printable file.",
+    aliases:
+      "monthly calendar, print calendar, month view, schedule pdf, calendar pdf",
+    category: "academic-support",
+    officialUrl: "https://drive.google.com/file/d/1B3o_CRI0N4M8V6orahc2BPerDZTqqPS_/view",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "course-requests",
+    name: "Course requests (Durham)",
+    description:
+      "Where course selection happens, inside Blackbaud.",
+    aliases:
+      "course requests, pick classes, registration, sign up for classes, course selection, choose courses, schedule request",
+    category: "academic-support",
+    officialUrl: "https://ncssm.myschoolapp.com/app/student?svcid=edu#resourceboarddetail/16232",
+    audience: "All students",
+    loginRequired: true,
+    platform: "blackbaud",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "saa-durham",
+    name: "Science academic assistance (Durham)",
+    description:
+      "Peer and staff help for science courses on the Durham campus.",
+    aliases:
+      "science help, chemistry help, physics help, biology help, tutoring science, saa, struggling in science",
+    category: "academic-support",
+    officialUrl: "https://sites.google.com/ncssm.edu/saa-durham/home",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "math-placement",
+    name: "Mathematics placement",
+    description:
+      "How math placement works and what determines the course you start in.",
+    aliases:
+      "math placement, which math, placement test, calculus placement, precalc, what math class",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/u/1/d/e/2PACX-1vQlZiUyxh0V6_-5Dld5VO-Y4yPNcWmkHCIi45nT-eb2TBNUg8VUyS485UHUO5JzkMa-0IyMgX2ZvII-/pub",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "ecs-placement",
+    name: "Engineering & computer science placement",
+    description:
+      "Placement information for the engineering and computer science sequence.",
+    aliases:
+      "cs placement, computer science, coding class, engineering, which cs course, programming class",
+    category: "academic-support",
+    officialUrl: "https://ecs.ncssm.edu/",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "world-language-placement",
+    name: "World language placement",
+    description:
+      "Placement for Spanish, French, Chinese, and the other language offerings.",
+    aliases:
+      "language placement, spanish, french, chinese, latin, german, which language class, language test",
+    category: "academic-support",
+    officialUrl: "https://wlplacement.ncssm.edu/",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "calculator-requirements",
+    name: "Calculator requirements",
+    description:
+      "Which calculator you need for which course, and what is allowed in exams.",
+    aliases:
+      "calculator, ti 84, what calculator, graphing calculator, allowed calculator, exam calculator",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/u/1/d/e/2PACX-1vTWHQmgq8kZfZokCuGtrS97zce5rwojSGWIsstg_aylbI9mc0oYA_iXhped1vJfQvGVtwipNwphOG9_/pub",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "ap-exams",
+    name: "AP exam info",
+    description:
+      "Registration, dates, and logistics for AP exams.",
+    aliases:
+      "ap exam, ap test, advanced placement, register for ap, ap dates, ap scores",
+    category: "academic-support",
+    officialUrl: "https://sites.google.com/ncssm.edu/apexams/home",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "fablab",
+    name: "FabLab",
+    description:
+      "The fabrication lab: equipment, training, and access for student projects.",
+    aliases:
+      "fablab, 3d printer, laser cutter, makerspace, build something, machine shop, prototyping, woodshop",
+    category: "student-life",
+    officialUrl: "https://fablab.ncssm.edu/",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "clinic-appointments",
+    name: "Clinic appointments (Durham)",
+    description:
+      "Book a time at the Durham student health clinic.",
+    aliases:
+      "clinic appointment, see the nurse, book clinic, health appointment, medical appointment, sick",
+    category: "urgent-support",
+    officialUrl: "https://sites.google.com/ncssm.edu/healthandwellness/student-health/durham-student-health-clinic",
+    contactNote:
+      "Clinic hours are Monday to Friday, 8am to 4pm. Outside those hours go to a Community Coordinator desk.",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "resiliency-resources",
+    name: "Resiliency resources",
+    description:
+      "Practical resources for coping, stress, and looking after yourself during a hard stretch.",
+    aliases:
+      "stress, coping, burnout, overwhelmed, self care, resilience, mental health resources, anxious, struggling",
+    category: "advising-counseling",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmresiliencyresources/home",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "housing-site",
+    name: "Housing (Durham)",
+    description:
+      "Room assignments, move-in, what to bring, and residential logistics.",
+    aliases:
+      "housing, room assignment, move in, what to bring, dorm, roommate, room change, packing list",
+    category: "residential-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmhousing/",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "preflight-checklist",
+    name: "NCSSM-Durham pre-flight checklist",
+    description:
+      "The checklist of everything to sort before arriving on campus.",
+    aliases:
+      "checklist, before i arrive, move in checklist, what do i need, preflight, new student, forms to complete",
+    category: "forms",
+    officialUrl: "https://drive.google.com/file/d/1zgKshQaWxrx8RikGw5uh0wfFEfyTZgKT/view",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "security-deposit",
+    name: "Security deposit payment",
+    description:
+      "Pay the residential security deposit online.",
+    aliases:
+      "deposit, security deposit, pay deposit, payment, fee",
+    category: "forms",
+    officialUrl: "https://osp.osmsinc.com/NCSSM/BVModules/CategoryTemplates/Detailed%20List%20with%20Properties/Category.aspx?categoryid=GR001",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "financial-assistance",
+    name: "Financial assistance",
+    description:
+      "Help with costs: what NCSSM covers, what it does not, and what support is available.",
+    aliases:
+      "financial aid, money, cost, cannot afford, fee waiver, assistance, help paying, free",
+    category: "forms",
+    officialUrl: "https://www.ncssm.edu/admissions/financial-assistance",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "schoolinks",
+    name: "SchooLinks",
+    description:
+      "The college and career planning platform: applications, transcripts requests, and deadlines.",
+    aliases:
+      "college applications, schoolinks, apply to college, transcript request, common app, college list, naviance",
+    category: "advising-counseling",
+    officialUrl: "https://app.schoolinks.com/login/k12",
+    audience: "All students",
+    loginRequired: true,
+    platform: "other",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "medical-forms",
+    name: "Medical form upload",
+    description:
+      "Where to upload immunisation and medical paperwork, inside Blackbaud.",
+    aliases:
+      "medical form, immunization, vaccine record, health form, upload medical, physical form",
+    category: "forms",
+    officialUrl: "https://ncssm.myschoolapp.com/app/student?svcid=edu#resourceboarddetail/16941",
+    audience: "All students",
+    loginRequired: true,
+    platform: "blackbaud",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "forms-contracts",
+    name: "Forms and contracts instructions",
+    description:
+      "How to complete and submit the school's forms and contracts.",
+    aliases:
+      "forms, contracts, how to submit, paperwork, signature, sign a form",
+    category: "forms",
+    officialUrl: "https://ncssm.atlassian.net/wiki/spaces/ITS/pages/39059493/Forms+and+Contracts+Instructions",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "science-course-info",
+    name: "Science course info (Durham)",
+    description:
+      "Which science courses run, their sequence, and what each expects.",
+    aliases:
+      "science courses, which science, biology, chemistry, physics, science sequence, science requirement",
+    category: "academic-support",
+    officialUrl: "https://drive.google.com/file/d/1f6z-nEdUbMqgzOOrZ18OjkCH1LlT97cg/view",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "summer-science",
+    name: "Summer science course",
+    description:
+      "Details for the summer science course requirement.",
+    aliases:
+      "summer course, summer science, summer work, before junior year, summer assignment",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/d/1U7I5dFEVc09RWLgsoTnTgYrmxQHPTb4O1uDWS1Ya_cg/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "security-training",
+    name: "Security awareness training",
+    description:
+      "The required IT security training.",
+    aliases:
+      "security training, knowbe4, phishing training, required training, cyber training",
+    category: "technology",
+    officialUrl: "https://training.knowbe4.com/app/login",
+    audience: "All students",
+    loginRequired: true,
+    platform: "other",
     lastVerified: null,
     verificationStatus: "needs-review",
     featured: false,

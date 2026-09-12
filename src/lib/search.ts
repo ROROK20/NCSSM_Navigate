@@ -41,6 +41,22 @@ const STOPWORDS = new Set([
   "just", "very", "really", "please", "thanks",
 ]);
 
+/**
+ * The query with punctuation and spacing tidied, but nothing removed.
+ *
+ * Phrase matching has to run against this rather than the filtered terms:
+ * "who do i email" is listed verbatim as an alias on the staff directory, and
+ * every word in it except "email" is a stop word, so by the time `terms()` is
+ * done there is no phrase left to match.
+ */
+function phraseOf(query: string) {
+  return normalize(query)
+    .replace(/[?!.,;:'"]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .join(" ");
+}
+
 function terms(query: string) {
   const all = normalize(query)
     .replace(/[?!.,;:'"]/g, " ")
@@ -90,6 +106,20 @@ export function scoreMatch(
   const body = normalize(fields.body ?? "");
 
   let score = 0;
+
+  /*
+   * A whole phrase matching an alias outranks single words matching a title.
+   *
+   * Without this, "who do i email" went to the row titled "NCSSM email &
+   * Google Workspace" on the word "email" alone, rather than to the staff
+   * directory that lists the exact phrase. Someone typing a sentence means
+   * the sentence.
+   */
+  const phrase = phraseOf(query);
+  if (phrase.includes(" ")) {
+    if (aliases.includes(phrase)) score += 10;
+    if (name.includes(phrase)) score += 14;
+  }
   for (const term of wanted) {
     if (name.includes(term)) {
       // A term starting a word in the title is what someone means when they

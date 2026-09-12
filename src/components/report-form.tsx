@@ -424,11 +424,33 @@ export function ReportForm() {
       </div>
 
       <Callout tone="danger" title="This form is not for emergencies">
-        Nobody monitors it around the clock. If someone is in danger, call{" "}
-        {site.crisis.emergency}. For mental-health support any time, call or
-        text {site.crisis.lifeline}. For anything involving safety, harassment,
-        or a student in crisis, talk to a counselor, your Community Coordinator, or Campus Safety
-        directly.
+        <p>
+          Nobody monitors it around the clock. If someone is in danger, call{" "}
+          {site.crisis.emergency}. For mental-health support any time, call or
+          text {site.crisis.lifeline}. Durham Campus Safety is{" "}
+          <a href="tel:+19194162911">919-416-2911</a>.
+        </p>
+        <p className="mt-2">
+          NCSSM has proper routes for the serious things, staffed by people
+          trained to act on them. Use a{" "}
+          <a
+            href="https://ncssm-advocate.symplicity.com/care_report/index.php/pid992479"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CARE report
+          </a>{" "}
+          if you are worried about a student, and{" "}
+          <a
+            href="https://ncssm-advocate.symplicity.com/public_report/index.php/pid750944"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Advocate
+          </a>{" "}
+          for conduct or harassment. Student Government is not a substitute for
+          either.
+        </p>
       </Callout>
 
       <div className="flex flex-wrap items-center gap-4">

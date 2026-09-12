@@ -119,7 +119,9 @@ test("opportunities filter, and past entries are hidden until asked for", async 
   const errors = watchConsole(page);
   await page.goto("/opportunities");
 
-  await expect(page.getByText("Check before you register or go")).toBeVisible();
+  await expect(
+    page.getByText("These are examples, not confirmed listings"),
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Fall service day" })).toHaveCount(0);
 
   await page.getByLabel(/Include \d+ past/).check();

@@ -58,12 +58,18 @@ export default async function OpportunitiesPage() {
         reason, and two stacked amber boxes just read as noise to scroll past.
       */}
       <div className="mb-6">
-        <Callout tone="warn" title="Check before you register or go">
-          Student Government does not run, vet, or endorse these events, and
-          this is starter data nobody has confirmed with an organiser yet. Check
-          the date, cost, age requirements, and transport yourself before you
-          commit. Anything involving travel, money, or leaving campus also needs
-          the usual school and parent permissions.
+        <Callout tone="danger" title="These are examples, not confirmed listings">
+          Unlike the resource directory, this board has not been built from real
+          sources yet. The entries below were written to show what it looks like
+          in use: the organisations are real, the specific dates, costs and
+          details are not. Do not plan anything around them.
+          <br />
+          <br />
+          Once it is running for real, Student Government still will not run,
+          vet, or endorse these events. Check the date, cost, age requirements,
+          and transport with the organiser yourself, and remember that travel,
+          money, or leaving campus needs the usual school and parent
+          permissions.
         </Callout>
       </div>
 

@@ -350,7 +350,7 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="mt-10">
-            <SeedNotice />
+            <SeedNotice subject="resources" />
           </div>
         </div>
       </section>

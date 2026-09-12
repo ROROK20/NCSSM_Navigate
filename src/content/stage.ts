@@ -73,7 +73,7 @@ export const stage = {
      * how reports are actually handled today.
      */
     detail:
-      "email sg@ncssm.edu. For anything urgent, or anything involving safety or how you are doing, talk to a counselor, your RLI, or Campus Safety directly — those routes work today and nothing on this site should sit between you and them.",
+      "email sg@ncssm.edu. For anything urgent, or anything involving safety or how you are doing, talk to a counselor, your RLA or Community Coordinator, or Campus Safety directly — those routes work today and nothing on this site should sit between you and them.",
   },
 } as const;
 

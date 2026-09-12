@@ -10,8 +10,8 @@ import {
 } from "@/content/taxonomy";
 import { scoreMatch } from "@/lib/search";
 import { formatDate } from "@/lib/format";
-import { cn } from "@/lib/cn";
 import { FilterBar } from "./filter-bar";
+import { ContactNote } from "./contact-note";
 import {
   ArrowUpRight,
   Button,
@@ -213,69 +213,72 @@ function ResourceRow({ resource }: { resource: Resource }) {
     verified ? `Checked ${verified}` : null,
   ].filter(Boolean);
 
-  const inner = (
-    <>
-      <div className="flex-1">
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span className="font-medium text-ink group-hover:text-accent">
-            {resource.name}
-          </span>
-          {external ? <ArrowUpRight className="text-faint" /> : null}
-          {resource.loginRequired ? (
-            <Chip icon={<LockIcon />}>NCSSM login required</Chip>
-          ) : null}
-          {resource.verificationStatus === "outdated" ? (
-            <Chip tone="danger">Link may be out of date</Chip>
-          ) : null}
-        </div>
-        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">
-          {resource.description}
-        </p>
-        {resource.contactNote ? (
-          <p className="mt-1.5 max-w-2xl text-[13px] leading-relaxed text-faint">
-            {resource.contactNote}
-          </p>
-        ) : null}
-        {meta.length > 0 ? (
-          <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-faint">
-            {meta.map((item, i) => (
-              <span key={item as string}>
-                {i > 0 ? <span className="mr-2 opacity-50">·</span> : null}
-                {item}
-              </span>
-            ))}
-          </p>
-        ) : null}
-      </div>
-      <CategoryTag
-        label={category.label}
-        tone={category.tone as Tone}
-        className="shrink-0 pt-0.5 sm:w-44"
-      />
-    </>
-  );
-
-  const className = cn(
-    "group flex flex-col gap-2 py-4 transition-colors hover:bg-sunken",
-    "sm:-mx-3 sm:flex-row sm:items-start sm:gap-6 sm:px-3",
-  );
+  /*
+   * Only the title is the link.
+   *
+   * Wrapping the whole row was tidier to write, but the contact note now
+   * contains phone numbers and addresses that need to be tappable, and an
+   * anchor cannot be nested inside another anchor. It also gives the link a
+   * useful accessible name: "Campus Safety & Security" rather than the
+   * name, description, note and metadata read out as one string.
+   */
+  const titleClass =
+    "font-medium text-ink underline decoration-transparent underline-offset-[3px] transition-colors hover:text-accent hover:decoration-current";
 
   return (
-    <li className="border-b border-line">
-      {external ? (
-        <a
-          href={resource.officialUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={className}
-        >
-          {inner}
-        </a>
-      ) : (
-        <Link href={resource.officialUrl} className={className}>
-          {inner}
-        </Link>
-      )}
+    <li className="border-b border-line transition-colors hover:bg-sunken sm:-mx-3 sm:px-3">
+      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:gap-6">
+        <div className="flex-1">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            {external ? (
+              <a
+                href={resource.officialUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={titleClass}
+              >
+                {resource.name}
+              </a>
+            ) : (
+              <Link href={resource.officialUrl} className={titleClass}>
+                {resource.name}
+              </Link>
+            )}
+            {external ? <ArrowUpRight className="text-faint" /> : null}
+            {resource.loginRequired ? (
+              <Chip icon={<LockIcon />}>NCSSM login required</Chip>
+            ) : null}
+            {resource.verificationStatus === "outdated" ? (
+              <Chip tone="danger">Link may be out of date</Chip>
+            ) : null}
+          </div>
+
+          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">
+            {resource.description}
+          </p>
+
+          {resource.contactNote ? (
+            <ContactNote note={resource.contactNote} />
+          ) : null}
+
+          {meta.length > 0 ? (
+            <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-faint">
+              {meta.map((item, i) => (
+                <span key={item as string}>
+                  {i > 0 ? <span className="mr-2 opacity-50">·</span> : null}
+                  {item}
+                </span>
+              ))}
+            </p>
+          ) : null}
+        </div>
+
+        <CategoryTag
+          label={category.label}
+          tone={category.tone as Tone}
+          className="shrink-0 pt-0.5 sm:w-44"
+        />
+      </div>
     </li>
   );
 }

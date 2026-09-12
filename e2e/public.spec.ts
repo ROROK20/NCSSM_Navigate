@@ -229,5 +229,6 @@ test("typing in the homepage search carries the query through", async ({
   await page.getByRole("button", { name: "Search" }).click();
 
   await page.waitForURL(/\/resources\?q=laundry/);
-  await expect(page.getByText(/matches your filters/)).toBeVisible();
+  // Singular or plural: how many rows mention laundry is content, not behaviour.
+  await expect(page.getByText(/match(es)? your filters/)).toBeVisible();
 });

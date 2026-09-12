@@ -427,7 +427,7 @@ export function ReportForm() {
         Nobody monitors it around the clock. If someone is in danger, call{" "}
         {site.crisis.emergency}. For mental-health support any time, call or
         text {site.crisis.lifeline}. For anything involving safety, harassment,
-        or a student in crisis, talk to a counselor, an RLI, or Campus Safety
+        or a student in crisis, talk to a counselor, your Community Coordinator, or Campus Safety
         directly.
       </Callout>
 

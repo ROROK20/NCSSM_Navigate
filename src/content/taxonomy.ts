@@ -49,7 +49,7 @@ export const RESOURCE_CATEGORIES = [
   {
     id: "residential-life",
     label: "Residential life",
-    blurb: "Dorms, RLIs, check-in and check-out.",
+    blurb: "Dorms, RLAs, check-in and check-out.",
     tone: "three",
   },
   {

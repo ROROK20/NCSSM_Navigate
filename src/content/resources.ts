@@ -27,9 +27,10 @@ export const resources: Resource[] = [
     aliases:
       "police, security, emergency, unsafe, scared, locked out, lost key, stolen, theft, escort at night",
     category: "urgent-support",
-    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/durham-campus-safety",
+    officialUrl: "https://www.ncssm.edu/contact/durham-emergency-info",
     audience: "All students",
-    contactNote: "Call Campus Police first for anything urgent on campus.",
+    contactNote:
+      "Durham Campus Safety: 919-416-2911, dur.safety@ncssm.edu. Staffed around the clock. Call 911 first if someone is in danger.",
     loginRequired: false,
     platform: "web",
     lastVerified: null,
@@ -44,9 +45,10 @@ export const resources: Resource[] = [
     aliases:
       "crisis, urgent, panic attack, suicidal, self harm, hurting myself, need someone right now, mental health emergency",
     category: "urgent-support",
-    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling",
+    officialUrl: "https://dur-counseling.ncssm.edu",
     audience: "All students",
-    contactNote: "988 reaches the Suicide & Crisis Lifeline any time, from any phone.",
+    contactNote:
+      "If it cannot wait and it is out of hours, go to a Community Coordinator desk. Call or text 988 any time. Call 911 if someone is in danger.",
     loginRequired: false,
     platform: "web",
     lastVerified: null,
@@ -62,6 +64,8 @@ export const resources: Resource[] = [
       "nurse, sick, ill, infirmary, medicine, medication, meds, prescription, fever, injury, hurt, doctor, appointment",
     category: "urgent-support",
     officialUrl: "https://www.ncssm.edu/residential/safety-support/health",
+    contactNote:
+      "Clinic is open Monday to Friday, 8am to 4pm: clinic@ncssm.edu or 919-416-2892. Outside those hours go to a Community Coordinator desk; a CC on duty can reach the after-hours nursing line.",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -139,7 +143,7 @@ export const resources: Resource[] = [
     aliases:
       "counselor, therapist, therapy, mental health, stress, stressed, anxiety, anxious, depressed, homesick, overwhelmed, burnout, lonely, someone to talk to",
     category: "advising-counseling",
-    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling",
+    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling/wellness-counseling",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -154,7 +158,7 @@ export const resources: Resource[] = [
     aliases:
       "college applications, common app, college apps, recommendation letter, rec letter, sat, act, deadlines, early decision, where to apply",
     category: "advising-counseling",
-    officialUrl: "https://caas.ncssm.edu/",
+    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling/college-career-planning",
     audience: "Juniors and seniors",
     loginRequired: false,
     platform: "web",
@@ -170,7 +174,7 @@ export const resources: Resource[] = [
     aliases:
       "schedule change, drop a class, add a class, course selection, registration, graduation requirements, credits, what classes to take",
     category: "advising-counseling",
-    officialUrl: "https://caas.ncssm.edu/",
+    officialUrl: "https://www.ncssm.edu/residential/academics/courses",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -182,11 +186,13 @@ export const resources: Resource[] = [
     id: "residential-life",
     name: "Residential Life",
     description:
-      "Who your RLI is, hall expectations, room changes, and how the residential day is structured.",
+      "Who your RLA and Community Coordinator are, hall expectations, room changes, and how the residential day is structured.",
     aliases:
       "dorm, hall, rli, roommate, room change, curfew, lights out, residential, living on campus",
     category: "residential-life",
     officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
+    contactNote:
+      "Your hall is covered by RLAs (student leaders) and a Community Coordinator, the adult who lives next to the halls. Start with them for anything about the hall.",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -218,6 +224,8 @@ export const resources: Resource[] = [
       "broken, repair, fix, work order, heat, heating, ac, air conditioning, radiator, light out, leak, flooding, toilet, sink, facilities, laundry machine, dryer, washer",
     category: "residential-life",
     officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
+    contactNote:
+      "Your hall is covered by RLAs (student leaders) and a Community Coordinator, the adult who lives next to the halls. Start with them for anything about the hall.",
     audience: "Residential students",
     loginRequired: false,
     platform: "form",
@@ -233,6 +241,8 @@ export const resources: Resource[] = [
       "package, packages, mail, amazon, delivery, mailroom, shipping address",
     category: "residential-life",
     officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
+    contactNote:
+      "Laundry rooms are in the residence halls and the machines take a small fee.",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -249,6 +259,8 @@ export const resources: Resource[] = [
       "food, dining hall, cafeteria, menu, meal, meals, allergy, allergies, vegetarian, vegan, gluten, breakfast, lunch, dinner, dining hours",
     category: "dining-transportation",
     officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
+    contactNote:
+      "Meals are free to students. Vegetarian, vegan, and gluten-free options are provided; talk to dining staff about an allergy so it is on file.",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -372,7 +384,7 @@ export const resources: Resource[] = [
     aliases:
       "start a club, new club, charter a club, club renewal, found a club",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/residential/campus-life",
+    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -387,7 +399,7 @@ export const resources: Resource[] = [
     aliases:
       "money, funding, budget, reimbursement, club money, pay for, buy supplies, travel funding",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/residential/campus-life",
+    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -403,7 +415,7 @@ export const resources: Resource[] = [
     aliases:
       "clubs, organizations, activities, join a club, extracurriculars, what clubs exist",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/residential/campus-life",
+    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -487,5 +499,260 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
+  },
+
+  /* ---------------------------------------------------- added from the
+     NCSSM site's own page tree. Every URL here was opened and returned 200,
+     but nobody at the school has confirmed each is the best destination for
+     what the row promises, so they stay needs-review. */
+
+  {
+    id: "staff-directory",
+    name: "Faculty & staff directory",
+    description:
+      "Search for any staff member and get their role and email. The fastest answer to “who do I actually email about this”.",
+    aliases:
+      "who do i email, contact a teacher, staff email, find a teacher, phone number, department contact, who handles",
+    category: "student-government",
+    officialUrl: "https://www.ncssm.edu/about/directory",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "wellness-counseling",
+    name: "Wellness counseling",
+    description:
+      "The counseling team's page for ongoing mental-health support: what they do, who they are, and how to start.",
+    aliases:
+      "therapy, therapist, mental health, anxiety, depression, stress, counseling appointment, talk to someone, wellness",
+    category: "advising-counseling",
+    officialUrl:
+      "https://www.ncssm.edu/residential/safety-support/counseling/wellness-counseling",
+    contactNote:
+      "For something that cannot wait out of hours, go to a Community Coordinator desk, or call or text 988.",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "accessibility-services",
+    name: "Accessibility services",
+    description:
+      "Academic accommodations, documentation, and who to talk to about getting support in place.",
+    aliases:
+      "accommodations, 504, iep, extra time, testing accommodations, disability, accessibility, learning support, adhd",
+    category: "advising-counseling",
+    officialUrl:
+      "https://www.ncssm.edu/residential/safety-support/counseling/accessibility",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "title-ix",
+    name: "Title IX",
+    description:
+      "Reporting and support for sex discrimination, harassment, and sexual misconduct, including who the coordinator is.",
+    aliases:
+      "harassment, sexual harassment, assault, discrimination, title 9, report misconduct, coordinator",
+    category: "urgent-support",
+    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix",
+    contactNote:
+      "This is a formal reporting route with people trained for it. Navigate is not, and an issue like this should never go through the report form.",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "lgbtq-resources",
+    name: "LGBTQ+ resource guide",
+    description:
+      "NCSSM's guide to support, groups, and points of contact for LGBTQ+ students.",
+    aliases:
+      "lgbtq, lgbt, queer, trans, transgender, gay, pronouns, gsa, support group, coming out",
+    category: "student-life",
+    officialUrl: "https://www.ncssm.edu/lgbtq-resource-guide",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "course-catalog",
+    name: "Durham course catalog",
+    description:
+      "Every course offered on the Durham campus, with descriptions and prerequisites. Use it before registration, not after.",
+    aliases:
+      "courses, course catalog, what classes, prerequisites, class list, registration, pick classes, electives",
+    category: "academic-support",
+    officialUrl: "https://courses.ncssm.edu/course_catalog.php?id=1",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "student-research",
+    name: "Research & innovation",
+    description:
+      "Mentored research, the research course sequence, and how students get placed with a lab or mentor.",
+    aliases:
+      "research, lab, mentorship, mentor, science fair, independent study, publish, internship",
+    category: "academic-support",
+    officialUrl: "https://www.ncssm.edu/residential/academics/student-research",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "service-learning",
+    name: "Service learning",
+    description:
+      "How NCSSM's service requirement works, what counts, and where to log hours.",
+    aliases:
+      "service hours, volunteering, community service, requirement, log hours, graduation requirement",
+    category: "student-life",
+    officialUrl: "https://www.ncssm.edu/residential/service-learning",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "student-media",
+    name: "Student media",
+    description:
+      "The student publications and media groups, and how to join or submit to them.",
+    aliases:
+      "newspaper, yearbook, magazine, journalism, radio, podcast, photography, write for, submit",
+    category: "student-life",
+    officialUrl: "https://www.ncssm.edu/residential/student-media",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "fine-arts",
+    name: "Fine arts",
+    description:
+      "Music, theatre, and visual arts at NCSSM: ensembles, productions, and how to take part.",
+    aliases:
+      "art, music, band, orchestra, choir, theatre, theater, drama, play, ensemble, audition, studio",
+    category: "student-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmfinearts",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "unc-guaranteed-admission",
+    name: "UNC System guaranteed admission",
+    description:
+      "What NCSSM graduates are guaranteed within the UNC System, and the conditions attached.",
+    aliases:
+      "unc, guaranteed admission, in state college, state school, apply unc, chapel hill, nc state",
+    category: "advising-counseling",
+    officialUrl:
+      "https://www.ncssm.edu/residential/unc-system-guaranteed-admission",
+    audience: "Juniors and seniors",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "unc-tuition-grant",
+    name: "UNC System tuition grant",
+    description:
+      "The tuition grant NCSSM graduates can receive at UNC System schools, and what qualifies.",
+    aliases:
+      "tuition grant, scholarship, financial aid, money for college, free tuition, pay for college",
+    category: "advising-counseling",
+    officialUrl: "https://www.ncssm.edu/residential/unc-system-tuition-grant",
+    audience: "Juniors and seniors",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "college-credit",
+    name: "College credit agreements",
+    description:
+      "Which NCSSM courses transfer for college credit and where those agreements apply.",
+    aliases:
+      "college credit, transfer credit, ap credit, dual enrollment, does this count, credit agreement",
+    category: "academic-support",
+    officialUrl:
+      "https://www.ncssm.edu/residential/academics/college-credit-agreements",
+    audience: "Juniors and seniors",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "emergency-procedures",
+    name: "Emergency procedures & alerts",
+    description:
+      "What happens in a lockdown, tornado, or other emergency, plus the AED and emergency phone maps.",
+    aliases:
+      "emergency, lockdown, tornado, fire, evacuation, alert, aed, drill, severe weather, what do i do",
+    category: "urgent-support",
+    officialUrl: "https://www.ncssm.edu/contact/durham-emergency-info",
+    contactNote:
+      "Durham Campus Safety: 919-416-2911. Call 911 first if someone is in danger.",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "spirit-store",
+    name: "Spirit store",
+    description:
+      "Official NCSSM clothing and merchandise.",
+    aliases: "merch, hoodie, sweatshirt, shirt, store, spirit wear, unicorns, gear",
+    category: "student-life",
+    officialUrl: "https://www.ncssm.edu/spirit-store",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
   },
 ];

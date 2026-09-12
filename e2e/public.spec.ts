@@ -194,6 +194,13 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["change my password", "Change your NCSSM password"],
   ["miss class", "Absence request form"],
   ["book a clinic appointment", "Clinic appointments"],
+  // The long tail: things nobody needs often and cannot find when they do.
+  ["office hours", "office hours"],
+  ["ta hours", "TA website"],
+  ["extra time on sat", "SAT & ACT accommodations"],
+  ["j term", "J-Term"],
+  ["science olympiad", "Science competitions"],
+  ["winter sports", "Winter sports teams"],
 ];
 
 test("plain-language searches surface the right resource first", async ({

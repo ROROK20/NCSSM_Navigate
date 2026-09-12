@@ -14,7 +14,6 @@ import {
   ButtonLink,
   CategoryTag,
   Eyebrow,
-  LockIcon,
   type Tone,
 } from "@/components/ui";
 import { SeedNotice } from "@/components/seed-notice";
@@ -112,35 +111,36 @@ export default async function HomePage() {
   return (
     <>
       {/* ------------------------------------------------------------ hero */}
-      <section className="border-b border-line">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-16">
+      {/*
+        The board.
+
+        One committed surface against an otherwise restrained page. Mono
+        labels, indicator dots and right-aligned tabular meta, because the
+        thing this most resembles is a departure board: a list of destinations,
+        scanned, not read. The contrast between this panel and the light page
+        below is the whole visual argument.
+      */}
+      <section className="bg-board text-board-ink">
+        <div className="mx-auto grid max-w-6xl gap-12 px-4 pt-14 pb-14 sm:px-6 sm:pt-20 sm:pb-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:items-start lg:gap-20">
           <div>
-            <Eyebrow>{site.campus} · Student Government</Eyebrow>
-            <h1 className="display mt-4 text-ink sm:text-[3.5rem]">
+            <p className="label text-board-accent">
+              {site.campus} · Student Government
+            </p>
+            <h1 className="mt-5 text-[clamp(2.75rem,7vw,4.5rem)] leading-[0.92] font-bold tracking-[-0.04em] text-board-ink">
               {site.name}
             </h1>
-            {/*
-              One subtitle, not two. This is the product's stated tagline; the
-              paragraph that followed it restated the same thing in different
-              words and pushed the search below the fold on a laptop.
-            */}
-            <p className="mt-5 max-w-lg text-lg leading-snug text-muted">
+            <p className="mt-6 max-w-md text-[1.0625rem] leading-snug text-board-muted">
               {site.tagline}
             </p>
             <HeroSearch total={resources.length} />
           </div>
 
-          {/*
-            The things students actually open, put where the eye lands rather
-            than a screen further down. This replaces a separate "Start here"
-            section that said the same thing twice.
-          */}
-          <div className="lg:pt-2">
-            <div className="flex items-baseline justify-between gap-3 border-b border-line pb-2">
-              <span className="label text-faint">Most looked up</span>
+          <div className="lg:pt-3">
+            <div className="flex items-baseline justify-between gap-3 border-b border-board-line pb-2.5">
+              <span className="label text-board-faint">Most looked up</span>
               <Link
                 href="/resources"
-                className="group inline-flex items-center gap-1 text-[13px] font-medium text-accent"
+                className="group inline-flex items-center gap-1 text-[13px] font-medium text-board-accent"
               >
                 All {resources.length}
                 <ArrowRight className="transition-transform duration-200 group-hover:translate-x-0.5" />
@@ -151,27 +151,29 @@ export default async function HomePage() {
                 const category = RESOURCE_CATEGORY_BY_ID[resource.category];
                 const external = resource.officialUrl.startsWith("http");
                 return (
-                  <li key={resource.id} className="border-b border-line">
+                  <li key={resource.id} className="border-b border-board-line">
                     <a
                       href={resource.officialUrl}
                       {...(external
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="group flex items-center gap-3 py-2.5 transition-colors hover:bg-sunken sm:-mx-3 sm:px-3"
+                      className="group flex items-center gap-3 py-2.5 transition-colors hover:bg-white/[0.04] sm:-mx-3 sm:px-3"
                     >
                       <span
                         aria-hidden="true"
                         className="size-[7px] shrink-0 rounded-full"
                         style={{ background: toneVar(category.tone as Tone) }}
                       />
-                      <span className="min-w-0 flex-1 truncate text-[15px] text-ink group-hover:text-accent">
+                      <span className="min-w-0 flex-1 truncate text-[15px] text-board-ink transition-colors group-hover:text-board-accent">
                         {resource.name}
                       </span>
                       {resource.loginRequired ? (
-                        <LockIcon className="shrink-0 text-faint" />
+                        <span className="shrink-0 text-[10px] tracking-[0.08em] text-board-faint uppercase">
+                          Login
+                        </span>
                       ) : null}
                       {external ? (
-                        <ArrowUpRight className="shrink-0 text-faint" />
+                        <ArrowUpRight className="shrink-0 text-board-faint transition-colors group-hover:text-board-accent" />
                       ) : null}
                     </a>
                   </li>
@@ -207,7 +209,7 @@ export default async function HomePage() {
                       : "hover:bg-sunken",
                   ].join(" ")}
                 >
-                  <span className="label tnum text-faint">{action.index}</span>
+                  <span className="label tnum text-muted">{action.index}</span>
                   <span className="flex items-center gap-2 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
                     {action.title}
                     <ArrowRight className="text-accent transition-transform duration-200 group-hover:translate-x-1" />

@@ -45,6 +45,29 @@
   --accent-soft: oklch(0.945 0.032 254);
   --accent-contrast: oklch(0.990 0.004 254);
 
+  /*
+    The board.
+
+    One committed surface, used for the homepage hero only. DESIGN.md has
+    always said the direction is signage and departure boards; until now that
+    only showed up as hairlines, which is not something a visitor can see. This
+    is that direction actually executed: a dark panel, mono type, indicator
+    dots, tabular alignment.
+
+    It does not invert with the theme. A departure board is dark in a lit
+    concourse and dark at night, and a surface that flips loses the one thing
+    that makes it read as an object rather than a section.
+
+    Checked against the ground below: ink 16.4:1, muted 9.0:1, faint 5.8:1,
+    accent 9.0:1.
+  */
+  --board: oklch(0.205 0.035 254);
+  --board-ink: oklch(0.970 0.008 254);
+  --board-muted: oklch(0.780 0.020 254);
+  --board-faint: oklch(0.660 0.022 254);
+  --board-line: oklch(0.360 0.032 254);
+  --board-accent: oklch(0.780 0.105 248);
+
   /* Feedback. Distinct from the accent so success never reads as a button. */
   --danger: oklch(0.522 0.176 27);
   --danger-soft: oklch(0.955 0.028 27);
@@ -99,6 +122,11 @@
     --accent-soft: oklch(0.290 0.052 254);
     --accent-contrast: oklch(0.170 0.032 254);
 
+    /* Slightly deeper than the light-mode board so it still reads as a panel
+       against an already dark page. */
+    --board: oklch(0.148 0.030 254);
+    --board-line: oklch(0.320 0.030 254);
+
     --danger: oklch(0.712 0.155 27);
     --danger-soft: oklch(0.288 0.065 27);
     --warn: oklch(0.792 0.118 78);
@@ -141,6 +169,13 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-accent-contrast: var(--accent-contrast);
+
+  --color-board: var(--board);
+  --color-board-ink: var(--board-ink);
+  --color-board-muted: var(--board-muted);
+  --color-board-faint: var(--board-faint);
+  --color-board-line: var(--board-line);
+  --color-board-accent: var(--board-accent);
 
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
@@ -188,6 +223,17 @@ body {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 3px;
+}
+
+/*
+  Focus on the board.
+
+  The global ring is the page accent, which is a dark blue and disappears
+  against a navy panel. Anything focusable inside the board gets the light
+  variant instead, so a keyboard user can still see where they are.
+*/
+.bg-board :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline-color: var(--board-accent);
 }
 
 /* Dates, counts, and IDs line up in columns. */

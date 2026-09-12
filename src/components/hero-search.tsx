@@ -36,7 +36,7 @@ export function HeroSearch({ total }: { total: number }) {
   }
 
   return (
-    <div className="mt-8 max-w-xl">
+    <div className="mt-8 max-w-lg">
       <form
         role="search"
         onSubmit={(event) => {
@@ -46,26 +46,26 @@ export function HeroSearch({ total }: { total: number }) {
         className="flex gap-2"
       >
         <div className="relative flex-1">
-          <SearchIcon className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-faint" />
+          <SearchIcon className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-board-faint" />
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="What do you need?"
             aria-label="Search resources"
-            className="w-full rounded-[var(--radius)] border border-line-strong bg-surface py-3 pr-3 pl-10 text-[15px] text-ink transition-colors placeholder:text-faint hover:border-accent/50 focus:border-accent"
+            className="w-full rounded-[var(--radius)] border border-board-line bg-white/[0.06] py-3.5 pr-3 pl-11 text-base text-board-ink transition-colors placeholder:text-board-faint hover:border-board-accent/60 focus:border-board-accent focus:bg-white/[0.09]"
           />
         </div>
         <button
           type="submit"
-          className="rounded-[var(--radius)] bg-accent px-5 py-3 text-sm font-medium text-accent-contrast transition-colors hover:bg-accent-hover"
+          className="rounded-[var(--radius)] bg-board-accent px-5 py-3.5 text-sm font-semibold text-board transition-colors hover:brightness-110"
         >
           Search
         </button>
       </form>
 
       <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1.5">
-        <span className="label text-faint">Try</span>
+        <span className="label text-board-faint">Try</span>
         {EXAMPLES.map((example) => (
           <button
             key={example}
@@ -74,7 +74,7 @@ export function HeroSearch({ total }: { total: number }) {
               setQuery(example);
               go(example);
             }}
-            className="rounded-full border border-line px-2.5 py-1 text-[13px] text-muted transition-colors hover:border-accent hover:text-accent"
+            className="rounded-full border border-board-line px-2.5 py-1 text-[13px] text-board-muted transition-colors hover:border-board-accent hover:text-board-accent"
           >
             {example}
           </button>
@@ -87,10 +87,10 @@ export function HeroSearch({ total }: { total: number }) {
         site anyway, and it belongs next to the search rather than a screen
         further down.
       */}
-      <p className="mt-6 border-t border-line pt-4 text-[13px] leading-relaxed text-faint">
-        <span className="tnum font-medium text-muted">{total}</span> resources
-        across every NCSSM system, from the clinic booking form to the faculty
-        office hours sheet. Every link tested; none broken.
+      <p className="mt-7 border-t border-board-line pt-4 text-[13px] leading-relaxed text-board-faint">
+        <span className="tnum font-semibold text-board-ink">{total}</span>{" "}
+        resources across every NCSSM system, from the clinic booking form to the
+        faculty office hours sheet. Every link tested; none broken.
       </p>
     </div>
   );

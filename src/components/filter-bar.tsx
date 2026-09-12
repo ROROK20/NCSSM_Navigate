@@ -121,7 +121,14 @@ function Chip({
       )}
     >
       {label}
-      <span className={cn("tnum ml-1.5", selected ? "opacity-70" : "text-faint")}>
+      <span
+        className={cn(
+          "tnum ml-1.5",
+          // Not an opacity: dimming text that already sits at the AA floor puts
+          // it under. The selected chip has its own contrasting foreground.
+          selected ? "text-accent-contrast" : "text-faint",
+        )}
+      >
         {count}
       </span>
     </button>

@@ -196,7 +196,7 @@ export function ResourceDirectory({
               {group.label ? (
                 <h2 className="label border-b border-line pb-2 text-faint">
                   {group.label}
-                  <span className="tnum ml-2 opacity-60">
+                  <span className="tnum ml-2 font-normal text-faint">
                     {group.rows.length}
                   </span>
                 </h2>

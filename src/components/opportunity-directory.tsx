@@ -244,7 +244,7 @@ function Detail({
 }) {
   return (
     <div className="flex gap-1.5">
-      <dt className="label text-faint/80">{label}</dt>
+      <dt className="label text-faint">{label}</dt>
       <dd className="text-muted">{children}</dd>
     </div>
   );

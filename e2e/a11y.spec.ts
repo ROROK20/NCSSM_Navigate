@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 /**
  * Accessibility and responsive checks that would otherwise only be caught by
@@ -57,4 +58,35 @@ test("the mobile menu opens, navigates, and closes itself", async ({ page }) => 
   await menu.getByRole("link", { name: "Resources" }).click();
   await expect(page).toHaveURL(/\/resources$/);
   await expect(page.locator("#mobile-nav")).toHaveCount(0);
+});
+
+/**
+ * Automated WCAG 2.1 AA check on every public route, in both themes.
+ *
+ * Added after an audit found 124 failing nodes, every one of them text dimmed
+ * with an opacity multiplier on top of a colour that already sat at the AA
+ * floor. That class of mistake is invisible by eye and trivial to reintroduce,
+ * so it gets a test rather than a note in a document.
+ */
+test.describe("WCAG AA", () => {
+  const ROUTES = ["/", "/resources", "/opportunities", "/report", "/updates", "/sg", "/admin"];
+
+  for (const scheme of ["light", "dark"] as const) {
+    test(`no violations in ${scheme} mode`, async ({ page }) => {
+      await page.emulateMedia({ colorScheme: scheme });
+      const failures: string[] = [];
+
+      for (const path of ROUTES) {
+        await page.goto(path, { waitUntil: "networkidle" });
+        const { violations } = await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+          .analyze();
+        for (const v of violations) {
+          failures.push(`${path} — ${v.id} (${v.impact}) x${v.nodes.length}: ${v.help}`);
+        }
+      }
+
+      expect(failures, failures.join("\n")).toEqual([]);
+    });
+  }
 });

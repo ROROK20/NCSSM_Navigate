@@ -27,7 +27,7 @@ export const resources: Resource[] = [
     aliases:
       "police, security, emergency, unsafe, scared, locked out, lost key, stolen, theft, escort at night",
     category: "urgent-support",
-    officialUrl: "https://www.ncssm.edu/campus-safety",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/durham-campus-safety",
     audience: "All students",
     contactNote: "Call Campus Police first for anything urgent on campus.",
     loginRequired: false,
@@ -44,7 +44,7 @@ export const resources: Resource[] = [
     aliases:
       "crisis, urgent, panic attack, suicidal, self harm, hurting myself, need someone right now, mental health emergency",
     category: "urgent-support",
-    officialUrl: "https://www.ncssm.edu/student-life/counseling-services",
+    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling",
     audience: "All students",
     contactNote: "988 reaches the Suicide & Crisis Lifeline any time, from any phone.",
     loginRequired: false,
@@ -61,7 +61,7 @@ export const resources: Resource[] = [
     aliases:
       "nurse, sick, ill, infirmary, medicine, medication, meds, prescription, fever, injury, hurt, doctor, appointment",
     category: "urgent-support",
-    officialUrl: "https://www.ncssm.edu/student-life/health-services",
+    officialUrl: "https://www.ncssm.edu/residential/safety-support/health",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -93,7 +93,7 @@ export const resources: Resource[] = [
     aliases:
       "tutor, tutoring, help with homework, study help, math help, physics help, chemistry help, struggling in class",
     category: "academic-support",
-    officialUrl: "https://www.ncssm.edu/academics",
+    officialUrl: "https://caas.ncssm.edu/",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -108,7 +108,7 @@ export const resources: Resource[] = [
     aliases:
       "essay, paper, proofread, edit my essay, college essay, lab report, revise, feedback on writing",
     category: "academic-support",
-    officialUrl: "https://www.ncssm.edu/academics",
+    officialUrl: "https://caas.ncssm.edu/",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -123,7 +123,7 @@ export const resources: Resource[] = [
     aliases:
       "books, research, databases, journals, citation, sources, quiet study, study room",
     category: "academic-support",
-    officialUrl: "https://www.ncssm.edu/library",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/durham-library",
     audience: "All students",
     loginRequired: true,
     platform: "web",
@@ -139,7 +139,7 @@ export const resources: Resource[] = [
     aliases:
       "counselor, therapist, therapy, mental health, stress, stressed, anxiety, anxious, depressed, homesick, overwhelmed, burnout, lonely, someone to talk to",
     category: "advising-counseling",
-    officialUrl: "https://www.ncssm.edu/student-life/counseling-services",
+    officialUrl: "https://www.ncssm.edu/residential/safety-support/counseling",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -154,7 +154,7 @@ export const resources: Resource[] = [
     aliases:
       "college applications, common app, college apps, recommendation letter, rec letter, sat, act, deadlines, early decision, where to apply",
     category: "advising-counseling",
-    officialUrl: "https://www.ncssm.edu/academics/college-counseling",
+    officialUrl: "https://caas.ncssm.edu/",
     audience: "Juniors and seniors",
     loginRequired: false,
     platform: "web",
@@ -170,7 +170,7 @@ export const resources: Resource[] = [
     aliases:
       "schedule change, drop a class, add a class, course selection, registration, graduation requirements, credits, what classes to take",
     category: "advising-counseling",
-    officialUrl: "https://www.ncssm.edu/academics",
+    officialUrl: "https://caas.ncssm.edu/",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -186,7 +186,7 @@ export const resources: Resource[] = [
     aliases:
       "dorm, hall, rli, roommate, room change, curfew, lights out, residential, living on campus",
     category: "residential-life",
-    officialUrl: "https://www.ncssm.edu/student-life/residential-life",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -217,7 +217,7 @@ export const resources: Resource[] = [
     aliases:
       "broken, repair, fix, work order, heat, heating, ac, air conditioning, radiator, light out, leak, flooding, toilet, sink, facilities, laundry machine, dryer, washer",
     category: "residential-life",
-    officialUrl: "https://www.ncssm.edu/student-life/residential-life",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
     audience: "Residential students",
     loginRequired: false,
     platform: "form",
@@ -232,7 +232,7 @@ export const resources: Resource[] = [
     aliases:
       "package, packages, mail, amazon, delivery, mailroom, shipping address",
     category: "residential-life",
-    officialUrl: "https://www.ncssm.edu/student-life",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -248,7 +248,7 @@ export const resources: Resource[] = [
     aliases:
       "food, dining hall, cafeteria, menu, meal, meals, allergy, allergies, vegetarian, vegan, gluten, breakfast, lunch, dinner, dining hours",
     category: "dining-transportation",
-    officialUrl: "https://www.ncssm.edu/student-life/dining",
+    officialUrl: "https://www.ncssm.edu/residential/ncssm-durham/housing-dining",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -264,7 +264,7 @@ export const resources: Resource[] = [
     aliases:
       "bus, buses, ride home, break bus, shuttle, getting home, travel home, pickup, drop off",
     category: "dining-transportation",
-    officialUrl: "https://www.ncssm.edu/student-life",
+    officialUrl: "https://www.ncssm.edu/residential/campus-life",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -295,7 +295,7 @@ export const resources: Resource[] = [
     aliases:
       "laptop, computer broken, wifi not working, internet down, printer, printing, password reset, locked out of my account, tech support, it help, charger",
     category: "technology",
-    officialUrl: "https://www.ncssm.edu/its",
+    officialUrl: "https://www.ncssm.edu/information-technology-services",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -341,7 +341,7 @@ export const resources: Resource[] = [
     aliases:
       "internet, network, wifi password, connect to wifi, eduroam, register device, xbox, console, tv",
     category: "technology",
-    officialUrl: "https://www.ncssm.edu/its",
+    officialUrl: "https://www.ncssm.edu/information-technology-services",
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -357,9 +357,9 @@ export const resources: Resource[] = [
     aliases:
       "transcript, official transcript, records, registrar, send my grades, school records",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/registrar",
+    officialUrl: "https://registrar.ncssm.edu/",
     audience: "All students and alumni",
-    loginRequired: false,
+    loginRequired: true,
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
@@ -372,7 +372,7 @@ export const resources: Resource[] = [
     aliases:
       "start a club, new club, charter a club, club renewal, found a club",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/student-life",
+    officialUrl: "https://www.ncssm.edu/residential/campus-life",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -387,7 +387,7 @@ export const resources: Resource[] = [
     aliases:
       "money, funding, budget, reimbursement, club money, pay for, buy supplies, travel funding",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/student-life",
+    officialUrl: "https://www.ncssm.edu/residential/campus-life",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -403,7 +403,7 @@ export const resources: Resource[] = [
     aliases:
       "clubs, organizations, activities, join a club, extracurriculars, what clubs exist",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/student-life",
+    officialUrl: "https://www.ncssm.edu/residential/campus-life",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -419,7 +419,7 @@ export const resources: Resource[] = [
     aliases:
       "sports, team, tryouts, gym, weight room, intramural, practice, workout, fitness",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/student-life/athletics",
+    officialUrl: "https://www.ncssm.edu/residential/durham-athletics",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -434,7 +434,7 @@ export const resources: Resource[] = [
     aliases:
       "calendar, important dates, breaks, spring break, exams, finals, when is",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/calendar",
+    officialUrl: "https://www.ncssm.edu/about/events",
     audience: "All students",
     loginRequired: false,
     platform: "web",

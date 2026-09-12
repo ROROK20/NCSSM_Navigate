@@ -196,8 +196,10 @@ export function SgProposalView() {
           What switching on the rest would take
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-          None of this is a technical problem. All four are decisions that need
-          an office and an advisor behind them.
+          None of this is a technical problem, and none of it is something one
+          senator decides alone. All four need Student Government as a body,
+          and an advisor, behind them. What a senator can do is bring a
+          finished thing to that conversation instead of an idea.
         </p>
 
         <ol className="mt-6 max-w-3xl space-y-5 border-t border-line pt-6">
@@ -242,7 +244,9 @@ export function SgProposalView() {
               Built by {who}, running for {stage.candidate.office}. It is a
               working proposal rather than a campaign promise, and it stays up
               either way — the directory is useful to students whatever the
-              result.
+              result. Corrections are welcome at{" "}
+              {site.contact.email}: a wrong link is the most useful thing you
+              can point out.
             </>
           ) : (
             <>

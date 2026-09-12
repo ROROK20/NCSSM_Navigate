@@ -49,9 +49,9 @@ export const stage = {
    * to put their name on it. Fill it in to campaign with it.
    */
   candidate: {
-    name: "",
-    /** The office being sought, e.g. "Student Body President". */
-    office: "Student Government",
+    name: "Rohan Khiani",
+    /** The office being sought. Rendered as "running for <office>". */
+    office: "Junior Senator",
     /** Free text, e.g. "this spring". Used in a sentence, so keep it short. */
     term: "next year",
   },
@@ -63,9 +63,17 @@ export const stage = {
    * SEED VALUE - replace before sharing the link with anyone.
    */
   currentRoute: {
-    label: "the current Student Government",
+    label: "Student Government",
+    /*
+     * Used in a sentence, so it reads as a continuation.
+     *
+     * Deliberately does not describe how SG routes issues internally, because
+     * nobody has confirmed that process. Every route named here is one that
+     * exists regardless of it. Correct this the moment someone can tell you
+     * how reports are actually handled today.
+     */
     detail:
-      "Talk to a current SG officer, your RLI, or the relevant office directly.",
+      "email sg@ncssm.edu. For anything urgent, or anything involving safety or how you are doing, talk to a counselor, your RLI, or Campus Safety directly — those routes work today and nothing on this site should sit between you and them.",
   },
 } as const;
 

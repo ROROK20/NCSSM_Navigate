@@ -29,7 +29,7 @@ export function StageBanner() {
         <span className="ml-auto flex shrink-0 items-center gap-3">
           {name ? (
             <span className="hidden text-muted sm:inline">
-              {name} &middot; {office}
+              {name} &middot; running for {office}
             </span>
           ) : null}
           <Link

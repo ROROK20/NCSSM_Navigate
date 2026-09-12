@@ -24,12 +24,12 @@ export const site = {
    */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   /**
-   * SEED VALUE — swap for the real SG address before launch. This is the only
-   * address students are told to write to, so it needs to be monitored.
+   * The only address students are told to write to, so it needs to be
+   * monitored. Confirmed as the Student Government team address.
    */
   contact: {
-    email: "studentgovernment@ncssm.edu",
-    note: "Monitored by Student Government officers during the school year.",
+    email: "sg@ncssm.edu",
+    note: "Goes to the Student Government team.",
   },
   /** Shown wherever the site has to tell a student where to go in a crisis. */
   crisis: {

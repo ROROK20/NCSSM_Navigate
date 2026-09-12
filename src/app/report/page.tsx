@@ -4,7 +4,7 @@ import { ReportForm } from "@/components/report-form";
 import { isDemo } from "@/content/stage";
 import { Eyebrow } from "@/components/ui";
 import { sgAbout, site } from "@/content/site";
-import { stage } from "@/content/stage";
+import { collectsForCandidate, stage } from "@/content/stage";
 
 export const metadata: Metadata = {
   title: "Report an issue",
@@ -38,13 +38,28 @@ export default function ReportPage() {
           {isDemo ? (
             <div className="rounded-[var(--radius-lg)] border border-[color:var(--accent)]/25 bg-accent-soft px-4 py-3">
               <p className="text-sm font-semibold text-ink">
-                This form is a demonstration
+                {collectsForCandidate
+                  ? `This reaches ${stage.candidate.name}, not Student Government`
+                  : "This form is a demonstration"}
               </p>
               <p className="mt-1 text-[13px] leading-relaxed text-muted">
-                It validates, confirms, and appears on the status board exactly
-                as the real thing does. Nothing is sent, stored, or seen by
-                anyone. If you have an issue that needs handling today,{" "}
-                {stage.currentRoute.detail}
+                {collectsForCandidate ? (
+                  <>
+                    {stage.candidate.name} is running for{" "}
+                    {stage.candidate.office} and reads these personally. He
+                    holds no office, cannot act on anything officially, and
+                    cannot promise a reply. Nothing here is confidential in the
+                    way a report to a counselor or Title IX is. If you have an
+                    issue that needs handling today, {stage.currentRoute.detail}
+                  </>
+                ) : (
+                  <>
+                    It validates, confirms, and appears on the status board
+                    exactly as the real thing does. Nothing is sent, stored, or
+                    seen by anyone. If you have an issue that needs handling
+                    today, {stage.currentRoute.detail}
+                  </>
+                )}
               </p>
             </div>
           ) : null}

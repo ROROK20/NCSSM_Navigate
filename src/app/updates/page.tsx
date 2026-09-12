@@ -5,7 +5,7 @@ import { ISSUE_STATUSES, ISSUE_STATUS_BY_ID } from "@/content/taxonomy";
 import { UpdatesBoard, type UpdateView } from "@/components/updates-board";
 import { Callout, Eyebrow, StatusPip, type StatusTone } from "@/components/ui";
 import { formatDate } from "@/lib/format";
-import { isDemo } from "@/content/stage";
+import { collectsForCandidate, isDemo } from "@/content/stage";
 import { DemoSubmissions } from "@/components/demo-submissions";
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default async function UpdatesPage() {
               what the board looks like once it is in use.
             </Callout>
           </div>
-          <DemoSubmissions />
+          {collectsForCandidate ? null : <DemoSubmissions />}
         </>
       ) : null}
 

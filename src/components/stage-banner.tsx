@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { isDemo, stage } from "@/content/stage";
+import { collectsForCandidate, isDemo, stage } from "@/content/stage";
 
 /**
  * The demo marker, shown above everything while Navigate is a demonstration
@@ -26,14 +26,29 @@ export function StageBanner() {
           Demo
         </span>
         {/*
-          Full sentence where there is room; the half that actually matters on a
-          phone, where this strip was taking three lines above the fold.
+          Full sentence where there is room; the half that matters on a phone.
+          Once submissions are actually stored, the strip has to say who reads
+          them rather than that nothing is sent.
         */}
-        <span className="text-ink sm:hidden">Nothing you submit is sent.</span>
-        <span className="hidden text-ink sm:inline">
-          Everything here works. Nothing you submit is sent, stored, or seen by
-          anyone.
-        </span>
+        {collectsForCandidate ? (
+          <>
+            <span className="text-ink sm:hidden">
+              Reports reach {name || "the candidate"}, not SG.
+            </span>
+            <span className="hidden text-ink sm:inline">
+              Not a Student Government service. Anything you report reaches{" "}
+              {name || "the candidate"} directly.
+            </span>
+          </>
+        ) : (
+          <>
+            <span className="text-ink sm:hidden">Nothing you submit is sent.</span>
+            <span className="hidden text-ink sm:inline">
+              Everything here works. Nothing you submit is sent, stored, or seen
+              by anyone.
+            </span>
+          </>
+        )}
         <span className="ml-auto flex shrink-0 items-center gap-3">
           {name ? (
             <span className="hidden text-muted sm:inline">

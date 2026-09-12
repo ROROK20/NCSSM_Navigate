@@ -5,7 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ISSUE_CATEGORIES } from "@/content/taxonomy";
 import { site } from "@/content/site";
 import { fieldErrors, issueSubmissionSchema, MAX } from "@/lib/validation";
-import { acceptsSubmissions, isDemo } from "@/content/stage";
+import { acceptsSubmissions, collectsForCandidate, isDemo, stage } from "@/content/stage";
 import { addDemoSubmission } from "@/lib/demo-store";
 import type { IssueCategoryId } from "@/content/taxonomy";
 import { cn } from "@/lib/cn";
@@ -166,15 +166,29 @@ export function ReportForm() {
         className="rounded-[var(--radius-lg)] border border-[color:var(--success)]/35 bg-[color:var(--success-soft)] p-6 sm:p-8"
       >
         <p className="label text-[color:var(--success)]">
-          {isDemo ? "Demo submission" : "Submitted"}
+          {collectsForCandidate
+            ? "Received"
+            : isDemo
+              ? "Demo submission"
+              : "Submitted"}
         </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
-          {isDemo
-            ? "That is what submitting looks like."
-            : "Student Government has your submission."}
+          {collectsForCandidate
+            ? `${stage.candidate.name} has your report.`
+            : isDemo
+              ? "That is what submitting looks like."
+              : "Student Government has your submission."}
         </h2>
         <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-muted">
-          {isDemo ? (
+          {collectsForCandidate ? (
+            <p className="font-medium text-ink">
+              This went to {stage.candidate.name}, who is running for{" "}
+              {stage.candidate.office}. It did not go to Student Government, and
+              he holds no office, so he cannot act on it officially or promise a
+              reply. What he can do is raise it, and show that someone is
+              counting.
+            </p>
+          ) : isDemo ? (
             <p className="font-medium text-ink">
               Nothing was sent. This is a demonstration, so what you wrote
               stayed in your browser — no officer was notified and no record
@@ -182,11 +196,13 @@ export function ReportForm() {
               somewhere that exists today.
             </p>
           ) : null}
-          <p>
-            {isDemo ? "In the real thing, an" : "An"} SG officer will read it
-            and work out who actually owns the decision. That might be SG, or
-            it might be a school office SG refers it to.
-          </p>
+          {collectsForCandidate ? null : (
+            <p>
+              {isDemo ? "In the real thing, an" : "An"} SG officer will read it
+              and work out who actually owns the decision. That might be SG, or
+              it might be a school office SG refers it to.
+            </p>
+          )}
           <p>
             SG cannot promise to resolve every issue, and you will not
             necessarily get an individual reply

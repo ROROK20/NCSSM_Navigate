@@ -31,13 +31,19 @@ export default defineConfig({
 
   projects: [
     {
+      // Candidate-collecting: stage stays demo, submissions are stored.
+      name: "collect",
+      testDir: "./e2e/collect",
+      use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:3102" },
+    },
+    {
       name: "desktop",
-      testIgnore: "**/official/**",
+      testIgnore: ["**/official/**", "**/collect/**"],
       use: { ...devices["Desktop Chrome"], baseURL: "http://127.0.0.1:3100" },
     },
     {
       name: "mobile",
-      testIgnore: "**/official/**",
+      testIgnore: ["**/official/**", "**/collect/**"],
       use: { ...devices["Pixel 7"], baseURL: "http://127.0.0.1:3100" },
     },
     {
@@ -56,8 +62,26 @@ export default defineConfig({
       env: {
         ...shared,
         NEXT_PUBLIC_NAVIGATE_STAGE: "proposal",
+        NEXT_PUBLIC_NAVIGATE_COLLECT: "false",
         NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3100",
         NEXT_DIST_DIR: ".next-e2e-proposal",
+      },
+    },
+    {
+      // Candidate-collecting: demo stage, but a store is configured and the
+      // collect flag is on. NAVIGATE_DATA_DIR gives it a writable disk so no
+      // outbound webhook is needed for the test.
+      command: "npm run build && npm run start -- --port 3102",
+      url: "http://127.0.0.1:3102",
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000,
+      env: {
+        ...shared,
+        NEXT_PUBLIC_NAVIGATE_STAGE: "demo",
+        NEXT_PUBLIC_NAVIGATE_COLLECT: "true",
+        NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3102",
+        NAVIGATE_DATA_DIR: ".data-e2e-collect",
+        NEXT_DIST_DIR: ".next-e2e-collect",
       },
     },
     {
@@ -68,6 +92,7 @@ export default defineConfig({
       env: {
         ...shared,
         NEXT_PUBLIC_NAVIGATE_STAGE: "official",
+        NEXT_PUBLIC_NAVIGATE_COLLECT: "false",
         NEXT_PUBLIC_SITE_URL: "http://127.0.0.1:3101",
         NEXT_DIST_DIR: ".next-e2e-official",
       },

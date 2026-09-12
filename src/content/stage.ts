@@ -82,11 +82,26 @@ export const isDemo = stage.current === "demo";
 /**
  * Whether a submission may reach the server and be stored.
  *
- * False in demo: the form still works, but it writes to the visitor's own
- * browser instead of posting. The API route checks this independently, so a
- * stray request cannot store anything even if the UI is wrong.
+ * Two ways this becomes true, and they are deliberately separate.
+ *
+ * In "official" the site is an adopted Student Government service and the form
+ * is SG's.
+ *
+ * Before that, a candidate can still run a real tracker while campaigning by
+ * setting NEXT_PUBLIC_NAVIGATE_COLLECT=true alongside a configured store. The
+ * stage stays "demo", so nothing on the site claims to be Student Government,
+ * but submissions are stored for real and the copy says plainly who they reach.
+ * Collecting reports and claiming an office are different things, and tying
+ * them to one switch would have forced the second to get the first.
+ *
+ * The API route checks this independently, so a stray request cannot store
+ * anything even if the UI is wrong.
  */
-export const acceptsSubmissions = stage.current === "official";
+export const collectsForCandidate =
+  process.env.NEXT_PUBLIC_NAVIGATE_COLLECT === "true";
+
+export const acceptsSubmissions =
+  stage.current === "official" || collectsForCandidate;
 
 /** How the site refers to itself when it cannot claim to be SG. */
 export const proposalLabel = stage.candidate.name

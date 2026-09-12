@@ -121,7 +121,7 @@ test("nothing a visitor submits reaches the editor", async ({ page }) => {
     page.getByRole("navigation", { name: "Editor sections" }),
   ).toBeVisible({ timeout: 15_000 });
 
-  await expect(page.getByText("No submissions yet.")).toBeVisible();
+  await expect(page.getByText(/none are expected/)).toBeVisible();
 });
 
 test("every page carries the demo marker", async ({ page }) => {
@@ -152,4 +152,23 @@ test("the SG page makes the case rather than listing officers", async ({
 test("the board labels its example entries", async ({ page }) => {
   await page.goto("/updates");
   await expect(page.getByText("These entries are examples")).toBeVisible();
+});
+
+test("the editor does not report a storage fault that only applies when live", async ({
+  page,
+}) => {
+  await page.goto("/admin");
+  await page.getByLabel("Editor password").fill("e2e-editor-password-1234");
+  await page.getByRole("button", { name: "Sign in" }).click();
+  await expect(
+    page.getByRole("navigation", { name: "Editor sections" }),
+  ).toBeVisible({ timeout: 15_000 });
+
+  // In demo there is nothing to store, so warning about a missing store reads
+  // as a broken deployment when nothing is wrong.
+  await expect(
+    page.getByText("This deployment is refusing submissions"),
+  ).toHaveCount(0);
+  await expect(page.getByText("Demo stage: nothing arrives here")).toBeVisible();
+  await expect(page.getByText(/none are expected/)).toBeVisible();
 });

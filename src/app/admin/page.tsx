@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { adminConfigured, isEditor } from "@/lib/admin-auth";
+import { isDemo } from "@/content/stage";
 import { probeStorage, storageMode } from "@/lib/store";
 import {
   getOverrides,
@@ -109,7 +110,23 @@ export default async function AdminPage(props: PageProps<"/admin">) {
         </form>
       </header>
 
-      {storage.mode === "memory" ? (
+      {isDemo ? (
+        <div className="mt-6">
+          <Callout tone="info" title="Demo stage: nothing arrives here">
+            Submissions stay in the visitor&rsquo;s own browser and never reach
+            this server, so the Submissions tab stays empty however many people
+            try the form. That is the demo working, not a fault.
+            {storage.mode === "memory" ? (
+              <>
+                {" "}
+                Content edits you make here also last only until the next
+                deploy, because this host has no writable disk — use the Export
+                tab and commit the JSON before you leave.
+              </>
+            ) : null}
+          </Callout>
+        </div>
+      ) : storage.mode === "memory" ? (
         <div className="mt-6">
           {delivery.store ? (
             // Submissions are safe (they go to the configured system of
@@ -166,7 +183,7 @@ export default async function AdminPage(props: PageProps<"/admin">) {
         {/* ------------------------------------------------- submissions */}
         {tab === "submissions" ? (
           <section aria-label="Submissions">
-            <Callout tone="warn" title="Private, without exception">
+            <Callout tone={isDemo ? "info" : "warn"} title="Private, without exception">
               Nothing on this tab is public and none of it may be pasted into an
               update. Write public entries from scratch on the Public updates
               tab. Delete a submission once it has been actioned; keeping it
@@ -175,7 +192,9 @@ export default async function AdminPage(props: PageProps<"/admin">) {
 
             {submissions.length === 0 ? (
               <p className="mt-8 border-y border-line py-12 text-center text-sm text-muted">
-                No submissions yet.
+                {isDemo
+                  ? "No submissions, and none are expected: demo submissions never leave the visitor's browser."
+                  : "No submissions yet."}
               </p>
             ) : (
               <ul className="mt-6 border-t border-line">

@@ -95,4 +95,105 @@ export const sgUpdates: SgUpdate[] = [
       "Recent submissions asked why some funding requests are approved and others are not. SG has logged this and will publish the criteria it uses.",
     nextStep: null,
   },
+
+  {
+    id: "u-printer-2nd",
+    title: "Printer on the second floor jamming repeatedly",
+    category: "technology",
+    status: "resolved",
+    dateUpdated: "2026-09-02",
+    summary:
+      "Several reports over two weeks about the same printer. Logged with the IT service desk, who replaced a worn feed roller.",
+    nextStep: null,
+  },
+  {
+    id: "u-wifi-bryan",
+    title: "Wi-Fi dropping in one residence hall",
+    category: "technology",
+    status: "in-progress",
+    dateUpdated: "2026-09-08",
+    summary:
+      "Reports clustered in one building rather than campus-wide, which pointed at an access point rather than the network. ITS has it open as a ticket.",
+    nextStep: "ITS expects to test a replacement access point this week.",
+  },
+  {
+    id: "u-vegetarian",
+    title: "Vegetarian options at dinner running out early",
+    category: "dining",
+    status: "referred",
+    dateUpdated: "2026-09-05",
+    summary:
+      "Raised with dining services, who set portions from a count SG does not control. Passed on with the pattern of times it was reported.",
+    nextStep: "Dining is reviewing the evening count for the rest of the term.",
+  },
+  {
+    id: "u-water-filters",
+    title: "Filter indicators red on several water fountains",
+    category: "residential-life",
+    status: "awaiting-response",
+    dateUpdated: "2026-09-04",
+    summary:
+      "Work order filed with facilities. No date back yet.",
+    nextStep: "SG will chase this if there is nothing by the end of the month.",
+  },
+  {
+    id: "u-microwaves",
+    title: "More microwaves in common areas",
+    category: "residential-life",
+    status: "received",
+    dateUpdated: "2026-09-10",
+    summary:
+      "Logged. Not yet looked into, and it will need a cost and a plug count before anyone can say whether it is possible.",
+    nextStep: null,
+  },
+  {
+    id: "u-gym-exam-week",
+    title: "Gym hours during exam week",
+    category: "student-life",
+    status: "under-review",
+    dateUpdated: "2026-09-07",
+    summary:
+      "Asked about extending evening hours during exams. SG is finding out who sets the schedule and whether staffing allows it.",
+    nextStep: null,
+  },
+  {
+    id: "u-bike-racks",
+    title: "Damaged bike racks near the gym",
+    category: "student-life",
+    status: "referred",
+    dateUpdated: "2026-09-06",
+    summary:
+      "Outdoor fixtures are handled by facilities rather than residential life. Reported with photographs of the two worst racks.",
+    nextStep: null,
+  },
+  {
+    id: "u-study-rooms",
+    title: "Library study rooms double-booked",
+    category: "academics",
+    status: "resolved",
+    dateUpdated: "2026-08-29",
+    summary:
+      "Two groups arriving for the same slot. The library found a duplicate entry in the booking calendar and cleared it.",
+    nextStep: null,
+  },
+  {
+    id: "u-vending",
+    title: "Vending machine card reader declining cards",
+    category: "student-life",
+    status: "in-progress",
+    dateUpdated: "2026-09-09",
+    summary:
+      "Reported to the vendor through the school contact. The machine has been marked out of service in the meantime.",
+    nextStep: "Vendor is scheduled to visit; no confirmed date yet.",
+  },
+  {
+    id: "u-path-lighting",
+    title: "Poor lighting on the path to the library",
+    category: "student-life",
+    status: "awaiting-response",
+    dateUpdated: "2026-09-03",
+    summary:
+      "Raised with Campus Safety, who confirmed two fixtures are out and passed it to facilities.",
+    nextStep: "Waiting on a repair date from facilities.",
+  },
 ];

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { nav, site } from "@/content/site";
 import { cn } from "@/lib/cn";
 import { Mark } from "./mark";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -65,6 +66,10 @@ export function SiteHeader() {
           </ul>
         </nav>
 
+        <div className="ml-3 hidden md:block">
+          <ThemeToggle />
+        </div>
+
         <button
           type="button"
           onClick={() => setOpen((value) => !value)}
@@ -115,6 +120,10 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="flex items-center justify-between px-3 pt-3 pb-1">
+              <span className="text-sm text-muted">Theme</span>
+              <ThemeToggle />
+            </li>
           </ul>
         </nav>
       ) : null}

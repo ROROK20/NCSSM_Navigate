@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getUpdates } from "@/lib/content";
 import { ISSUE_STATUSES, ISSUE_STATUS_BY_ID } from "@/content/taxonomy";
 import { UpdatesBoard, type UpdateView } from "@/components/updates-board";
-import { Callout, Eyebrow, StatusPip, type StatusTone } from "@/components/ui";
+import { StageTrack } from "@/components/stage-track";
+import { Eyebrow } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { collectsForCandidate, isDemo } from "@/content/stage";
 import { DemoSubmissions } from "@/components/demo-submissions";
@@ -38,34 +38,24 @@ export default async function UpdatesPage() {
         </p>
       </header>
 
-      {isDemo ? (
-        <>
-          <div className="mt-6">
-            <Callout tone="info" title="These entries are examples">
-              Navigate is a demonstration, so nothing on the board below
-              describes a real student report. The entries are written to show
-              what the board looks like once it is in use.
-            </Callout>
-          </div>
-          {collectsForCandidate ? null : <DemoSubmissions />}
-        </>
-      ) : null}
+      {/*
+        One line, not two stacked slabs. Both facts matter and neither needs a
+        tinted box the width of the page above the thing people came to read.
+      */}
+      <p className="caveat mt-5 max-w-3xl">
+        {isDemo ? (
+          <>
+            <strong>These entries are examples.</strong> Navigate is a
+            demonstration, so nothing below describes a real student report.{" "}
+          </>
+        ) : null}
+        <strong>Individual submissions are never published.</strong> No names,
+        emails, room numbers, or quoted descriptions appear here, one entry often
+        covers several reports about the same thing, and being listed is not a
+        promise it will be solved.
+      </p>
 
-      <div className="mt-6 mb-2">
-        <Callout tone="info" title="What you will not find here">
-          Individual submissions are never published. No names, emails, room
-          numbers, or quoted descriptions appear on this board, and an entry
-          often covers several separate reports about the same thing. An issue
-          being listed is not a promise that it will be solved.
-          {isDemo ? null : (
-            <>
-              {" "}
-              <Link href="/report">Report an issue</Link> if something is
-              missing.
-            </>
-          )}
-        </Callout>
-      </div>
+      {isDemo && !collectsForCandidate ? <DemoSubmissions /> : null}
 
       <UpdatesBoard updates={rows} />
 
@@ -76,10 +66,7 @@ export default async function UpdatesPage() {
           {ISSUE_STATUSES.map((status) => (
             <div key={status.id} className="flex flex-col gap-1.5">
               <dt>
-                <StatusPip
-                  label={status.label}
-                  tone={status.tone as StatusTone}
-                />
+                <StageTrack status={status.id} />
               </dt>
               <dd className="text-sm leading-relaxed text-muted">
                 {status.description}

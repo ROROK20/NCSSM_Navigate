@@ -79,9 +79,58 @@ function doPost(e) {
   }
 }
 
-/** A GET is useful only to confirm the deployment is reachable. */
-function doGet() {
-  return reply(200, { ok: true, service: "ncssm-navigate-store" });
+/**
+ * GET serves two purposes.
+ *
+ * With no parameters it is a health check.
+ *
+ * With ?sheet=updates and the token, it returns the public status board as
+ * JSON, so the site can read entries an officer typed into a spreadsheet
+ * instead of losing them on the next deploy. Only the Updates tab is ever
+ * readable this way. The Submissions tab is write-only, by omission: there is
+ * no code path here that returns it.
+ *
+ * Add a second tab named "Updates" with these headers, in this order:
+ *   id | title | category | status | dateUpdated | summary | nextStep
+ *
+ * category must be one of: academics, residential-life, dining,
+ * transportation, technology, student-life, accessibility, other
+ * status must be one of: received, under-review, referred, in-progress,
+ * awaiting-response, resolved, unable-to-pursue
+ */
+var UPDATES_SHEET = "Updates";
+
+function doGet(e) {
+  var wants = e && e.parameter && e.parameter.sheet;
+  if (wants !== "updates") {
+    return reply(200, { ok: true, service: "ncssm-navigate-store" });
+  }
+
+  var token = (e.parameter && e.parameter.token) || "";
+  if (SHARED_TOKEN && token !== SHARED_TOKEN) {
+    return reply(401, { ok: false, error: "unauthorized" });
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(UPDATES_SHEET);
+  if (!sheet || sheet.getLastRow() < 2) return reply(200, { ok: true, updates: [] });
+
+  var values = sheet.getDataRange().getValues();
+  var head = values[0].map(function (h) { return String(h).trim(); });
+  var rows = [];
+
+  for (var i = 1; i < values.length; i++) {
+    var row = {};
+    for (var c = 0; c < head.length; c++) {
+      var v = values[i][c];
+      // Dates come back as Date objects; the site wants plain ISO days.
+      row[head[c]] = Object.prototype.toString.call(v) === "[object Date]"
+        ? Utilities.formatDate(v, "UTC", "yyyy-MM-dd")
+        : String(v).trim();
+    }
+    if (row.id && row.title) rows.push(row);
+  }
+
+  return reply(200, { ok: true, updates: rows });
 }
 
 function getSheet() {

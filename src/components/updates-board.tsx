@@ -9,7 +9,9 @@ import {
 } from "@/content/taxonomy";
 import { matchesQuery } from "@/lib/search";
 import { FilterBar } from "./filter-bar";
-import { Button, EmptyState, StatusPip, type StatusTone } from "./ui";
+import { Button, EmptyState } from "./ui";
+import { StageSummary, StageTrack } from "./stage-track";
+import type { IssueStatusId } from "@/content/taxonomy";
 
 export interface UpdateView extends SgUpdate {
   /** Formatted on the server so both renders agree. */
@@ -20,7 +22,7 @@ export interface UpdateView extends SgUpdate {
 export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string | null>(null);
-  const [phase, setPhase] = useState<"all" | "open" | "closed">("all");
+  const [stage, setStage] = useState<IssueStatusId | null>(null);
 
   const afterTextFilters = useMemo(
     () =>
@@ -34,13 +36,20 @@ export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
         ]
           .filter(Boolean)
           .join(" ");
-        const phaseOk =
-          phase === "all" ||
-          (phase === "open" ? update.open : !update.open);
-        return matchesQuery(haystack, query) && phaseOk;
+        return matchesQuery(haystack, query);
       }),
-    [updates, query, phase],
+    [updates, query],
   );
+
+  /* Counts come from the text-filtered set, so the strip always describes what
+     selecting a stage would actually give you. */
+  const stageCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const update of afterTextFilters) {
+      counts[update.status] = (counts[update.status] ?? 0) + 1;
+    }
+    return counts;
+  }, [afterTextFilters]);
 
   const options = useMemo(
     () =>
@@ -52,11 +61,11 @@ export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
     [afterTextFilters, category],
   );
 
-  const visible = category
-    ? afterTextFilters.filter((u) => u.category === category)
-    : afterTextFilters;
-
-  const openCount = updates.filter((u) => u.open).length;
+  const visible = afterTextFilters.filter(
+    (u) =>
+      (category === null || u.category === category) &&
+      (stage === null || u.status === stage),
+  );
 
   return (
     <div>
@@ -69,37 +78,21 @@ export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
         onActiveChange={setCategory}
         totalCount={afterTextFilters.length}
       >
-        <div
-          role="group"
-          aria-label="Filter by stage"
-          className="mt-2.5 flex gap-1.5 text-[13px]"
-        >
-          {(
-            [
-              ["all", "Any stage"],
-              ["open", `Still open ${openCount}`],
-              ["closed", `Closed ${updates.length - openCount}`],
-            ] as const
-          ).map(([value, label]) => (
-            <button
-              key={value}
-              type="button"
-              onClick={() => setPhase(value)}
-              aria-pressed={phase === value}
-              className={
-                phase === value
-                  ? "rounded-full bg-ink px-3 py-1.5 font-medium text-paper"
-                  : "rounded-full px-3 py-1.5 text-muted transition-colors hover:bg-sunken hover:text-ink"
-              }
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+
       </FilterBar>
 
+      {/* Summary before detail: whether anything is moving, in one glance. */}
+      <div className="mt-5 border-b border-line">
+        <StageSummary
+          counts={stageCounts}
+          active={stage}
+          onSelect={setStage}
+        />
+      </div>
+
       <p aria-live="polite" className="py-4 text-sm text-faint">
-        {visible.length} {visible.length === 1 ? "update" : "updates"}
+        {visible.length} {visible.length === 1 ? "issue" : "issues"}
+        {stage || category || query ? " match your filters" : " tracked"}
       </p>
 
       {visible.length === 0 ? (
@@ -111,7 +104,7 @@ export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
               onClick={() => {
                 setQuery("");
                 setCategory(null);
-                setPhase("all");
+                setStage(null);
               }}
             >
               Clear filters
@@ -124,34 +117,37 @@ export function UpdatesBoard({ updates }: { updates: UpdateView[] }) {
       ) : (
         <ul className="border-t border-line">
           {visible.map((update) => {
-            const status = ISSUE_STATUS_BY_ID[update.status];
             const category = ISSUE_CATEGORY_BY_ID[update.category];
             return (
-              <li key={update.id} className="border-b border-line py-5">
-                <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                  <StatusPip
-                    label={status.label}
-                    tone={status.tone as StatusTone}
-                  />
-                  <span className="label text-faint">{category.label}</span>
-                  <span className="tnum ml-auto text-xs text-faint">
-                    Updated {update.dateLabel}
-                  </span>
+              <li
+                key={update.id}
+                className="grid gap-x-8 gap-y-2.5 border-b border-line px-3 py-4 transition-colors hover:bg-sunken lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-start"
+              >
+                <div className="min-w-0">
+                  <h3 className="text-[1.0625rem] leading-snug font-medium text-ink">
+                    {update.title}
+                  </h3>
+                  <p className="mt-1 max-w-[62ch] text-[0.875rem] leading-relaxed text-muted">
+                    {update.summary}
+                  </p>
+                  {update.nextStep ? (
+                    <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-muted">
+                      <span className="label mr-1.5 text-faint">Next</span>
+                      {update.nextStep}
+                    </p>
+                  ) : null}
                 </div>
 
-                <h3 className="mt-3 text-lg font-semibold tracking-tight text-ink">
-                  {update.title}
-                </h3>
-                <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-muted">
-                  {update.summary}
-                </p>
-
-                {update.nextStep ? (
-                  <p className="mt-3 max-w-3xl border-t border-line pt-3 text-sm leading-relaxed text-muted">
-                    <span className="label mr-2 text-faint">Next</span>
-                    {update.nextStep}
-                  </p>
-                ) : null}
+                {/* The pipeline, drawn as a pipeline. */}
+                <div className="flex flex-col gap-2 lg:items-start lg:pt-1">
+                  <StageTrack status={update.status} />
+                  <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                    <span className="label text-faint">{category.label}</span>
+                    <span className="tnum text-[11px] text-faint">
+                      {update.dateLabel}
+                    </span>
+                  </div>
+                </div>
               </li>
             );
           })}

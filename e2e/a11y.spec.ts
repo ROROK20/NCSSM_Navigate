@@ -90,3 +90,70 @@ test.describe("WCAG AA", () => {
     });
   }
 });
+
+/**
+ * The theme toggle. Three states, and the choice has to survive a navigation.
+ */
+test.describe("theme", () => {
+  test("switches, persists, and beats the OS preference", async ({ page }) => {
+    // Start on a dark-preferring device to prove an explicit light choice wins.
+    await page.emulateMedia({ colorScheme: "dark" });
+    await page.goto("/");
+
+    // On a phone the toggle lives in the menu sheet rather than the header bar.
+    const menu = page.getByRole("button", { name: "Open menu" });
+    if (await menu.isVisible()) await menu.click();
+
+    const group = page
+      .getByRole("radiogroup", { name: "Colour theme" })
+      .filter({ visible: true })
+      .first();
+    await expect(group).toBeVisible();
+
+    await group.getByRole("radio", { name: "Light" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+    // Survives a navigation, and without a flash: the attribute is present on
+    // the very first frame because an inline script sets it before paint.
+    await page.goto("/resources");
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
+
+    const menuAgain = page.getByRole("button", { name: "Open menu" });
+    if (await menuAgain.isVisible()) await menuAgain.click();
+    const group2 = page
+      .getByRole("radiogroup", { name: "Colour theme" })
+      .filter({ visible: true })
+      .first();
+
+    await group2.getByRole("radio", { name: "Dark" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+
+    // Back to system: the attribute is removed, not set to a value.
+    await group2.getByRole("radio", { name: "System" }).click();
+    await expect(page.locator("html")).not.toHaveAttribute("data-theme", /.*/);
+  });
+});
+
+/**
+ * The status board reads as a tracker, not a list.
+ */
+test.describe("issue tracker", () => {
+  test("shows stage counts and filters by stage", async ({ page }) => {
+    await page.goto("/updates");
+
+    await expect(page.getByText(/\d+ issues tracked/)).toBeVisible();
+
+    const resolved = page.getByRole("button", { name: /Resolved/ }).first();
+    await resolved.scrollIntoViewIfNeeded();
+    await resolved.click();
+    await expect(page.getByText(/issues? match your filters/)).toBeVisible();
+    await expect(resolved).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("each issue shows where it sits in the pipeline", async ({ page }) => {
+    await page.goto("/updates");
+    await expect(
+      page.getByRole("img", { name: /Stage \d of 5:|Closed:/ }).first(),
+    ).toBeVisible();
+  });
+});

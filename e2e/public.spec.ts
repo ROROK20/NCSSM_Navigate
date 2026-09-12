@@ -146,15 +146,20 @@ test("SG updates board shows statuses and never leaks submission details", async
   await page.goto("/updates");
 
   // The demo-stage example notice is asserted in demo.spec.ts.
-  await expect(page.getByText("What you will not find here")).toBeVisible();
+  await expect(
+    page.getByText(/Individual submissions are never published/),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", {
       name: "Laundry machines out of service in residence halls",
     }),
   ).toBeVisible();
 
-  await page.getByRole("button", { name: /^Closed/ }).click();
-  await expect(page.getByText("Break bus arrival times published late")).toBeVisible();
+  // Filtering by a closed stage leaves only closed issues on the board.
+  await page.getByRole("button", { name: /Resolved/ }).first().click();
+  await expect(
+    page.getByRole("heading", { name: "Library study rooms double-booked" }),
+  ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "More quiet study space in the evenings" }),
   ).toHaveCount(0);

@@ -3,6 +3,7 @@ import { resources as seedResources } from "@/content/resources";
 import { opportunities as seedOpportunities } from "@/content/opportunities";
 import { sgUpdates as seedUpdates } from "@/content/updates";
 import type { Opportunity, Resource, SgUpdate } from "@/content/types";
+import { ISSUE_CATEGORY_IDS, ISSUE_STATUS_IDS } from "@/content/taxonomy";
 import { readJson, writeJson } from "./store";
 
 /**
@@ -83,10 +84,80 @@ export async function getOpportunities(): Promise<Opportunity[]> {
     .filter((item) => !patches[item.id]?.hidden);
 }
 
+/**
+ * Public status entries typed into the Google Sheet's "Updates" tab.
+ *
+ * Optional. Without a store configured this returns nothing and the seed file
+ * plus the editor's overrides carry the board exactly as before.
+ *
+ * It exists because Vercel has no writable disk, so entries written in /admin
+ * vanish on the next deploy. A spreadsheet is also a better tool to hand to
+ * next year's officers than a TypeScript file.
+ *
+ * Every failure is swallowed on purpose. A status board that 500s because a
+ * spreadsheet was slow is worse than one showing slightly stale entries.
+ */
+async function fetchSheetUpdates(): Promise<SgUpdate[]> {
+  const store = process.env.ISSUE_STORE_URL;
+  if (!store) return [];
+
+  try {
+    const url = new URL(store);
+    url.searchParams.set("sheet", "updates");
+
+    const response = await fetch(url, {
+      // Re-read a few times an hour rather than on every request.
+      next: { revalidate: 300 },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) return [];
+
+    const data: unknown = await response.json();
+    const rows =
+      data && typeof data === "object" && "updates" in data
+        ? (data as { updates: unknown }).updates
+        : null;
+    if (!Array.isArray(rows)) return [];
+
+    return rows.flatMap((row): SgUpdate[] => {
+      if (!row || typeof row !== "object") return [];
+      const r = row as Record<string, string>;
+      const valid =
+        r.id &&
+        r.title &&
+        (ISSUE_CATEGORY_IDS as readonly string[]).includes(r.category) &&
+        (ISSUE_STATUS_IDS as readonly string[]).includes(r.status);
+      if (!valid) return [];
+      return [
+        {
+          id: r.id,
+          title: r.title,
+          category: r.category as SgUpdate["category"],
+          status: r.status as SgUpdate["status"],
+          dateUpdated: /^\d{4}-\d{2}-\d{2}$/.test(r.dateUpdated)
+            ? r.dateUpdated
+            : new Date().toISOString().slice(0, 10),
+          summary: r.summary ?? "",
+          nextStep: r.nextStep ? r.nextStep : null,
+        },
+      ];
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function getUpdates(): Promise<SgUpdate[]> {
-  const { updateUpserts, updateRemovals } = await getOverrides();
+  const [{ updateUpserts, updateRemovals }, sheetUpdates] = await Promise.all([
+    getOverrides(),
+    fetchSheetUpdates(),
+  ]);
+
+  // Seed first, then the spreadsheet, then anything typed in /admin. Later
+  // layers win on a matching id.
   const byId = new Map<string, SgUpdate>();
   for (const update of seedUpdates) byId.set(update.id, update);
+  for (const update of sheetUpdates) byId.set(update.id, update);
   for (const update of updateUpserts) byId.set(update.id, update);
   for (const id of updateRemovals) byId.delete(id);
   return [...byId.values()].sort((a, b) =>

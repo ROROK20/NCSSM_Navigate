@@ -58,6 +58,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${archivo.variable} ${mono.variable} h-full antialiased`}
     >
+      <head>
+        {/*
+          Runs before first paint. Without it a visitor who chose light on a
+          dark-mode phone sees a dark flash on every navigation, which is worse
+          than having no toggle at all.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var t=localStorage.getItem("navigate-theme");if(t==="light"||t==="dark"){document.documentElement.setAttribute("data-theme",t)}}catch(e){}',
+          }}
+        />
+      </head>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"

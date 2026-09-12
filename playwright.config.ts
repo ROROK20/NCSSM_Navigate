@@ -18,6 +18,11 @@ const PASSWORD = "e2e-editor-password-1234";
 const shared = {
   ADMIN_PASSWORD: PASSWORD,
   NAVIGATE_DATA_DIR: ".data-e2e",
+  // Explicitly blank so a developer's .env.local cannot point the suite at a
+  // real Google Sheet. Tests reading production content would be flaky; tests
+  // writing to it would be worse.
+  ISSUE_STORE_URL: "",
+  ISSUE_WEBHOOK_URL: "",
 };
 
 export default defineConfig({

@@ -201,3 +201,33 @@ test("plain-language searches surface the right resource first", async ({
     ).toContainText(expected);
   }
 });
+
+test("the homepage search lands on results with the query applied", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  // The example chips exist to demonstrate alias matching: "stressed" appears
+  // nowhere in the Counseling entry's name or description.
+  await page.getByRole("button", { name: "stressed" }).click();
+  await page.waitForURL(/\/resources\?q=stressed/);
+
+  await expect(
+    page.getByRole("searchbox", { name: /Search resources/i }),
+  ).toHaveValue("stressed");
+  await expect(
+    page.getByRole("link", { name: /^Counseling Services/ }).first(),
+  ).toBeVisible();
+  await expect(page.getByText("1 resource matches your filters")).toBeVisible();
+});
+
+test("typing in the homepage search carries the query through", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("searchbox", { name: "Search resources" }).fill("laundry");
+  await page.getByRole("button", { name: "Search" }).click();
+
+  await page.waitForURL(/\/resources\?q=laundry/);
+  await expect(page.getByText(/matches your filters/)).toBeVisible();
+});

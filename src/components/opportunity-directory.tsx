@@ -122,7 +122,11 @@ export function OpportunityDirectory({ items }: { items: OpportunityView[] }) {
       <p aria-live="polite" className="py-4 text-sm text-faint">
         {visible.length}{" "}
         {visible.length === 1 ? "opportunity" : "opportunities"}
-        {filtered ? " match your filters" : ""}
+        {filtered
+          ? visible.length === 1
+            ? " matches your filters"
+            : " match your filters"
+          : ""}
       </p>
 
       {visible.length === 0 ? (

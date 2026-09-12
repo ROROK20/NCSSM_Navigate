@@ -44,8 +44,10 @@ under-promising, not from polish.
 
 ## Anti-references
 
-- **A school administration portal.** Navy-and-white, logo lockups, press-release
-  voice, "Student Services Portal" naming.
+- **A school administration portal.** Logo lockups, press-release voice,
+  "Student Services Portal" naming. The palette is now the school's own blue by
+  request, so this anti-reference is carried by everything except hue: student
+  voice, spirit-wear greys, signage layout, no institutional chrome.
 - **A generic SaaS dashboard.** Rounded purple cards on grey, hero metric tiles,
   icon-heading-text grids repeated down the page.
 - **Anything childish.** These are students who take multivariable calculus.

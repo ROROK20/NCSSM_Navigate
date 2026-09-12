@@ -8,36 +8,42 @@
   2. Dark mode is handled here, by redefining the same variables under
      prefers-color-scheme. Components almost never need a `dark:` class.
 
-  Colours are OKLCH. Neutrals carry a small amount of the accent hue (155) so
-  greys read warm rather than dead.
+  Colours are OKLCH, built from NCSSM's own palette: the blue is #346094 taken
+  from the school site, which converts to oklch(0.483 0.098 254). Neutrals carry
+  a trace of that hue (254) so greys read cool, like the school's heather-grey
+  spirit wear, rather than dead.
+
+  Every ink-on-surface pair here was checked against WCAG AA (4.5:1) in both
+  themes, including the 11-13px metadata sizes. Changing a lightness value
+  means re-checking it.
 */
 
 :root {
   color-scheme: light;
 
   /* Surfaces, lightest to most recessed. */
-  --paper: oklch(0.986 0.004 106);
-  --surface: oklch(0.998 0.002 106);
-  --surface-sunken: oklch(0.962 0.006 118);
+  --paper: oklch(0.985 0.003 254);
+  --surface: oklch(0.999 0.002 254);
+  --surface-sunken: oklch(0.958 0.008 254);
 
   /*
     Text, strongest to faintest. Every one of these clears WCAG AA (4.5:1)
     against paper, surface, and sunken, including at the 11-13px sizes used for
     metadata. `--ink-faint` is the binding constraint; do not lighten it.
   */
-  --ink: oklch(0.235 0.014 155);
-  --ink-muted: oklch(0.475 0.013 155);
-  --ink-faint: oklch(0.540 0.011 155);
+  --ink: oklch(0.230 0.022 254);
+  --ink-muted: oklch(0.470 0.020 254);
+  --ink-faint: oklch(0.535 0.018 254);
 
   /* Hairlines. `line` is the default rule weight across the site. */
-  --line: oklch(0.905 0.008 132);
-  --line-strong: oklch(0.828 0.011 132);
+  --line: oklch(0.898 0.010 254);
+  --line-strong: oklch(0.790 0.020 254);
 
-  /* The one accent. Primary actions, current state, focus. Nothing decorative. */
-  --accent: oklch(0.475 0.105 158);
-  --accent-hover: oklch(0.408 0.098 158);
-  --accent-soft: oklch(0.948 0.031 158);
-  --accent-contrast: oklch(0.985 0.006 158);
+  /* The one accent: NCSSM blue. Primary actions, current state, focus. */
+  --accent: oklch(0.470 0.100 254);
+  --accent-hover: oklch(0.400 0.095 254);
+  --accent-soft: oklch(0.945 0.032 254);
+  --accent-contrast: oklch(0.990 0.004 254);
 
   /* Feedback. Distinct from the accent so success never reads as a button. */
   --danger: oklch(0.522 0.176 27);
@@ -49,19 +55,19 @@
 
   /* Category marks. Small dots and tags only, never a filled card. */
   --tone-alert: oklch(0.545 0.185 27);
-  --tone-one: oklch(0.532 0.132 252);
+  --tone-one: oklch(0.532 0.118 212);
   --tone-two: oklch(0.535 0.132 305);
   --tone-three: oklch(0.578 0.125 66);
-  --tone-four: oklch(0.532 0.098 202);
+  --tone-four: oklch(0.532 0.094 186);
   --tone-five: oklch(0.512 0.138 278);
   --tone-six: oklch(0.562 0.142 355);
   --tone-seven: oklch(0.528 0.118 146);
   --tone-eight: oklch(0.512 0.076 96);
 
   /* Status pips on the SG board. */
-  --status-neutral: oklch(0.62 0.012 155);
+  --status-neutral: oklch(0.62 0.014 254);
   --status-info: oklch(0.545 0.118 248);
-  --status-active: oklch(0.512 0.122 158);
+  --status-active: oklch(0.500 0.110 212);
   --status-warn: oklch(0.612 0.125 72);
   --status-done: oklch(0.482 0.132 150);
   --status-closed: oklch(0.578 0.028 30);
@@ -77,21 +83,21 @@
   :root {
     color-scheme: dark;
 
-    --paper: oklch(0.188 0.012 155);
-    --surface: oklch(0.232 0.013 155);
-    --surface-sunken: oklch(0.158 0.011 155);
+    --paper: oklch(0.190 0.024 254);
+    --surface: oklch(0.235 0.026 254);
+    --surface-sunken: oklch(0.158 0.022 254);
 
-    --ink: oklch(0.948 0.006 106);
-    --ink-muted: oklch(0.735 0.012 132);
-    --ink-faint: oklch(0.632 0.012 132);
+    --ink: oklch(0.950 0.008 254);
+    --ink-muted: oklch(0.740 0.020 254);
+    --ink-faint: oklch(0.640 0.020 254);
 
-    --line: oklch(0.318 0.013 150);
-    --line-strong: oklch(0.418 0.016 150);
+    --line: oklch(0.320 0.026 254);
+    --line-strong: oklch(0.420 0.030 254);
 
-    --accent: oklch(0.752 0.132 158);
-    --accent-hover: oklch(0.822 0.128 158);
-    --accent-soft: oklch(0.288 0.048 158);
-    --accent-contrast: oklch(0.172 0.028 158);
+    --accent: oklch(0.760 0.105 248);
+    --accent-hover: oklch(0.830 0.095 248);
+    --accent-soft: oklch(0.290 0.052 254);
+    --accent-contrast: oklch(0.170 0.032 254);
 
     --danger: oklch(0.712 0.155 27);
     --danger-soft: oklch(0.288 0.065 27);
@@ -101,18 +107,18 @@
     --success-soft: oklch(0.272 0.052 150);
 
     --tone-alert: oklch(0.722 0.152 27);
-    --tone-one: oklch(0.732 0.112 252);
+    --tone-one: oklch(0.732 0.100 212);
     --tone-two: oklch(0.742 0.108 305);
     --tone-three: oklch(0.788 0.112 72);
-    --tone-four: oklch(0.752 0.088 202);
+    --tone-four: oklch(0.752 0.084 186);
     --tone-five: oklch(0.722 0.112 278);
     --tone-six: oklch(0.762 0.112 355);
     --tone-seven: oklch(0.748 0.108 146);
     --tone-eight: oklch(0.752 0.068 96);
 
-    --status-neutral: oklch(0.688 0.012 155);
+    --status-neutral: oklch(0.688 0.014 254);
     --status-info: oklch(0.728 0.108 248);
-    --status-active: oklch(0.742 0.112 158);
+    --status-active: oklch(0.742 0.100 212);
     --status-warn: oklch(0.788 0.112 72);
     --status-done: oklch(0.728 0.118 150);
     --status-closed: oklch(0.672 0.026 30);

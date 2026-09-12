@@ -15,8 +15,12 @@ export const metadata: Metadata = {
 // the next request rather than the next deploy.
 export const dynamic = "force-dynamic";
 
-export default async function ResourcesPage() {
-  const resources = await getResources();
+export default async function ResourcesPage(props: PageProps<"/resources">) {
+  const [resources, params] = await Promise.all([
+    getResources(),
+    props.searchParams,
+  ]);
+  const initialQuery = typeof params.q === "string" ? params.q : "";
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
@@ -41,7 +45,7 @@ export default async function ResourcesPage() {
         <SeedNotice subject="resources" />
       </div>
 
-      <ResourceDirectory resources={resources} />
+      <ResourceDirectory resources={resources} initialQuery={initialQuery} />
     </div>
   );
 }

@@ -29,8 +29,15 @@ import {
  * the whole dataset is a few kilobytes. If the directory ever grows past a few
  * hundred rows, move the filtering to the server and paginate.
  */
-export function ResourceDirectory({ resources }: { resources: Resource[] }) {
-  const [query, setQuery] = useState("");
+export function ResourceDirectory({
+  resources,
+  initialQuery = "",
+}: {
+  resources: Resource[];
+  /** Seeded from `?q=` so the homepage search lands on results, not a blank list. */
+  initialQuery?: string;
+}) {
+  const [query, setQuery] = useState(initialQuery);
   const [category, setCategory] = useState<string | null>(null);
   const [noLoginOnly, setNoLoginOnly] = useState(false);
 
@@ -146,7 +153,11 @@ export function ResourceDirectory({ resources }: { resources: Resource[] }) {
 
       <p aria-live="polite" className="py-4 text-sm text-faint">
         {visible.length} {visible.length === 1 ? "resource" : "resources"}
-        {filtered ? " match your filters" : ""}
+        {filtered
+          ? visible.length === 1
+            ? " matches your filters"
+            : " match your filters"
+          : ""}
       </p>
 
       {visible.length === 0 ? (

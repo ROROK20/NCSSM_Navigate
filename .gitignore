@@ -53,3 +53,6 @@ next-env.d.ts
 .data-e2e
 test-results
 playwright-report
+
+# scratch assets for the before/after comparison artifact
+/.compare-assets

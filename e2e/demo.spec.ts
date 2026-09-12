@@ -172,3 +172,55 @@ test("the editor does not report a storage fault that only applies when live", a
   await expect(page.getByText("Demo stage: nothing arrives here")).toBeVisible();
   await expect(page.getByText(/none are expected/)).toBeVisible();
 });
+
+/**
+ * The routing that has to work before submissions are ever stored for real.
+ *
+ * These are the cases where a student queue is the wrong destination. The
+ * notice is advisory, never blocking: guessing wrong about what someone means
+ * and then refusing to take their report would be worse than a suggestion they
+ * can ignore.
+ */
+test.describe("escalation routing", () => {
+  const CASES = [
+    ["someone has been harassing me in the hall", "formal route"],
+    ["I feel unsafe walking back at night", "needs staff"],
+    ["worried about a friend who is not eating", "built for this"],
+  ] as const;
+
+  for (const [text, expected] of CASES) {
+    test(`"${text.slice(0, 30)}..." surfaces a better route`, async ({ page }) => {
+      await page.goto("/report");
+      await page.getByLabel("What is happening?").fill(text);
+      await expect(
+        page.getByRole("status").filter({ hasText: new RegExp(expected, "i") }),
+      ).toBeVisible();
+    });
+  }
+
+  test("ordinary reports are left alone", async ({ page }) => {
+    await page.goto("/report");
+    await page
+      .getByLabel("What is happening?")
+      .fill("The dryers on the hall take payment but never start a cycle.");
+    await expect(page.getByRole("status")).toHaveCount(0);
+  });
+
+  test("the notice never blocks submitting", async ({ page }) => {
+    await page.goto("/report");
+    await page.getByLabel("What is the issue?").fill("Something felt unsafe");
+    await page
+      .getByLabel("What is happening?")
+      .fill("I felt unsafe in the stairwell last night and want it logged.");
+    await page.getByLabel("Category").selectOption("student-life");
+    await page.getByLabel(/Submit anonymously/).check();
+    await page.getByLabel(/I understand that SG officers/).check();
+    await page.waitForTimeout(1400);
+    await page
+      .getByRole("button", { name: /Submit to Student Government/ })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: /That is what submitting looks like/ }),
+    ).toBeVisible({ timeout: 15_000 });
+  });
+});

@@ -58,18 +58,13 @@ export default async function OpportunitiesPage() {
         reason, and two stacked amber boxes just read as noise to scroll past.
       */}
       <div className="mb-6">
-        <Callout tone="danger" title="These are examples, not confirmed listings">
-          Unlike the resource directory, this board has not been built from real
-          sources yet. The entries below were written to show what it looks like
-          in use: the organisations are real, the specific dates, costs and
-          details are not. Do not plan anything around them.
-          <br />
-          <br />
-          Once it is running for real, Student Government still will not run,
-          vet, or endorse these events. Check the date, cost, age requirements,
-          and transport with the organiser yourself, and remember that travel,
-          money, or leaving campus needs the usual school and parent
-          permissions.
+        <Callout tone="warn" title="Check with the organiser before you commit">
+          Every programme here is real and every link was tested, but dates,
+          costs and age limits change year to year. Where a date is not shown it
+          is because it was not confirmed, not because it is missing: open the
+          organiser&rsquo;s page and check. Student Government does not run,
+          vet, or endorse any of these, and anything involving travel, money, or
+          leaving campus still needs the usual school and parent permissions.
         </Callout>
       </div>
 

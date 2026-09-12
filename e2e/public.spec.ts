@@ -113,27 +113,29 @@ test("login-only resources are labelled and open on the official domain", async 
   await expect(page.getByText("NCSSM login").first()).toBeVisible();
 });
 
-test("opportunities filter, and past entries are hidden until asked for", async ({
+test("opportunities are real programmes, filterable, with honest dates", async ({
   page,
 }) => {
   const errors = watchConsole(page);
   await page.goto("/opportunities");
 
   await expect(
-    page.getByText("These are examples, not confirmed listings"),
+    page.getByText("Check with the organiser before you commit"),
   ).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Fall service day" })).toHaveCount(0);
 
-  await page.getByLabel(/Include \d+ past/).check();
-  await expect(page.getByRole("heading", { name: "Fall service day" })).toBeVisible();
-  await expect(page.getByText("Passed").first()).toBeVisible();
+  // Real organisations, not invented listings.
+  await expect(
+    page.getByRole("heading", { name: /Duke Research in Engineering/ }),
+  ).toBeVisible();
 
-  await page.getByLabel(/Include \d+ past/).uncheck();
   await page.getByRole("button", { name: /^Volunteering/ }).click();
   await expect(
     page.getByRole("heading", { name: /^Food Bank of Central/ }),
   ).toBeVisible();
   await expect(page.getByRole("heading", { name: "HackDuke" })).toHaveCount(0);
+
+  // Nothing claims a date that was never confirmed.
+  await expect(page.getByText("Ongoing").first()).toBeVisible();
 
   expect(errors).toEqual([]);
 });

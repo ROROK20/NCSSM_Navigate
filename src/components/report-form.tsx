@@ -10,6 +10,7 @@ import { addDemoSubmission } from "@/lib/demo-store";
 import type { IssueCategoryId } from "@/content/taxonomy";
 import { cn } from "@/lib/cn";
 import { ArrowRight, Button, Callout } from "./ui";
+import { EscalationNotice } from "./escalation-notice";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -284,6 +285,12 @@ export function ReportForm() {
           />
         )}
       </Field>
+
+      {/*
+        Watches what is actually being written, not the category picked. Someone
+        describing a threat rarely stops to classify it first.
+      */}
+      <EscalationNotice text={`${values.title} ${values.description}`} />
 
       <Field
         id={ids.category}

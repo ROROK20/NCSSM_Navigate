@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { nav, site } from "@/content/site";
+import { isDemo } from "@/content/stage";
 import { ExternalLink } from "./ui";
 import { Mark } from "./mark";
 
@@ -13,8 +14,11 @@ export function SiteFooter() {
             {site.name}
           </div>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-muted">
-            A student-government project for {site.campus}. Not an official
-            school system, and not a substitute for contacting staff directly.
+            {isDemo
+              ? "A student proposal for "
+              : "A student-government project for "}
+            {site.campus}. Not an official school system, and not a substitute
+            for contacting staff directly.
           </p>
         </div>
 

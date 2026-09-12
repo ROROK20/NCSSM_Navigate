@@ -1925,4 +1925,364 @@ export const resources: Resource[] = [
     verificationStatus: "needs-review",
     featured: false,
   },
+
+  /* ------------------------------------------------ everything CAAS links to
+     Crawled the whole CAAS site and followed each outbound link. Staff-only
+     material and anything Morganton-specific was left out, as was the Drive
+     folder holding student support plans and advising notes: access-
+     controlled or not, a public student directory has no business pointing
+     at other students' records. */
+
+  {
+    id: "faculty-office-hours",
+    name: "Durham faculty office & tutoring hours",
+    description:
+      "The sheet of every Durham teacher's office hours and tutoring times. If you want to know when a specific teacher is free, this is it.",
+    aliases:
+      "office hours, teacher office hours, when is my teacher free, tutoring hours, faculty hours, extra help, meet my teacher, ask a teacher, get help from teacher",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/spreadsheets/d/1-3ViTpj-coLA-mgjZKsHCYDCHAJJFksDbJoZbhBJ5jQ/edit?gid=468241823",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "math-ta-hours",
+    name: "Durham math TA office hours",
+    description:
+      "When the math teaching assistants hold hours, and where.",
+    aliases:
+      "math ta, math help, math tutoring, calculus help, precalc help, math tutor, help with math, stuck on math",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/d/1eBR5-Iwydx6nPpZunEjI9I1uTzJBfpB6_MXd5n7eBwc/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "math-ta-signup",
+    name: "Sign up for math TA support",
+    description:
+      "Book one-on-one or small-group support with a Durham math TA.",
+    aliases:
+      "math tutor, book math help, math ta signup, one on one math, small group math, struggling in math",
+    category: "academic-support",
+    officialUrl: "https://forms.gle/BXoTjYHoHYpXJtv67",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "instructor-tutoring-hours",
+    name: "Instructor office hours & course tutoring",
+    description:
+      "Combined schedule of instructor office hours and course-level tutoring.",
+    aliases:
+      "tutoring schedule, course tutoring, instructor hours, subject tutoring, when is tutoring",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/spreadsheets/d/17uVdWYCn_NBHWURQbbGuYtJRZ712PfztK_8hIIb6l50/edit?gid=0",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "math-support-calendar",
+    name: "Durham math support calendar",
+    description:
+      "A calendar of math support sessions you can subscribe to.",
+    aliases:
+      "math calendar, math support, tutoring calendar, math sessions, subscribe calendar",
+    category: "academic-support",
+    officialUrl: "https://calendar.google.com/calendar/u/0/embed?src=c_8dptqlkt9hm4aeqtsk8qmq7uk0@group.calendar.google.com&ctz=America/New_York",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "pass-no-pass",
+    name: "Pass / No Pass (residential)",
+    description:
+      "How Pass/No Pass works for residential students: the rules, the deadline, and what it affects.",
+    aliases:
+      "pass no pass, p np, pass fail, drop to pass, grading option, change grading, deadline",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/d/1P3uOfQWKpFakPpag97IYU09EFq5OX-MK5UFYM1VSOks/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "caas-team",
+    name: "Meet the CAAS team",
+    description:
+      "Who the advisors are and what each one covers.",
+    aliases:
+      "who is my advisor, caas team, advisors, counselor, meet the team, my advisor",
+    category: "advising-counseling",
+    officialUrl: "https://caas.ncssm.edu/caas-homepage/meet-our-team",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "caas-student-resources",
+    name: "CAAS additional student resources",
+    description:
+      "The advising team's own collection of study, planning, and support resources.",
+    aliases:
+      "study resources, academic resources, study help, caas resources, support",
+    category: "academic-support",
+    officialUrl: "https://caas.ncssm.edu/caas-homepage/additional-student-resources",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "math-department",
+    name: "Mathematics department",
+    description:
+      "Math courses, sequence, and departmental information.",
+    aliases:
+      "math department, math courses, which math, math teachers, calculus, precalculus, sequence",
+    category: "academic-support",
+    officialUrl: "https://caas.ncssm.edu/ncssm-academic-resources/mathematics-department",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "canvas-time-management",
+    name: "Time management module (Canvas)",
+    description:
+      "A short self-paced Canvas module on managing time at NCSSM.",
+    aliases:
+      "time management, procrastination, planning, schedule, falling behind, organisation, too much work",
+    category: "academic-support",
+    officialUrl: "https://ncssm.instructure.com/courses/6638",
+    audience: "All students",
+    loginRequired: true,
+    platform: "canvas",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "canvas-study-habits",
+    name: "Effective study habits module (Canvas)",
+    description:
+      "A self-paced Canvas module on how to study, not just how long.",
+    aliases:
+      "study habits, how to study, studying, revision, study skills, bad grades",
+    category: "academic-support",
+    officialUrl: "https://ncssm.instructure.com/courses/6639",
+    audience: "All students",
+    loginRequired: true,
+    platform: "canvas",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "canvas-focus",
+    name: "Focus & concentration module (Canvas)",
+    description:
+      "A self-paced Canvas module on concentration and avoiding distraction.",
+    aliases:
+      "focus, concentration, distracted, cannot focus, attention, phone distraction",
+    category: "academic-support",
+    officialUrl: "https://ncssm.instructure.com/courses/6640",
+    audience: "All students",
+    loginRequired: true,
+    platform: "canvas",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "abc-method",
+    name: "The ABC method",
+    description:
+      "A prioritisation method CAAS recommends for deciding what to do first.",
+    aliases:
+      "abc method, prioritise, prioritize, what to do first, triage work, planning",
+    category: "academic-support",
+    officialUrl: "https://docs.google.com/document/d/1LDpZCbJ9DzW_pS4DeYHJ93vc9_lxspv2Ez-FAINfNVI/edit",
+    audience: "All students",
+    loginRequired: true,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "note-taking",
+    name: "How to take notes in class",
+    description:
+      "UNC Learning Center's guide to note taking, recommended by CAAS.",
+    aliases:
+      "note taking, notes, how to take notes, cornell notes, lecture notes",
+    category: "academic-support",
+    officialUrl: "https://learningcenter.unc.edu/tips-and-tools/effective-note-taking-in-class",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "test-analyzer",
+    name: "Exam review self-reflection",
+    description:
+      "A structured way to work out why an exam went badly, so the next one does not.",
+    aliases:
+      "bad test, failed a test, exam review, why did i fail, test analysis, do better next time",
+    category: "academic-support",
+    officialUrl: "https://learningcenter.unc.edu/tips-and-tools/test-analyzer",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "email-a-professor",
+    name: "How to email a teacher",
+    description:
+      "What to actually write when you need something from a teacher.",
+    aliases:
+      "email a teacher, email professor, how to write email, contact teacher, what do i say",
+    category: "academic-support",
+    officialUrl: "https://www.purdue.edu/advisors/students/professor.php",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "ask-for-extension",
+    name: "How to ask for an extension",
+    description:
+      "How to ask for more time on a paper without it going badly.",
+    aliases:
+      "extension, more time, late work, cannot finish, deadline, ask for more time, missed deadline",
+    category: "academic-support",
+    officialUrl: "https://www.bestcolleges.com/blog/how-to-ask-for-an-extension",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "test-taking-tips",
+    name: "Test taking tips",
+    description:
+      "Harvard Summer School's guide to preparing for and sitting exams.",
+    aliases:
+      "test tips, exam tips, how to take a test, test anxiety, exam prep, finals",
+    category: "academic-support",
+    officialUrl: "https://summer.harvard.edu/blog/14-tips-for-test-taking-success",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "large-readings",
+    name: "Tackling large readings",
+    description:
+      "How to get through a heavy reading load without reading every word twice.",
+    aliases:
+      "reading, too much reading, long reading, how to read, skim, annotate, humanities reading",
+    category: "academic-support",
+    officialUrl: "https://barnard.edu/tackling-large-readings-guide",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "writing-heavy-semester",
+    name: "Surviving a writing-heavy semester",
+    description:
+      "Strategies for a term with several long papers at once.",
+    aliases:
+      "essays, papers, writing load, too many essays, writing semester, long paper",
+    category: "academic-support",
+    officialUrl: "https://pcur.princeton.edu/2019/11/how-to-survive-a-writing-heavy-semester",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "sat-prep",
+    name: "SAT practice & preparation",
+    description:
+      "Official College Board SAT practice.",
+    aliases:
+      "sat, sat prep, sat practice, khan academy sat, test prep, digital sat",
+    category: "advising-counseling",
+    officialUrl: "https://satsuite.collegeboard.org/sat/practice-preparation",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "act-prep",
+    name: "ACT preparation",
+    description:
+      "Official ACT test preparation.",
+    aliases:
+      "act, act prep, act practice, test prep",
+    category: "advising-counseling",
+    officialUrl: "https://www.act.org/content/act/en/products-and-services/the-act/test-preparation.html",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
 ];

@@ -201,6 +201,11 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["j term", "J-Term"],
   ["science olympiad", "Science competitions"],
   ["winter sports", "Winter sports teams"],
+  // The end of the CAAS trail: the answers that were three clicks deep.
+  ["when is my teacher free", "office"],
+  ["pass no pass", "Pass / No Pass"],
+  ["ask for an extension", "extension"],
+  ["math tutor", "math TA"],
 ];
 
 test("plain-language searches surface the right resource first", async ({

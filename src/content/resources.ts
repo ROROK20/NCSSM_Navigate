@@ -3192,4 +3192,154 @@ export const resources: Resource[] = [
     verificationStatus: "needs-review",
     featured: false,
   },
+
+  /* ------------------------------------------- second sweep, frontier empty
+     A resumed crawl that ran until nothing was left to visit. Arts and
+     travel were the gap: drama, the NYC J-Term trip and its application,
+     the extended learning centre. */
+
+  {
+    id: "drama",
+    name: "The Promethean Players (drama)",
+    description:
+      "NCSSM's theatre company: productions, auditions, and how to get involved.",
+    aliases:
+      "drama, theatre, theater, play, acting, audition, stage crew, promethean, musical, tech crew",
+    category: "student-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmdrama/home",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "drama-season",
+    name: "Current drama season",
+    description:
+      "What is being staged this year and when.",
+    aliases:
+      "what play, current season, show times, performance, tickets, when is the play",
+    category: "student-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmdrama/current-season",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "drama-courses",
+    name: "Drama course offerings",
+    description:
+      "The theatre courses you can take for credit.",
+    aliases:
+      "drama class, theatre course, acting class, take drama, fine arts credit",
+    category: "academic-support",
+    officialUrl: "https://sites.google.com/ncssm.edu/ncssmdrama/course-offerings",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "nyc-arts",
+    name: "NYC Arts travel J-Term",
+    description:
+      "The New York arts trip run over J-Term.",
+    aliases:
+      "nyc, new york, travel, trip, j term trip, arts trip, broadway, museum trip, go to new york",
+    category: "student-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/nycarts/home",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: true,
+  },
+  {
+    id: "nyc-arts-apply",
+    name: "Apply for the NYC Arts trip",
+    description:
+      "The application for the New York J-Term trip.",
+    aliases:
+      "apply nyc, trip application, sign up for trip, new york apply, travel application",
+    category: "forms",
+    officialUrl: "https://sites.google.com/ncssm.edu/nycarts/apply",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "nyc-arts-cost",
+    name: "NYC Arts trip: cost & payment",
+    description:
+      "What the trip costs and how payment works.",
+    aliases:
+      "trip cost, how much, payment, afford the trip, financial help trip, price",
+    category: "forms",
+    officialUrl: "https://sites.google.com/ncssm.edu/nycarts/cost-payment",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "elc",
+    name: "Extended Learning Center",
+    description:
+      "NCSSM's extended learning programmes and registration.",
+    aliases:
+      "elc, extended learning, extra courses, enrichment, register, online courses",
+    category: "academic-support",
+    officialUrl: "https://elc.ncssm.edu",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "frontier-style",
+    name: "Frontier style guide",
+    description:
+      "How to format a piece for the Frontier journal before submitting.",
+    aliases:
+      "style guide, formatting, how to write, submission format, frontier rules",
+    category: "student-life",
+    officialUrl: "https://sites.google.com/ncssm.edu/frontier-entrepreneurship/style-guide",
+    audience: "All students",
+    loginRequired: false,
+    platform: "google",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
+  {
+    id: "parent-resources",
+    name: "Resources for parents",
+    description:
+      "The page to send your family when they ask how something works.",
+    aliases:
+      "parents, my parents, family, what do i tell my parents, parent info, guardians",
+    category: "forms",
+    officialUrl: "https://www.ncssm.edu/info-for-parents",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+    featured: false,
+  },
 ];

@@ -19,11 +19,6 @@ export const site = {
   campus: "NCSSM-Durham",
   schoolUrl: "https://www.ncssm.edu/",
   /**
-   * Absolute origin, used for canonical URLs, sitemap, and social cards.
-   * Set NEXT_PUBLIC_SITE_URL in the deploy environment.
-   */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
-  /**
    * The only address students are told to write to, so it needs to be
    * monitored. Confirmed as the Student Government team address.
    */

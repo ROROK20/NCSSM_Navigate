@@ -1,12 +1,13 @@
 import type { MetadataRoute } from "next";
-import { nav, site } from "@/content/site";
+import { nav } from "@/content/site";
+import { siteUrl } from "@/lib/site-url";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
   return [
-    { url: site.url, lastModified: now, priority: 1 },
+    { url: siteUrl, lastModified: now, priority: 1 },
     ...nav.map((item) => ({
-      url: `${site.url}${item.href}`,
+      url: `${siteUrl}${item.href}`,
       lastModified: now,
       priority: 0.8,
     })),

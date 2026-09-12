@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/site-header";
 import { StageBanner } from "@/components/stage-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/content/site";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -19,7 +20,7 @@ const mono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${site.name} — ${site.tagline}`,
     template: `%s — ${site.name}`,
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
-    url: site.url,
+    url: siteUrl,
   },
   twitter: { card: "summary_large_image" },
   robots: { index: true, follow: true },

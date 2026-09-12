@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ISSUE_CATEGORIES } from "@/content/taxonomy";
 import { site } from "@/content/site";
 import { fieldErrors, issueSubmissionSchema, MAX } from "@/lib/validation";
+import { acceptsSubmissions } from "@/content/stage";
 import { cn } from "@/lib/cn";
 import { ArrowRight, Button, Callout } from "./ui";
 
@@ -67,6 +68,16 @@ export function ReportForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setFormError(null);
+
+    // Belt and braces. The API is the real gate; this stops a stray render of
+    // the form from posting at all while the site is still a proposal.
+    if (!acceptsSubmissions) {
+      setStatus("error");
+      setFormError(
+        "This site is a proposal and is not accepting reports yet. Nothing was sent.",
+      );
+      return;
+    }
 
     const payload = {
       ...values,

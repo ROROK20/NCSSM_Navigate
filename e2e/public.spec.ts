@@ -139,6 +139,7 @@ test("SG updates board shows statuses and never leaks submission details", async
 }) => {
   await page.goto("/updates");
 
+  await expect(page.getByText("These are examples, not real cases")).toBeVisible();
   await expect(page.getByText("What you will not find here")).toBeVisible();
   await expect(
     page.getByRole("heading", {
@@ -151,19 +152,6 @@ test("SG updates board shows statuses and never leaks submission details", async
   await expect(
     page.getByRole("heading", { name: "More quiet study space in the evenings" }),
   ).toHaveCount(0);
-});
-
-test("SG page separates public documents from internal ones", async ({ page }) => {
-  await page.goto("/sg");
-
-  await expect(page.getByRole("link", { name: /SG Constitution/ })).toBeVisible();
-
-  // Internal rows are named so students know they exist, but are never links.
-  await expect(page.getByText("Issue casework files")).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: /Issue casework files/ }),
-  ).toHaveCount(0);
-  await expect(page.getByText("Not public").first()).toBeVisible();
 });
 
 test("unknown routes render the 404 page", async ({ page }) => {

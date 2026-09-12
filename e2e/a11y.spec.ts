@@ -31,19 +31,6 @@ test("images and icon-only controls carry accessible names", async ({ page }) =>
   expect(await svgs.count()).toBe(0);
 });
 
-test("form controls are all labelled", async ({ page }) => {
-  await page.goto("/report");
-
-  for (const name of [
-    "What is the issue?",
-    "What is happening?",
-    "Category",
-    "Where on campus?",
-  ]) {
-    await expect(page.getByLabel(name), `${name} label`).toBeVisible();
-  }
-});
-
 test("the page never scrolls sideways on a phone", async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 780 });
 

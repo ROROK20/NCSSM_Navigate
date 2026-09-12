@@ -5,6 +5,7 @@ import { ISSUE_STATUSES, ISSUE_STATUS_BY_ID } from "@/content/taxonomy";
 import { UpdatesBoard, type UpdateView } from "@/components/updates-board";
 import { Callout, Eyebrow, StatusPip, type StatusTone } from "@/components/ui";
 import { formatDate } from "@/lib/format";
+import { isProposal } from "@/content/stage";
 
 export const metadata: Metadata = {
   title: "SG updates",
@@ -36,13 +37,29 @@ export default async function UpdatesPage() {
         </p>
       </header>
 
+      {isProposal ? (
+        <div className="mt-6">
+          <Callout tone="warn" title="These are examples, not real cases">
+            Navigate is a proposal, so nothing here describes an actual student
+            report. The entries below are written to show what the board looks
+            like in use. No issue reports are being collected yet.
+          </Callout>
+        </div>
+      ) : null}
+
       <div className="mt-6 mb-2">
         <Callout tone="info" title="What you will not find here">
           Individual submissions are never published. No names, emails, room
           numbers, or quoted descriptions appear on this board, and an entry
           often covers several separate reports about the same thing. An issue
-          being listed is not a promise that it will be solved.{" "}
-          <Link href="/report">Report an issue</Link> if something is missing.
+          being listed is not a promise that it will be solved.
+          {isProposal ? null : (
+            <>
+              {" "}
+              <Link href="/report">Report an issue</Link> if something is
+              missing.
+            </>
+          )}
         </Callout>
       </div>
 

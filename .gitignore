@@ -48,3 +48,8 @@ next-env.d.ts
 /test-results
 /playwright-report
 /.data-e2e
+
+.next-e2e-*
+.data-e2e
+test-results
+playwright-report

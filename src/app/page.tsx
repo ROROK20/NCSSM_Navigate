@@ -5,6 +5,7 @@ import {
   RESOURCE_CATEGORY_BY_ID,
 } from "@/content/taxonomy";
 import { site } from "@/content/site";
+import { isProposal, stage } from "@/content/stage";
 import { dateParts } from "@/lib/format";
 import {
   ArrowRight,
@@ -27,37 +28,45 @@ export const dynamic = "force-dynamic";
  * The four things students come here to do. Order matters: this is the
  * priority order SG wants, and it is mirrored in the header navigation.
  */
-const ACTIONS: ReadonlyArray<{
+interface Action {
   href: string;
   index: string;
   title: string;
   body: string;
   primary?: boolean;
-}> = [
+  /** False while the feature is built but not yet switched on. */
+  live: boolean;
+}
+
+const ACTIONS: ReadonlyArray<Action> = [
   {
     href: "/resources",
     index: "01",
     title: "Find a resource",
     body: "Tutoring, counseling, forms, dorm and dining info, IT help. Search once instead of guessing which site it lives on.",
     primary: true,
+    live: true,
   },
   {
     href: "/opportunities",
     index: "02",
     title: "Explore opportunities",
     body: "Hackathons, competitions, volunteering, and events around Durham that are actually open to high schoolers.",
+    live: true,
   },
   {
     href: "/report",
     index: "03",
     title: "Report an issue",
     body: "Tell Student Government what is not working. Submit anonymously if you would rather not attach your name.",
+    live: !isProposal,
   },
   {
     href: "/updates",
     index: "04",
     title: "View SG updates",
     body: "See what SG is working on and where each item stands, without the private details.",
+    live: !isProposal,
   },
 ] as const;
 
@@ -71,8 +80,12 @@ const STEPS = [
     body: "Every link goes straight to the school's own system. Navigate never stores your coursework, your records, or your password.",
   },
   {
-    title: "What it cannot answer goes to SG",
-    body: "If nothing here covers it, report it. SG routes issues to whoever actually owns the decision, and posts the status publicly.",
+    title: isProposal
+      ? "What it cannot answer is the next piece"
+      : "What it cannot answer goes to SG",
+    body: isProposal
+      ? "Issue reporting and a public status board are built and tested. They switch on when Student Government adopts them, because a report needs someone with the standing to act on it."
+      : "If nothing here covers it, report it. SG routes issues to whoever actually owns the decision, and posts the status publicly.",
   },
 ];
 
@@ -126,7 +139,7 @@ export default async function HomePage() {
         </h2>
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <ul className="grid border-x border-line sm:grid-cols-2">
-            {ACTIONS.map((action, i) => (
+            {ACTIONS.filter((action) => action.live).map((action, i) => (
               <li
                 key={action.href}
                 className={
@@ -158,6 +171,49 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* --------------------------------------------------- built, not live */}
+      {isProposal ? (
+        <section aria-labelledby="waiting-heading" className="border-b border-line bg-sunken">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+            <Eyebrow>Finished, switched off</Eyebrow>
+            <h2
+              id="waiting-heading"
+              className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight text-ink"
+            >
+              Two more pieces are built and waiting on {stage.candidate.office}.
+            </h2>
+            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
+              Both work today. Neither is collecting anything, because a student
+              issue needs somebody empowered to act on it — and until that is
+              true, a form that accepts reports would be a promise nobody can
+              keep.
+            </p>
+
+            <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-line bg-line sm:grid-cols-2">
+              {ACTIONS.filter((action) => !action.live).map((action) => (
+                <li key={action.href} className="bg-paper">
+                  <Link
+                    href={action.href}
+                    className="group flex h-full flex-col gap-2 p-6"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Chip tone="warn">Preview</Chip>
+                    </span>
+                    <span className="mt-1 flex items-center gap-2 text-lg font-semibold tracking-tight text-ink">
+                      {action.title}
+                      <ArrowRight className="text-accent transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                    <span className="max-w-sm text-sm leading-relaxed text-muted">
+                      {action.body}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
       {/* ------------------------------------------------------- how it works */}
       <section aria-labelledby="how-heading">
@@ -326,17 +382,30 @@ export default async function HomePage() {
             </h2>
             <p className="mt-3 text-[15px] leading-relaxed text-muted">
               Navigate is maintained by students. Broken links, stale hours, and
-              gaps in the directory get fixed when someone says so. Tell SG and
-              it goes on the list.
+              gaps in the directory get fixed when someone says so.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <ButtonLink href="/report">
-                Report an issue
-                <ArrowRight />
-              </ButtonLink>
-              <ButtonLink href="/sg" variant="secondary">
-                What SG can and cannot do
-              </ButtonLink>
+              {isProposal ? (
+                <>
+                  <ButtonLink href="/sg">
+                    Read the proposal
+                    <ArrowRight />
+                  </ButtonLink>
+                  <ButtonLink href="/resources" variant="secondary">
+                    Browse the directory
+                  </ButtonLink>
+                </>
+              ) : (
+                <>
+                  <ButtonLink href="/report">
+                    Report an issue
+                    <ArrowRight />
+                  </ButtonLink>
+                  <ButtonLink href="/sg" variant="secondary">
+                    What SG can and cannot do
+                  </ButtonLink>
+                </>
+              )}
             </div>
           </div>
           <div className="mt-10">

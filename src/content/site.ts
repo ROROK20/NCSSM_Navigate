@@ -1,4 +1,5 @@
 import type { SgDocument } from "./types";
+import { isProposal } from "./stage";
 
 /**
  * Site-wide configuration and Student Government content.
@@ -38,13 +39,27 @@ export const site = {
   },
 } as const;
 
-export const nav = [
-  { href: "/resources", label: "Resources" },
-  { href: "/opportunities", label: "Opportunities" },
-  { href: "/report", label: "Report an issue" },
-  { href: "/updates", label: "SG updates" },
-  { href: "/sg", label: "About SG" },
-] as const;
+/**
+ * Top navigation.
+ *
+ * While Navigate is a proposal, only the two things that actually work are
+ * promoted. Putting "Report an issue" in the main nav of a candidate's site
+ * invites students to file reports into a queue nobody can act on; the page
+ * still exists as a preview, linked from the proposal page.
+ */
+export const nav = isProposal
+  ? ([
+      { href: "/resources", label: "Resources" },
+      { href: "/opportunities", label: "Opportunities" },
+      { href: "/sg", label: "The proposal" },
+    ] as const)
+  : ([
+      { href: "/resources", label: "Resources" },
+      { href: "/opportunities", label: "Opportunities" },
+      { href: "/report", label: "Report an issue" },
+      { href: "/updates", label: "SG updates" },
+      { href: "/sg", label: "About SG" },
+    ] as const);
 
 /* --------------------------------------------------------- SG information */
 

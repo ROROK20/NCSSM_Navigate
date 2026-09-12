@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The e2e suite builds each stage into its own dist directory so the two
+    // servers cannot clobber each other. Those are build output, not source.
+    ".next-e2e-*/**",
+    // Playwright output.
+    "test-results/**",
+    "playwright-report/**",
   ]),
 ]);
 

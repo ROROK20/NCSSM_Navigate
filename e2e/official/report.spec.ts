@@ -144,3 +144,43 @@ test("nothing a student submitted is reachable from a public page", async ({
   const exported = await request.get("/api/admin/export");
   expect(exported.status()).toBe(401);
 });
+
+/* ------------------------------------------------------------------------ */
+/* Assertions that only hold once the site is official, moved here from the  */
+/* stage-agnostic specs.                                                     */
+/* ------------------------------------------------------------------------ */
+
+test("every form control on the live form is labelled", async ({ page }) => {
+  await page.goto("/report");
+
+  for (const name of [
+    "What is the issue?",
+    "What is happening?",
+    "Category",
+    "Where on campus?",
+  ]) {
+    await expect(page.getByLabel(name), `${name} label`).toBeVisible();
+  }
+});
+
+test("the official SG page separates public documents from internal ones", async ({
+  page,
+}) => {
+  await page.goto("/sg");
+
+  await expect(page.getByRole("link", { name: /SG Constitution/ })).toBeVisible();
+
+  // Internal rows are named so students know they exist, but are never links.
+  await expect(page.getByText("Issue casework files")).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: /Issue casework files/ }),
+  ).toHaveCount(0);
+  await expect(page.getByText("Not public").first()).toBeVisible();
+});
+
+test("the proposal banner is gone once the site is official", async ({ page }) => {
+  await page.goto("/");
+  await expect(
+    page.getByText("Not an official NCSSM or Student Government service."),
+  ).toHaveCount(0);
+});

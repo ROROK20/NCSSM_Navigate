@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { fieldErrors, issueSubmissionSchema } from "@/lib/validation";
 import { clientKey, peekRateLimit, rateLimit } from "@/lib/rate-limit";
 import { saveSubmission } from "@/lib/submissions";
+import { acceptsSubmissions } from "@/content/stage";
 
 /**
  * POST /api/issues — accept one issue submission.
@@ -43,6 +44,28 @@ const ATTEMPT_WINDOW_MS = 10 * 60 * 1000;
 const MIN_ELAPSED_MS = 1200;
 
 export async function POST(request: Request) {
+  /*
+   * Refuse everything while the site is a proposal rather than a service.
+   *
+   * This is first, before validation, before rate limiting, before anything
+   * touches storage. A student issue submitted to a candidate's project would
+   * land in a queue nobody holds the office to act on, and some of these
+   * reports are about safety or mental health. Not collecting them is the
+   * correct behaviour, and it has to be enforced here rather than by hiding
+   * the form, because the form is not a security boundary.
+   */
+  if (!acceptsSubmissions) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "not_accepting",
+        message:
+          "This site is a proposal and cannot take issue reports yet. Nothing was stored. Please raise this with Student Government directly.",
+      },
+      { status: 503 },
+    );
+  }
+
   // Hashed so no raw IP is held in memory or written to a log.
   const key = createHash("sha256")
     .update(clientKey(request.headers))

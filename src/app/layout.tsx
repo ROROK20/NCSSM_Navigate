@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, Geist_Mono } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
+import { StageBanner } from "@/components/stage-banner";
 import { SiteFooter } from "@/components/site-footer";
 import { site } from "@/content/site";
 import "./globals.css";
@@ -63,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
+        <StageBanner />
         <SiteHeader />
         <main id="main" className="flex-1">
           {children}

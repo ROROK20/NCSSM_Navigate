@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ReportForm } from "@/components/report-form";
+import { ReportProposalView } from "./proposal-view";
+import { acceptsSubmissions } from "@/content/stage";
 import { Eyebrow } from "@/components/ui";
 import { sgAbout, site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Report an issue",
   description:
-    "Tell NCSSM-Durham Student Government about something that is not working. Submit anonymously if you prefer. Submissions are never published.",
+    "How issue reporting works in NCSSM Navigate: anonymous by choice, never published, and routed to whoever owns the decision.",
   // Nothing on this page should be indexed as an answer to a search query.
   robots: { index: true, follow: true },
 };
 
 export default function ReportPage() {
+  // While Navigate is a proposal the form is not rendered at all. The API
+  // refuses submissions independently, so this is presentation, not the gate.
+  if (!acceptsSubmissions) return <ReportProposalView />;
+
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">

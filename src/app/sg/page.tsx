@@ -11,14 +11,26 @@ import {
   LockIcon,
 } from "@/components/ui";
 import { formatDate } from "@/lib/format";
+import { isProposal } from "@/content/stage";
+import { SgProposalView } from "./proposal-view";
 
-export const metadata: Metadata = {
-  title: "About Student Government",
-  description:
-    "What NCSSM-Durham Student Government does, how to contact it, when Senate meets, and where to find SG documents, minutes, and voting records.",
-};
+export const metadata: Metadata = isProposal
+  ? {
+      title: "The proposal",
+      description:
+        "NCSSM Navigate: a working student-built site for finding campus resources and Durham opportunities, and the case for Student Government adopting the rest.",
+    }
+  : {
+      title: "About Student Government",
+      description:
+        "What NCSSM-Durham Student Government does, how to contact it, when Senate meets, and where to find SG documents, minutes, and voting records.",
+    };
 
 export default function SgPage() {
+  // While Navigate is a proposal this page makes the case for it rather than
+  // presenting officers and documents the author does not hold.
+  if (isProposal) return <SgProposalView />;
+
   const publicDocs = sgDocuments.filter((doc) => doc.access === "public");
   const internalDocs = sgDocuments.filter((doc) => doc.access === "internal");
 

@@ -50,6 +50,25 @@ export const nav = [
   { href: "/sg", label: isDemo ? "The proposal" : "About SG" },
 ] as const;
 
+/**
+ * The homepage shortlist, in order.
+ *
+ * Deliberate rather than "whichever featured rows happen to be first in the
+ * file". These are the things a student opens most, and the order is the order
+ * they should be scanned in. Ids that no longer exist are skipped silently, so
+ * removing a resource cannot break the homepage.
+ */
+export const homepagePicks = [
+  "daily-schedule",
+  "canvas",
+  "orah",
+  "faculty-office-hours",
+  "dining-menu",
+  "helpdesk-ticket",
+  "library-rooms",
+  "staff-directory",
+] as const;
+
 /* --------------------------------------------------------- SG information */
 
 export const sgAbout = {

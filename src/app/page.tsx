@@ -4,7 +4,7 @@ import {
   OPPORTUNITY_CATEGORY_BY_ID,
   RESOURCE_CATEGORY_BY_ID,
 } from "@/content/taxonomy";
-import { site } from "@/content/site";
+import { homepagePicks, site } from "@/content/site";
 import { isDemo } from "@/content/stage";
 import { dateParts } from "@/lib/format";
 import {
@@ -96,7 +96,11 @@ export default async function HomePage() {
     getOpportunities(),
   ]);
 
-  const featuredResources = resources.filter((r) => r.featured).slice(0, 6);
+  // Ordered by the curated list, not by position in the data file.
+  const byId = new Map(resources.map((r) => [r.id, r]));
+  const featuredResources = homepagePicks
+    .map((id) => byId.get(id))
+    .filter((r) => r !== undefined);
 
   // Featured entries first, then whatever is next, so the strip is always a
   // full row of three rather than a grid with a hole in it.

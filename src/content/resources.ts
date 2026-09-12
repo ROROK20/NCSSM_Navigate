@@ -164,7 +164,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "academic-advising",
@@ -297,7 +297,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "ncssm-email",
@@ -467,7 +467,7 @@ export const resources: Resource[] = [
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "sg-updates-link",
@@ -590,7 +590,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "student-research",
@@ -857,7 +857,7 @@ export const resources: Resource[] = [
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "advocate-report",
@@ -875,7 +875,7 @@ export const resources: Resource[] = [
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "student-handbook",
@@ -987,7 +987,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "math-placement",
@@ -1083,7 +1083,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "clinic-appointments",
@@ -1133,7 +1133,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "preflight-checklist",
@@ -1197,7 +1197,7 @@ export const resources: Resource[] = [
     platform: "other",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "medical-forms",
@@ -1299,7 +1299,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "durham-ta-site",
@@ -1315,7 +1315,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "cs-tas",
@@ -1347,7 +1347,7 @@ export const resources: Resource[] = [
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "caas-faq",
@@ -1507,7 +1507,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "humanities-department",
@@ -1539,7 +1539,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "american-studies-faq",
@@ -1667,7 +1667,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "accommodations-documentation",
@@ -1699,7 +1699,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "accessibility-forms",
@@ -1779,7 +1779,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "hack-club",
@@ -1963,7 +1963,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "math-ta-signup",
@@ -1979,7 +1979,7 @@ export const resources: Resource[] = [
     platform: "form",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "instructor-tutoring-hours",
@@ -2027,7 +2027,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "caas-team",
@@ -2187,7 +2187,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "ask-for-extension",
@@ -2203,7 +2203,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "test-taking-tips",
@@ -2306,7 +2306,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "clinic-telehealth",
@@ -2514,7 +2514,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "psych-emergency",
@@ -2532,7 +2532,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "college-planning",
@@ -2548,7 +2548,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "scholarships",
@@ -2564,7 +2564,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "college-app-transcripts",
@@ -2598,7 +2598,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "title-ix-faq",
@@ -2662,7 +2662,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "fablab-3d-printing",
@@ -2678,7 +2678,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "fablab-safety-training",
@@ -2774,7 +2774,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "bowman-brockman-students",
@@ -2806,7 +2806,7 @@ export const resources: Resource[] = [
     platform: "google",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "indigo-ridge",
@@ -2886,7 +2886,7 @@ export const resources: Resource[] = [
     platform: "web",
     lastVerified: null,
     verificationStatus: "needs-review",
-    featured: true,
+    featured: false,
   },
   {
     id: "bss-contest",

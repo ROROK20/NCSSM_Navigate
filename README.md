@@ -4,7 +4,14 @@ One place for NCSSM-Durham students to find resources, opportunities, support,
 and student-government updates, without having to know which platform,
 department, or person to search for.
 
-Built and maintained by Student Government. Not an official school system.
+**Stage: demo.** This is a proposal by Rohan Khiani, running for Junior
+Senator, not an adopted Student Government service. The directory and the
+opportunities board are fully usable. The issue form works end to end but
+writes only to the visitor's own browser: no submission reaches the server, and
+the site says so on the form and again on the confirmation. `src/content/stage.ts`
+is the single switch, and `NEXT_PUBLIC_NAVIGATE_STAGE=official` flips it.
+
+Not an official NCSSM system.
 
 ---
 
@@ -289,28 +296,38 @@ Vercel, and `/admin` says so at the top of the page:
 
 ---
 
-## Before public launch
+## State of the data
 
-Seed data is clearly labelled in the UI and in code comments. Replace it:
+195 resources, collected by crawling ncssm.edu and its department sites and
+checked automatically: `npm run check:links` reports **0 broken**. The links
+resolve; what no one has done yet is confirm each row points at the right page
+for what it claims. That is what `verificationStatus` tracks, and why the
+directory still carries a notice saying so.
 
-- [ ] Replace every URL in `src/content/resources.ts` with a confirmed official
-      link, then mark each one verified in `/admin`. Use
-      `npm run resources:export` to collect them in a spreadsheet first, and
-      `npm run check:links` to find the dead ones. **As shipped, 20 of the 42
-      seed URLs do not resolve.**
-- [ ] Replace `site.contact.email` in `src/content/site.ts` with a real,
-      monitored SG address.
-- [ ] Confirm Senate and officer meeting details in `site.ts`, or delete the
-      section.
-- [ ] Replace the placeholder Senate roster in `sgSenate`, or delete it.
-- [ ] Replace the SG document links, and confirm which are public and which are
-      internal.
-- [ ] Replace the example opportunities with confirmed listings.
-- [ ] Remove `<SeedNotice />` from `src/app/page.tsx` and `/resources`, and drop
-      the preview sentence from the `/opportunities` callout, once the data is
-      real.
-- [ ] Set a strong `ADMIN_PASSWORD` and a separate `ADMIN_SESSION_SECRET`.
-- [ ] Agree who monitors submissions, how fast, and what happens during breaks.
+The opportunities board is the exception. Those entries are still examples
+rather than confirmed listings.
+
+## Before sharing the link widely
+
+- [ ] Read `/` and `/sg` as a voter. Every claim is one you have to defend.
+- [ ] Check the election rules on campaign materials with whoever runs the
+      election, not with a friend.
+- [ ] Confirm `stage.currentRoute` in `src/content/stage.ts` names the route
+      that really handles student issues today.
+- [ ] Replace the example opportunities in `src/content/opportunities.ts`, or
+      say plainly on the page that they are examples.
+- [ ] Leave `<SeedNotice />` up until rows are actually verified in `/admin`.
+      Taking it down early is the fastest way to lose the credibility the
+      project runs on.
+
+## Before Student Government adopts it
+
+- [ ] An SG-owned Google account that outlives its officers.
+- [ ] A staff advisor who has agreed how serious reports are handled, before
+      the first one arrives.
+- [ ] A rhythm for deleting actioned submissions.
+- [ ] Officers verifying directory rows in `/admin`.
+- [ ] `ISSUE_STORE_URL` configured, then `NEXT_PUBLIC_NAVIGATE_STAGE=official`.
 
 ---
 

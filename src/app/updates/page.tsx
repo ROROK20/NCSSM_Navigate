@@ -5,7 +5,8 @@ import { ISSUE_STATUSES, ISSUE_STATUS_BY_ID } from "@/content/taxonomy";
 import { UpdatesBoard, type UpdateView } from "@/components/updates-board";
 import { Callout, Eyebrow, StatusPip, type StatusTone } from "@/components/ui";
 import { formatDate } from "@/lib/format";
-import { isProposal } from "@/content/stage";
+import { isDemo } from "@/content/stage";
+import { DemoSubmissions } from "@/components/demo-submissions";
 
 export const metadata: Metadata = {
   title: "SG updates",
@@ -37,14 +38,17 @@ export default async function UpdatesPage() {
         </p>
       </header>
 
-      {isProposal ? (
-        <div className="mt-6">
-          <Callout tone="warn" title="These are examples, not real cases">
-            Navigate is a proposal, so nothing here describes an actual student
-            report. The entries below are written to show what the board looks
-            like in use. No issue reports are being collected yet.
-          </Callout>
-        </div>
+      {isDemo ? (
+        <>
+          <div className="mt-6">
+            <Callout tone="info" title="These entries are examples">
+              Navigate is a demonstration, so nothing on the board below
+              describes a real student report. The entries are written to show
+              what the board looks like once it is in use.
+            </Callout>
+          </div>
+          <DemoSubmissions />
+        </>
       ) : null}
 
       <div className="mt-6 mb-2">
@@ -53,7 +57,7 @@ export default async function UpdatesPage() {
           numbers, or quoted descriptions appear on this board, and an entry
           often covers several separate reports about the same thing. An issue
           being listed is not a promise that it will be solved.
-          {isProposal ? null : (
+          {isDemo ? null : (
             <>
               {" "}
               <Link href="/report">Report an issue</Link> if something is

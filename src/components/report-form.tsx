@@ -5,7 +5,9 @@ import { useEffect, useId, useRef, useState } from "react";
 import { ISSUE_CATEGORIES } from "@/content/taxonomy";
 import { site } from "@/content/site";
 import { fieldErrors, issueSubmissionSchema, MAX } from "@/lib/validation";
-import { acceptsSubmissions } from "@/content/stage";
+import { acceptsSubmissions, isDemo } from "@/content/stage";
+import { addDemoSubmission } from "@/lib/demo-store";
+import type { IssueCategoryId } from "@/content/taxonomy";
 import { cn } from "@/lib/cn";
 import { ArrowRight, Button, Callout } from "./ui";
 
@@ -69,15 +71,7 @@ export function ReportForm() {
     event.preventDefault();
     setFormError(null);
 
-    // Belt and braces. The API is the real gate; this stops a stray render of
-    // the form from posting at all while the site is still a proposal.
-    if (!acceptsSubmissions) {
-      setStatus("error");
-      setFormError(
-        "This site is a proposal and is not accepting reports yet. Nothing was sent.",
-      );
-      return;
-    }
+
 
     const payload = {
       ...values,
@@ -102,6 +96,31 @@ export function ReportForm() {
 
     setErrors({});
     setStatus("submitting");
+
+    /*
+     * Demo: keep every behaviour a visitor can see - validation, the pause,
+     * the confirmation, the entry appearing on the status board - and drop the
+     * one they cannot, which is the network request. Nothing is posted,
+     * nothing is stored server-side, and no officer is notified.
+     */
+    if (!acceptsSubmissions) {
+      addDemoSubmission({
+        title: parsed.data.title,
+        description: parsed.data.description,
+        category: parsed.data.category as IssueCategoryId,
+        location: parsed.data.location?.trim() || null,
+        anonymous: parsed.data.anonymous,
+      });
+
+      // A short pause so the submitting state is visible rather than a flash.
+      await new Promise((resolve) => setTimeout(resolve, 450));
+
+      setNotified(false);
+      setStatus("success");
+      setValues(EMPTY);
+      requestAnimationFrame(() => successRef.current?.focus());
+      return;
+    }
 
     try {
       const response = await fetch("/api/issues", {
@@ -145,15 +164,27 @@ export function ReportForm() {
         role="status"
         className="rounded-[var(--radius-lg)] border border-[color:var(--success)]/35 bg-[color:var(--success-soft)] p-6 sm:p-8"
       >
-        <p className="label text-[color:var(--success)]">Submitted</p>
+        <p className="label text-[color:var(--success)]">
+          {isDemo ? "Demo submission" : "Submitted"}
+        </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
-          Student Government has your submission.
+          {isDemo
+            ? "That is what submitting looks like."
+            : "Student Government has your submission."}
         </h2>
         <div className="mt-4 space-y-3 text-[15px] leading-relaxed text-muted">
+          {isDemo ? (
+            <p className="font-medium text-ink">
+              Nothing was sent. This is a demonstration, so what you wrote
+              stayed in your browser — no officer was notified and no record
+              was created. If you have a real issue, it still needs reporting
+              somewhere that exists today.
+            </p>
+          ) : null}
           <p>
-            An SG officer will read it and work out who actually owns the
-            decision. That might be SG, or it might be a school office SG refers
-            it to.
+            {isDemo ? "In the real thing, an" : "An"} SG officer will read it
+            and work out who actually owns the decision. That might be SG, or
+            it might be a school office SG refers it to.
           </p>
           <p>
             SG cannot promise to resolve every issue, and you will not
@@ -171,7 +202,7 @@ export function ReportForm() {
             href="/updates"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-accent"
           >
-            See the status board
+            {isDemo ? "See it on the status board" : "See the status board"}
             <ArrowRight />
           </Link>
           <button

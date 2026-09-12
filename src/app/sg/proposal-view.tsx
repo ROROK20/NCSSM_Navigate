@@ -29,10 +29,11 @@ export function SgProposalView() {
           Most of what students need already exists. Finding it is the problem.
         </h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
-          Navigate is a working site, not a plan for one. The directory and the
-          opportunities board are live on this domain right now. Issue reporting
-          and a public status board are finished and switched off, waiting on
-          the standing to run them properly.
+          Navigate is a working site, not a plan for one. Every page on this
+          domain does what it says: search the directory, submit an issue, watch
+          it land on the status board. The only thing missing is an office
+          behind it — until Student Government adopts it, submissions stay in
+          your own browser instead of reaching anyone.
         </p>
       </header>
 
@@ -78,8 +79,8 @@ export function SgProposalView() {
           What is already built
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-          Click anything in this list. It either works on this site today or it
-          is marked as switched off, and nothing here is a mockup.
+          Click anything in this list and try it. Nothing here is a mockup or a
+          screenshot — it is the finished thing, running.
         </p>
 
         <ul className="mt-6 border-t border-line">
@@ -106,13 +107,13 @@ export function SgProposalView() {
               href: "/report",
               title: "Issue reporting, anonymous by choice",
               body: "Validated, spam-resistant, and private by construction: an anonymous report stores no contact details at all, so there is nothing to leak later.",
-              state: "waiting" as const,
+              state: "demo" as const,
             },
             {
               href: "/updates",
               title: "A public status board",
               body: "Every issue gets a stage students can see, with no names, quotes, or room numbers. Being listed is never a promise it will be solved.",
-              state: "waiting" as const,
+              state: "demo" as const,
             },
             {
               href: "/admin",
@@ -130,8 +131,8 @@ export function SgProposalView() {
                   <span className="font-medium text-ink group-hover:text-accent">
                     {item.title}
                   </span>
-                  {item.state === "waiting" ? (
-                    <Chip tone="warn">Switched off</Chip>
+                  {item.state === "demo" ? (
+                    <Chip tone="warn">Demo only</Chip>
                   ) : (
                     <Chip>Live now</Chip>
                   )}
@@ -170,8 +171,8 @@ export function SgProposalView() {
               "Submissions are private without exception. Public entries are written from scratch by an officer, generalised enough to cover several reports at once.",
             ],
             [
-              "Never claims to be official",
-              "While this is a proposal it says so on every page. It is not an NCSSM system and does not speak for Student Government.",
+              "Never lets a demo pass for the real thing",
+              "Everything is explorable, and the moment it would matter — the confirmation after you submit — it says plainly that nothing was sent. A demo that fools someone with a real problem is not a good demo.",
             ],
             [
               "Never promises SG can fix everything",

@@ -11,10 +11,10 @@ import {
   LockIcon,
 } from "@/components/ui";
 import { formatDate } from "@/lib/format";
-import { isProposal } from "@/content/stage";
+import { isDemo } from "@/content/stage";
 import { SgProposalView } from "./proposal-view";
 
-export const metadata: Metadata = isProposal
+export const metadata: Metadata = isDemo
   ? {
       title: "The proposal",
       description:
@@ -29,7 +29,7 @@ export const metadata: Metadata = isProposal
 export default function SgPage() {
   // While Navigate is a proposal this page makes the case for it rather than
   // presenting officers and documents the author does not hold.
-  if (isProposal) return <SgProposalView />;
+  if (isDemo) return <SgProposalView />;
 
   const publicDocs = sgDocuments.filter((doc) => doc.access === "public");
   const internalDocs = sgDocuments.filter((doc) => doc.access === "internal");

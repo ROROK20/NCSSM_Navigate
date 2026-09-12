@@ -5,7 +5,7 @@ import {
   RESOURCE_CATEGORY_BY_ID,
 } from "@/content/taxonomy";
 import { site } from "@/content/site";
-import { isProposal, stage } from "@/content/stage";
+import { isDemo } from "@/content/stage";
 import { dateParts } from "@/lib/format";
 import {
   ArrowRight,
@@ -59,14 +59,14 @@ const ACTIONS: ReadonlyArray<Action> = [
     index: "03",
     title: "Report an issue",
     body: "Tell Student Government what is not working. Submit anonymously if you would rather not attach your name.",
-    live: !isProposal,
+    live: true,
   },
   {
     href: "/updates",
     index: "04",
     title: "View SG updates",
     body: "See what SG is working on and where each item stands, without the private details.",
-    live: !isProposal,
+    live: true,
   },
 ] as const;
 
@@ -80,10 +80,10 @@ const STEPS = [
     body: "Every link goes straight to the school's own system. Navigate never stores your coursework, your records, or your password.",
   },
   {
-    title: isProposal
+    title: isDemo
       ? "What it cannot answer is the next piece"
       : "What it cannot answer goes to SG",
-    body: isProposal
+    body: isDemo
       ? "Issue reporting and a public status board are built and tested. They switch on when Student Government adopts them, because a report needs someone with the standing to act on it."
       : "If nothing here covers it, report it. SG routes issues to whoever actually owns the decision, and posts the status publicly.",
   },
@@ -171,49 +171,6 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
-
-      {/* --------------------------------------------------- built, not live */}
-      {isProposal ? (
-        <section aria-labelledby="waiting-heading" className="border-b border-line bg-sunken">
-          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
-            <Eyebrow>Finished, switched off</Eyebrow>
-            <h2
-              id="waiting-heading"
-              className="mt-3 max-w-2xl text-2xl font-semibold tracking-tight text-ink"
-            >
-              Two more pieces are built and waiting on {stage.candidate.office}.
-            </h2>
-            <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
-              Both work today. Neither is collecting anything, because a student
-              issue needs somebody empowered to act on it — and until that is
-              true, a form that accepts reports would be a promise nobody can
-              keep.
-            </p>
-
-            <ul className="mt-8 grid gap-px overflow-hidden rounded-[var(--radius-lg)] border border-line bg-line sm:grid-cols-2">
-              {ACTIONS.filter((action) => !action.live).map((action) => (
-                <li key={action.href} className="bg-paper">
-                  <Link
-                    href={action.href}
-                    className="group flex h-full flex-col gap-2 p-6"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Chip tone="warn">Preview</Chip>
-                    </span>
-                    <span className="mt-1 flex items-center gap-2 text-lg font-semibold tracking-tight text-ink">
-                      {action.title}
-                      <ArrowRight className="text-accent transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                    <span className="max-w-sm text-sm leading-relaxed text-muted">
-                      {action.body}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
 
       {/* ------------------------------------------------------- how it works */}
       <section aria-labelledby="how-heading">
@@ -385,7 +342,7 @@ export default async function HomePage() {
               gaps in the directory get fixed when someone says so.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              {isProposal ? (
+              {isDemo ? (
                 <>
                   <ButtonLink href="/sg">
                     Read the proposal

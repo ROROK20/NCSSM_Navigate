@@ -139,7 +139,7 @@ test("SG updates board shows statuses and never leaks submission details", async
 }) => {
   await page.goto("/updates");
 
-  await expect(page.getByText("These are examples, not real cases")).toBeVisible();
+  // The demo-stage example notice is asserted in demo.spec.ts.
   await expect(page.getByText("What you will not find here")).toBeVisible();
   await expect(
     page.getByRole("heading", {

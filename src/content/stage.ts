@@ -1,25 +1,30 @@
 /**
  * What this site currently is, and what it is allowed to claim.
  *
- * Navigate has two lives. While it is a candidate's proposal it must not look
- * or behave like an official Student Government service: it cannot collect
- * student issue reports, because nobody is empowered to act on them, and it
- * cannot present itself as SG, because it is not.
+ * Navigate has two lives.
  *
- * Once SG actually adopts it, the same code becomes the real thing.
+ * In "demo" it is a candidate's working demonstration. Everything is
+ * interactive - the issue form validates, submits, confirms, and the result
+ * shows up on the status board - but nothing leaves the visitor's browser.
+ * No request reaches the server, nothing is stored, and no officer is
+ * notified. The site says so at the point where it would otherwise be
+ * mistaken for real: a student who fills in that form is told plainly that it
+ * was a demo, because someone with an actual problem will otherwise believe
+ * it was filed and wait for help that is not coming.
+ *
+ * In "official" the same code is the real service.
  *
  * Flipping `current` to "official" is the whole switch:
- *  - the proposal banner disappears
- *  - the issue form starts accepting submissions (the API checks this too,
- *    server-side, so the UI is never the only gate)
+ *  - the demo marker disappears
+ *  - the form posts to the API, which stores submissions for real (the API
+ *    checks this too, server-side, so the UI is never the only gate)
  *  - the SG pages replace the proposal pages
  *
- * Everything else on the site - the resource directory, the opportunities
- * board - works identically in both stages, because neither needs anyone's
- * permission to be useful.
+ * The resource directory and opportunities board behave identically in both,
+ * because neither needs anyone's permission to be useful.
  */
 
-export type Stage = "proposal" | "official";
+export type Stage = "demo" | "official";
 
 /**
  * The default lives in code so the repository states plainly what the site
@@ -27,12 +32,11 @@ export type Stage = "proposal" | "official";
  * what lets the test suite build both positions and lets a host flip the
  * switch without a code change.
  *
- * Anything other than the two known values falls back to "proposal": the
- * cautious direction, since a typo must never quietly start collecting
- * student reports.
+ * Anything other than the two known values falls back to "demo": the cautious
+ * direction, since a typo must never quietly start collecting student reports.
  */
 const configured = process.env.NEXT_PUBLIC_NAVIGATE_STAGE;
-const resolved: Stage = configured === "official" ? "official" : "proposal";
+const resolved: Stage = configured === "official" ? "official" : "demo";
 
 export const stage = {
   current: resolved,
@@ -65,13 +69,14 @@ export const stage = {
   },
 } as const;
 
-export const isProposal = stage.current === "proposal";
+export const isDemo = stage.current === "demo";
 
 /**
- * The single source of truth for whether the site may take a submission.
+ * Whether a submission may reach the server and be stored.
  *
- * Read by the API route before anything is stored, and by the form before it
- * renders. Never gate this in the UI alone.
+ * False in demo: the form still works, but it writes to the visitor's own
+ * browser instead of posting. The API route checks this independently, so a
+ * stray request cannot store anything even if the UI is wrong.
  */
 export const acceptsSubmissions = stage.current === "official";
 

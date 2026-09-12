@@ -1,5 +1,5 @@
 import type { SgDocument } from "./types";
-import { isProposal } from "./stage";
+import { isDemo } from "./stage";
 
 /**
  * Site-wide configuration and Student Government content.
@@ -42,24 +42,18 @@ export const site = {
 /**
  * Top navigation.
  *
- * While Navigate is a proposal, only the two things that actually work are
- * promoted. Putting "Report an issue" in the main nav of a candidate's site
- * invites students to file reports into a queue nobody can act on; the page
- * still exists as a preview, linked from the proposal page.
+ * Identical in both stages apart from the last item, because a demo that hides
+ * half the product demonstrates half the product. Expectations are set by the
+ * banner above the header and again on the form itself, which is the right
+ * place for them - not by removing the page.
  */
-export const nav = isProposal
-  ? ([
-      { href: "/resources", label: "Resources" },
-      { href: "/opportunities", label: "Opportunities" },
-      { href: "/sg", label: "The proposal" },
-    ] as const)
-  : ([
-      { href: "/resources", label: "Resources" },
-      { href: "/opportunities", label: "Opportunities" },
-      { href: "/report", label: "Report an issue" },
-      { href: "/updates", label: "SG updates" },
-      { href: "/sg", label: "About SG" },
-    ] as const);
+export const nav = [
+  { href: "/resources", label: "Resources" },
+  { href: "/opportunities", label: "Opportunities" },
+  { href: "/report", label: "Report an issue" },
+  { href: "/updates", label: "SG updates" },
+  { href: "/sg", label: isDemo ? "The proposal" : "About SG" },
+] as const;
 
 /* --------------------------------------------------------- SG information */
 

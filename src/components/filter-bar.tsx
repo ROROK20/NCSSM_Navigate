@@ -56,6 +56,14 @@ export function FilterBar({
         </div>
 
         <div
+          // The fade marks the row as scrollable. `mask-image` costs nothing
+          // and needs no arrow button that would itself need a hit target.
+          style={{
+            maskImage:
+              "linear-gradient(to right, #000 0, #000 calc(100% - 3rem), transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, #000 0, #000 calc(100% - 3rem), transparent 100%)",
+          }}
           role="group"
           aria-label="Filter by category"
           // Negative margins let the row bleed to the screen edge on mobile so

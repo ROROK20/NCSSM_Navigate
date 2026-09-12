@@ -25,7 +25,7 @@ export function SgProposalView() {
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">
         <Eyebrow>The proposal</Eyebrow>
-        <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="display mt-3 max-w-3xl text-ink">
           Most of what students need already exists. Finding it is the problem.
         </h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">

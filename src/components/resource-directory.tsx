@@ -151,6 +151,19 @@ export function ResourceDirectory({
         </label>
       </FilterBar>
 
+      {/*
+        Both caveats, in one line, immediately under the controls. They were a
+        paragraph and a tinted slab above the search; that made the honesty note
+        the most prominent element on a page about finding things.
+      */}
+      <p className="caveat mt-4 max-w-3xl">
+        Links marked <strong>NCSSM login</strong> open the school&rsquo;s own
+        sign-in; Navigate never asks for your password.{" "}
+        <strong>Checked by machine, not yet by a person:</strong> every link is
+        tested automatically, but nobody has confirmed each one leads to the
+        right page. Check anything important against the official source.
+      </p>
+
       <p aria-live="polite" className="py-4 text-sm text-faint">
         {visible.length} {visible.length === 1 ? "resource" : "resources"}
         {filtered
@@ -207,29 +220,24 @@ function ResourceRow({ resource }: { resource: Resource }) {
   const external = resource.officialUrl.startsWith("http");
   const verified = formatDate(resource.lastVerified);
 
-  const meta = [
-    resource.audience,
-    platform?.label,
-    verified ? `Checked ${verified}` : null,
-  ].filter(Boolean);
-
   /*
-   * Only the title is the link.
+   * Three tracks on a wide screen: what it is, what it costs you to open, and
+   * where it sits. The row used to be one narrow column with the category tag
+   * floating in a 600px gutter, so a 1440px window carried the same amount of
+   * information as a 900px one.
    *
-   * Wrapping the whole row was tidier to write, but the contact note now
-   * contains phone numbers and addresses that need to be tappable, and an
-   * anchor cannot be nested inside another anchor. It also gives the link a
-   * useful accessible name: "Campus Safety & Security" rather than the
-   * name, description, note and metadata read out as one string.
+   * Only the title is a link. The contact note holds tappable phone numbers and
+   * an anchor cannot nest, and it gives the link an accessible name of
+   * "Campus Safety & Security" rather than the whole row read as one string.
    */
   const titleClass =
-    "font-medium text-ink underline decoration-transparent underline-offset-[3px] transition-colors hover:text-accent hover:decoration-current";
+    "text-[1.0625rem] font-medium leading-snug text-ink underline decoration-transparent underline-offset-[3px] transition-colors duration-150 hover:text-accent hover:decoration-current";
 
   return (
-    <li className="border-b border-line transition-colors hover:bg-sunken sm:-mx-3 sm:px-3">
-      <div className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:gap-6">
-        <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+    <li className="group border-b border-line transition-colors duration-150 hover:bg-sunken">
+      <div className="grid gap-x-8 gap-y-2 px-3 py-3.5 lg:grid-cols-[minmax(0,1fr)_9.5rem_11rem] lg:items-baseline">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             {external ? (
               <a
                 href={resource.officialUrl}
@@ -244,39 +252,47 @@ function ResourceRow({ resource }: { resource: Resource }) {
                 {resource.name}
               </Link>
             )}
-            {external ? <ArrowUpRight className="text-faint" /> : null}
-            {resource.loginRequired ? (
-              <Chip icon={<LockIcon />}>NCSSM login required</Chip>
+            {external ? (
+              <ArrowUpRight className="shrink-0 translate-y-px text-faint transition-colors group-hover:text-accent" />
             ) : null}
             {resource.verificationStatus === "outdated" ? (
               <Chip tone="danger">Link may be out of date</Chip>
             ) : null}
           </div>
 
-          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-muted">
+          <p className="mt-1 max-w-[62ch] text-[0.875rem] leading-relaxed text-muted">
             {resource.description}
           </p>
 
           {resource.contactNote ? (
             <ContactNote note={resource.contactNote} />
           ) : null}
+        </div>
 
-          {meta.length > 0 ? (
-            <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-faint">
-              {meta.map((item, i) => (
-                <span key={item as string}>
-                  {i > 0 ? <span className="mr-2 opacity-50">·</span> : null}
-                  {item}
-                </span>
-              ))}
-            </p>
+        {/* Middle rail: what opening this will ask of you. */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 lg:flex-col lg:items-start lg:gap-1">
+          {resource.loginRequired ? (
+            <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[color:var(--warn)]">
+              <LockIcon />
+              NCSSM login
+            </span>
+          ) : (
+            <span className="text-[11px] text-faint">No sign-in</span>
+          )}
+          {platform ? (
+            <span className="text-[11px] text-faint">{platform.label}</span>
+          ) : null}
+          {verified ? (
+            <span className="tnum text-[11px] text-faint">
+              Checked {verified}
+            </span>
           ) : null}
         </div>
 
         <CategoryTag
           label={category.label}
           tone={category.tone as Tone}
-          className="shrink-0 pt-0.5 sm:w-44"
+          className="lg:justify-self-start"
         />
       </div>
     </li>

@@ -17,12 +17,20 @@ export function StageBanner() {
   const { name, office } = stage.candidate;
 
   return (
-    <div className="border-b border-[color:var(--accent)]/25 bg-accent-soft">
+    <div
+      data-demo-banner
+      className="border-b border-[color:var(--accent)]/25 bg-accent-soft"
+    >
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 text-[13px] leading-snug sm:px-6">
         <span className="inline-flex shrink-0 items-center rounded border border-[color:var(--accent)]/40 px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.09em] text-accent uppercase">
           Demo
         </span>
-        <span className="text-ink">
+        {/*
+          Full sentence where there is room; the half that actually matters on a
+          phone, where this strip was taking three lines above the fold.
+        */}
+        <span className="text-ink sm:hidden">Nothing you submit is sent.</span>
+        <span className="hidden text-ink sm:inline">
           Everything here works. Nothing you submit is sent, stored, or seen by
           anyone.
         </span>

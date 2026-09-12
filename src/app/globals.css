@@ -196,6 +196,42 @@ body {
   font-feature-settings: "tnum";
 }
 
+/*
+  Display type.
+
+  One deliberate step above everything else, used for page titles only. The
+  scale used to run at about a 1.1 ratio throughout, which meant nothing on the
+  page commanded attention: a directory of 204 rows needs a title that settles
+  the question of where you are in one glance, then gets out of the way.
+*/
+.display {
+  font-size: clamp(2.125rem, 4.6vw, 3.125rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+/*
+  The quiet caveat line.
+
+  Replaces a full-width tinted slab. An honesty note should be legible and
+  permanent, not the loudest element on a page whose job is finding things.
+*/
+.caveat {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--ink-faint);
+}
+.caveat strong {
+  color: var(--ink-muted);
+  font-weight: 500;
+}
+
+/* Sticky bars lift off the content they cover, without a drawn border. */
+.lifted {
+  box-shadow: 0 1px 0 var(--line), 0 6px 16px -12px oklch(0.2 0.03 254 / 0.5);
+}
+
 /* Micro-labels: category names, meta rows, table headers. */
 .label {
   font-family: var(--font-mono);

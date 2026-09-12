@@ -113,20 +113,21 @@ export default async function HomePage() {
     <>
       {/* ------------------------------------------------------------ hero */}
       <section className="border-b border-line">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-16">
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 pt-12 pb-10 sm:px-6 sm:pt-16 sm:pb-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start lg:gap-16">
           <div>
             <Eyebrow>{site.campus} · Student Government</Eyebrow>
-            <h1 className="mt-4 text-[2.5rem] leading-[1.05] font-semibold tracking-[-0.025em] text-ink sm:text-6xl">
+            <h1 className="display mt-4 text-ink sm:text-[3.5rem]">
               {site.name}
             </h1>
-            <p className="mt-5 text-lg leading-relaxed text-muted sm:text-xl">
+            {/*
+              One subtitle, not two. This is the product's stated tagline; the
+              paragraph that followed it restated the same thing in different
+              words and pushed the search below the fold on a laptop.
+            */}
+            <p className="mt-5 max-w-lg text-lg leading-snug text-muted">
               {site.tagline}
             </p>
-            <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-faint">
-              Find what you need without having to know which platform,
-              department, or person to search for.
-            </p>
-            <HeroSearch />
+            <HeroSearch total={resources.length} />
           </div>
 
           {/*
@@ -200,7 +201,7 @@ export default async function HomePage() {
                 <Link
                   href={action.href}
                   className={[
-                    "group flex h-full flex-col gap-2 border-b border-line p-6 transition-colors duration-150 sm:p-8",
+                    "group flex h-full flex-col gap-1.5 border-b border-line px-6 py-7 transition-colors duration-150 sm:px-8",
                     action.primary
                       ? "bg-accent-soft hover:bg-[color:color-mix(in_oklch,var(--accent)_14%,transparent)]"
                       : "hover:bg-sunken",

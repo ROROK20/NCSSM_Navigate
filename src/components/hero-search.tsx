@@ -24,7 +24,7 @@ const EXAMPLES = [
   "wifi",
 ];
 
-export function HeroSearch() {
+export function HeroSearch({ total }: { total: number }) {
   const router = useRouter();
   const [query, setQuery] = useState("");
 
@@ -64,7 +64,7 @@ export function HeroSearch() {
         </button>
       </form>
 
-      <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5">
+      <div className="mt-3.5 flex flex-wrap items-center gap-x-2 gap-y-1.5">
         <span className="label text-faint">Try</span>
         {EXAMPLES.map((example) => (
           <button
@@ -80,6 +80,18 @@ export function HeroSearch() {
           </button>
         ))}
       </div>
+
+      {/*
+        One line of proof, kept deliberately quiet. The left column ended above
+        the shortlist beside it and left a hole; this is the argument for the
+        site anyway, and it belongs next to the search rather than a screen
+        further down.
+      */}
+      <p className="mt-6 border-t border-line pt-4 text-[13px] leading-relaxed text-faint">
+        <span className="tnum font-medium text-muted">{total}</span> resources
+        across every NCSSM system, from the clinic booking form to the faculty
+        office hours sheet. Every link tested; none broken.
+      </p>
     </div>
   );
 }

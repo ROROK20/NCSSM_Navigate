@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { getResources } from "@/lib/content";
 import { ResourceDirectory } from "@/components/resource-directory";
-import { SeedNotice } from "@/components/seed-notice";
-import { Eyebrow } from "@/components/ui";
-import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Resources",
@@ -23,27 +20,23 @@ export default async function ResourcesPage(props: PageProps<"/resources">) {
   const initialQuery = typeof params.q === "string" ? params.q : "";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-      <header className="pt-10 pb-2 sm:pt-14">
-        <Eyebrow>Directory</Eyebrow>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Resources
-        </h1>
-        <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
-          Everything students at {site.campus} regularly need, in one list.
-          Search by what you are trying to do, not by which system it lives in.
-        </p>
+    <div className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
+      {/*
+        Title, one line, then the search.
 
-        <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-faint">
-          Links marked <span className="text-muted">NCSSM login required</span>{" "}
-          send you to the school&rsquo;s own sign-in page. Navigate never asks
-          for your password and never stores anything from behind those logins.
+        This header used to run an eyebrow, a title, two paragraphs and a
+        full-width tinted callout before anything you could type into: about
+        440px of preamble on a page whose entire promise is finding something in
+        ten seconds. The caveats still exist, in a line under the filters, where
+        they are readable without being the loudest thing here.
+      */}
+      <header className="pt-10 pb-5 sm:pt-14">
+        <p className="label text-faint">Directory</p>
+        <h1 className="display mt-3 text-ink">Resources</h1>
+        <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
+          Searchable by what you are trying to do, not by which system owns it.
         </p>
       </header>
-
-      <div className="mb-6">
-        <SeedNotice subject="resources" />
-      </div>
 
       <ResourceDirectory resources={resources} initialQuery={initialQuery} />
     </div>

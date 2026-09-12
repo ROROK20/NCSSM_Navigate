@@ -110,7 +110,7 @@ test("login-only resources are labelled and open on the official domain", async 
   await expect(row).toHaveAttribute("target", "_blank");
   await expect(row).toHaveAttribute("rel", /noopener/);
   await expect(row).toHaveAttribute("rel", /noreferrer/);
-  await expect(page.getByText("NCSSM login required").first()).toBeVisible();
+  await expect(page.getByText("NCSSM login").first()).toBeVisible();
 });
 
 test("opportunities filter, and past entries are hidden until asked for", async ({

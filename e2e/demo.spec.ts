@@ -128,7 +128,7 @@ test("every page carries the demo marker", async ({ page }) => {
   for (const path of ["/", "/resources", "/opportunities", "/report", "/updates", "/sg"]) {
     await page.goto(path);
     await expect(
-      page.getByText(/Nothing you submit is sent, stored, or seen by anyone/),
+      page.locator("[data-demo-banner]"),
       `${path} demo marker`,
     ).toBeVisible();
   }

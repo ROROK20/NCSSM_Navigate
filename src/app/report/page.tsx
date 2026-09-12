@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ReportForm } from "@/components/report-form";
 import { isDemo } from "@/content/stage";
-import { Callout, Eyebrow } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
 import { sgAbout, site } from "@/content/site";
 import { stage } from "@/content/stage";
 
@@ -19,7 +19,7 @@ export default function ReportPage() {
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">
         <Eyebrow>Student Government</Eyebrow>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="display mt-3 text-ink">
           Report an issue
         </h1>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
@@ -36,12 +36,17 @@ export default function ReportPage() {
             before they spend five minutes writing it out.
           */}
           {isDemo ? (
-            <Callout tone="accent" title="This form is a demonstration">
-              Fill it in and submit — it validates, confirms, and shows up on
-              the status board, exactly as the real thing does. Nothing is sent
-              or stored, and no officer sees it. If you have an issue that needs
-              handling today, {stage.currentRoute.detail}
-            </Callout>
+            <div className="rounded-[var(--radius-lg)] border border-[color:var(--accent)]/25 bg-accent-soft px-4 py-3">
+              <p className="text-sm font-semibold text-ink">
+                This form is a demonstration
+              </p>
+              <p className="mt-1 text-[13px] leading-relaxed text-muted">
+                It validates, confirms, and appears on the status board exactly
+                as the real thing does. Nothing is sent, stored, or seen by
+                anyone. If you have an issue that needs handling today,{" "}
+                {stage.currentRoute.detail}
+              </p>
+            </div>
           ) : null}
           <ReportForm />
         </div>
@@ -50,10 +55,16 @@ export default function ReportPage() {
           Expectation-setting sits beside the form rather than above it, so it
           is readable while filling it in without pushing the form off screen.
         */}
-        <aside className="space-y-8 text-sm lg:sticky lg:top-24 lg:self-start">
-          <section>
+        {/*
+          A reference rail, not a second column of body copy. Four sections at
+          the same size and colour read as one undifferentiated wall; hairlines
+          and a smaller size let someone find the one line they need while
+          filling in the form beside it.
+        */}
+        <aside className="divide-y divide-line text-[13px] lg:sticky lg:top-24 lg:self-start">
+          <section className="pb-6">
             <h2 className="label text-faint">What happens next</h2>
-            <ol className="mt-3 space-y-3 text-muted">
+            <ol className="mt-3 space-y-2.5 leading-relaxed text-muted">
               <li className="flex gap-3">
                 <span className="tnum shrink-0 font-medium text-accent">1</span>
                 <span>An SG officer reads it and files it under a category.</span>
@@ -81,9 +92,9 @@ export default function ReportPage() {
             </ol>
           </section>
 
-          <section>
+          <section className="py-6">
             <h2 className="label text-faint">Your privacy</h2>
-            <ul className="mt-3 space-y-2.5 text-muted">
+            <ul className="mt-3 space-y-2 leading-relaxed text-muted">
               <li>Submissions are never shown publicly, in any form.</li>
               <li>
                 Anonymous submissions store no contact details at all, so there
@@ -100,18 +111,18 @@ export default function ReportPage() {
             </ul>
           </section>
 
-          <section>
+          <section className="py-6">
             <h2 className="label text-faint">What SG cannot do</h2>
-            <ul className="mt-3 space-y-2.5 text-muted">
+            <ul className="mt-3 space-y-2 leading-relaxed text-muted">
               {sgAbout.limits.map((limit) => (
                 <li key={limit}>{limit}</li>
               ))}
             </ul>
           </section>
 
-          <section>
+          <section className="pt-6">
             <h2 className="label text-faint">Rather email?</h2>
-            <p className="mt-3 text-muted">
+            <p className="mt-3 leading-relaxed text-muted">
               <a
                 href={`mailto:${site.contact.email}`}
                 className="text-ink underline underline-offset-2"

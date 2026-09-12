@@ -182,7 +182,7 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["leave campus for the weekend", "Orah"],
   ["vegetarian food", "Dining hall menus & hours"],
   ["join a club", "Clubs & organizations"],
-  ["send my grades to a college", "Transcript request"],
+  ["send my grades to a college", "Transcripts for college applications"],
   ["package delivery", "Mail room & package pickup"],
   ["i am sick", "Student Health Services"],
   // The systems students actually use, rather than a page describing them.
@@ -206,6 +206,15 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["pass no pass", "Pass / No Pass"],
   ["ask for an extension", "extension"],
   ["math tutor", "math TA"],
+  // Pages that were never one click from anywhere a student starts.
+  ["reserve a study room", "study room"],
+  ["borrow a tool", "tool checkout"],
+  ["3d print", "3D printing"],
+  ["funding for a project", "Bowman-Brockman"],
+  ["change my name", "Name change"],
+  ["telehealth", "telehealth"],
+  ["report harassment", "Title IX"],
+  ["scholarships", "Scholarships"],
 ];
 
 test("plain-language searches surface the right resource first", async ({

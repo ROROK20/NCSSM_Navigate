@@ -74,6 +74,11 @@ export const moreDirectories = [
     label: "Amenities",
     blurb: "The nearest printer, microwave, or refill station.",
   },
+  {
+    href: "/clubs",
+    label: "Clubs",
+    blurb: "What each club does, when it meets, who to email.",
+  },
 ] as const;
 
 /**

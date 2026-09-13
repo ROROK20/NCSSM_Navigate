@@ -32,6 +32,7 @@ const TAXONOMY = new URL("../src/content/taxonomy.ts", import.meta.url);
  *  - `bool`    true / false
  *  - `tribool` true / false / null, where null means nobody has said
  *  - `date`    YYYY-MM-DD or null
+ *  - `handle`  a social handle with no @ and no URL
  *  - `long`    like `string`, emitted wrapped onto its own line
  */
 const DATASETS = {
@@ -67,6 +68,25 @@ const DATASETS = {
       // Empty means nobody has stood in front of it, which is the honest
       // answer and must survive the round-trip as an empty rather than today.
       { key: "lastChecked", kind: "date" },
+    ],
+  },
+  clubs: {
+    file: "../src/content/clubs.ts",
+    exportName: "clubs",
+    typeName: "Club",
+    fields: [
+      { key: "id", kind: "id" },
+      { key: "name", kind: "string", required: true },
+      { key: "does", kind: "long", required: true },
+      { key: "category", kind: "enum", from: "CLUB_CATEGORIES", required: true },
+      { key: "frequency", kind: "string" },
+      { key: "meets", kind: "string" },
+      { key: "location", kind: "string" },
+      { key: "contactEmail", kind: "string" },
+      // Handle only. The URL is built at render time, so a cell holding
+      // "@name" or a full profile link is a mistake worth catching on import.
+      { key: "instagram", kind: "handle" },
+      { key: "aliases", kind: "long", emit: "when-set" },
     ],
   },
 };
@@ -290,6 +310,19 @@ if (mode === "export") {
         if (raw && !/^\d{4}-\d{2}-\d{2}$/.test(raw))
           bad(`${field.key} "${raw}" must be YYYY-MM-DD or empty`);
         row[field.key] = raw;
+        continue;
+      }
+
+      if (field.kind === "handle") {
+        // Stripped rather than rejected: someone typing "@name" or pasting a
+        // profile URL meant the handle, and refusing the whole import over a
+        // leading character would waste an afternoon of collecting.
+        row[field.key] = raw
+          .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+          .replace(/^@/, "")
+          .replace(/\/+$/, "");
+        if (row[field.key] && !/^[A-Za-z0-9._]+$/.test(row[field.key]))
+          bad(`${field.key} "${raw}" is not a handle`);
         continue;
       }
 

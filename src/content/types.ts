@@ -11,6 +11,7 @@ import type {
   ResourceCategoryId,
   DiscountCategoryId,
   AmenityCategoryId,
+  ClubCategoryId,
   OpportunityCategoryId,
   IssueCategoryId,
   IssueStatusId,
@@ -198,6 +199,42 @@ export interface Amenity {
   aliases?: string;
   /** ISO date somebody last confirmed it in person. null means nobody has. */
   lastChecked: string | null;
+}
+
+/**
+ * A student club.
+ *
+ * `does` carries the weight here. Nobody searches for "Mu Alpha Theta"; they
+ * search for "math competitions", and a name-only search would answer that
+ * with nothing. So `does` is scored as an alias rather than as body text, and
+ * it should be written as what a member actually does on a Tuesday evening,
+ * not as a mission statement.
+ *
+ * `contactEmail` should be a club address wherever one exists. A student's own
+ * address published on a public page is a privacy decision that belongs to
+ * that student, so only put one here if they have said yes. Officers change
+ * every year; the inbox does not.
+ *
+ * `instagram` is the handle alone, with no @ and no URL. The link is built
+ * from it at render time, so there is no address in the content file to mistype.
+ */
+export interface Club {
+  id: string;
+  name: string;
+  /** What members actually do. The thing search has to match. */
+  does: string;
+  category: ClubCategoryId;
+  /** "Weekly", "Every other week", "Varies". Free text. */
+  frequency: string;
+  /** "Tuesdays, 7pm". Free text so "varies by term" works. */
+  meets: string;
+  location: string;
+  /** Prefer a club address. See the note above before using a person's. */
+  contactEmail: string;
+  /** Handle only: "ncssmchess", not "@ncssmchess" and not a URL. */
+  instagram: string;
+  /** Words a student would type that are not in the name or in `does`. */
+  aliases?: string;
 }
 
 export interface SgUpdate {

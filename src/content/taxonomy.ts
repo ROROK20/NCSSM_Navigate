@@ -140,6 +140,26 @@ export const AMENITY_CATEGORIES = [
 
 export type AmenityCategoryId = (typeof AMENITY_CATEGORIES)[number]["id"];
 
+/* ------------------------------------------------------------ club buckets */
+
+/**
+ * Broad enough that a collector rarely has to agonise, narrow enough that the
+ * chips are worth tapping. A club that fits two goes in the one a student
+ * looking for it would try first.
+ */
+export const CLUB_CATEGORIES = [
+  { id: "stem", label: "STEM & computing", tone: "one" },
+  { id: "arts", label: "Arts & performance", tone: "two" },
+  { id: "service", label: "Service & volunteering", tone: "four" },
+  { id: "culture", label: "Cultural & identity", tone: "five" },
+  { id: "sports", label: "Sports & recreation", tone: "seven" },
+  { id: "publications", label: "Publications & media", tone: "six" },
+  { id: "academic", label: "Academic & competition", tone: "three" },
+  { id: "other", label: "Other", tone: "eight" },
+] as const;
+
+export type ClubCategoryId = (typeof CLUB_CATEGORIES)[number]["id"];
+
 /* ----------------------------------------------------------- issue buckets */
 
 export const ISSUE_CATEGORIES = [
@@ -227,6 +247,7 @@ function index<T extends { id: string }>(rows: readonly T[]) {
 export const RESOURCE_CATEGORY_BY_ID = index(RESOURCE_CATEGORIES);
 export const DISCOUNT_CATEGORY_BY_ID = index(DISCOUNT_CATEGORIES);
 export const AMENITY_CATEGORY_BY_ID = index(AMENITY_CATEGORIES);
+export const CLUB_CATEGORY_BY_ID = index(CLUB_CATEGORIES);
 export const OPPORTUNITY_CATEGORY_BY_ID = index(OPPORTUNITY_CATEGORIES);
 export const ISSUE_CATEGORY_BY_ID = index(ISSUE_CATEGORIES);
 export const ISSUE_STATUS_BY_ID = index(ISSUE_STATUSES);
@@ -235,6 +256,7 @@ export const PLATFORM_BY_ID = index(PLATFORMS);
 export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id);
 export const DISCOUNT_CATEGORY_IDS = DISCOUNT_CATEGORIES.map((c) => c.id);
 export const AMENITY_CATEGORY_IDS = AMENITY_CATEGORIES.map((c) => c.id);
+export const CLUB_CATEGORY_IDS = CLUB_CATEGORIES.map((c) => c.id);
 export const OPPORTUNITY_CATEGORY_IDS = OPPORTUNITY_CATEGORIES.map((c) => c.id);
 export const ISSUE_CATEGORY_IDS = ISSUE_CATEGORIES.map((c) => c.id);
 export const ISSUE_STATUS_IDS = ISSUE_STATUSES.map((s) => s.id);

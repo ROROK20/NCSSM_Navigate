@@ -54,6 +54,7 @@ test("every top-level route returns a page, not an error", async ({ page }) => {
     "/academic-help",
     "/discounts",
     "/amenities",
+    "/clubs",
     "/opportunities",
     "/report",
     "/updates",
@@ -247,6 +248,31 @@ test("the amenity finder says nothing rather than guessing a location", async ({
   await expect(
     page.getByRole("link", { name: /Tell SG where one is/ }),
   ).toBeVisible();
+
+  expect(errors).toEqual([]);
+});
+
+test("the club directory is a scaffold, not a list of invented clubs", async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+  await page.goto("/clubs");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Clubs");
+  await expect(page.getByText("No clubs listed yet")).toBeVisible();
+
+  // No club rows, and therefore no meeting time, room, or contact address that
+  // nobody has confirmed.
+  await expect(page.getByRole("heading", { level: 3 })).toHaveCount(0);
+  await expect(page.locator('a[href^="mailto:"]').first()).toHaveAttribute(
+    "href",
+    /sg@ncssm\.edu/,
+  );
+
+  // While it is empty it sends students to the school's own clubs page rather
+  // than to a dead end.
+  await page.getByRole("link", { name: /clubs page/i }).click();
+  await expect(page).toHaveURL(/\/resources\?q=clubs/);
 
   expect(errors).toEqual([]);
 });

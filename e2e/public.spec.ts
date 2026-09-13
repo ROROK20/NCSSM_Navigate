@@ -52,6 +52,7 @@ test("every top-level route returns a page, not an error", async ({ page }) => {
     "/",
     "/resources",
     "/academic-help",
+    "/discounts",
     "/opportunities",
     "/report",
     "/updates",
@@ -176,6 +177,50 @@ test("the academic help finder groups routes by subject", async ({ page }) => {
   const first = results.locator("li").first().getByRole("link").first();
   await expect(first).toHaveAttribute("rel", /noopener/);
   await expect(first).toHaveAttribute("rel", /noreferrer/);
+
+  expect(errors).toEqual([]);
+});
+
+test("student discounts name the place without inventing the deal", async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+  await page.goto("/discounts");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Student discounts",
+  );
+  await expect(
+    page.getByText("Nobody has confirmed what these discounts are"),
+  ).toBeVisible();
+
+  // Every row says the terms are unknown rather than showing a number. This is
+  // the assertion that stops someone helpfully filling in a percentage.
+  await expect(page.getByText("Terms not confirmed yet")).toHaveCount(7);
+  const body = await page.locator("main").innerText();
+  expect(body, "no page may claim a percentage off").not.toMatch(
+    /\d+\s?%\s?(off|discount)/i,
+  );
+
+  // Tapping a name opens Google Maps: keyless URL, business plus city, and the
+  // address, hours and phone stay Google's problem rather than this repo's.
+  const link = page.getByRole("link", { name: "Quickly Tea House" });
+  await expect(link).toHaveAttribute(
+    "href",
+    "https://www.google.com/maps/search/?api=1&query=Quickly%20Tea%20House%20Durham%20NC",
+  );
+  await expect(link).toHaveAttribute("rel", /noopener/);
+  await expect(link).toHaveAttribute("rel", /noreferrer/);
+
+  // What each place sells is the one confirmed fact, so it is searchable.
+  const search = page.getByRole("searchbox", { name: /Search by name/i });
+  await search.fill("boba");
+  await expect(page.getByRole("link", { name: "Quickly Tea House" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Chicken Bee" })).toHaveCount(0);
+
+  await search.fill("");
+  await page.getByRole("button", { name: /^Mexican/ }).click();
+  await expect(page.getByText("2 places match your search")).toBeVisible();
 
   expect(errors).toEqual([]);
 });

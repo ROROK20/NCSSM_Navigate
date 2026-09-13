@@ -9,6 +9,7 @@
 
 import type {
   ResourceCategoryId,
+  DiscountCategoryId,
   OpportunityCategoryId,
   IssueCategoryId,
   IssueStatusId,
@@ -108,6 +109,53 @@ export interface Opportunity {
   /** An editor confirmed the details. Unverified items are labelled in the UI. */
   verified: boolean;
   featured?: boolean;
+}
+
+/**
+ * A Durham business that gives NCSSM students a discount.
+ *
+ * The honesty problem this shape exists to solve: the NAMES came from the SG
+ * discounts committee and the TERMS did not. Nobody has said what each deal is
+ * or whether a student ID is needed.
+ *
+ * So `terms` is a string that is allowed to be empty and `studentIdRequired` is
+ * allowed to be null, and both render as "not confirmed" rather than as a
+ * blank. A student refused at a counter because this site promised ten percent
+ * is a worse outcome than no listing at all, and a field that can only hold a
+ * value quietly invites someone to invent one.
+ */
+export interface StudentDiscount {
+  id: string;
+  /** The business name as the committee supplied it. */
+  name: string;
+  /**
+   * What it sells, in a few words.
+   *
+   * Confirmed against the business's own listing rather than supplied by the
+   * committee, which is a weaker source than the name but a much cheaper
+   * mistake: a student who walks to a tea house expecting tea has lost nothing.
+   */
+  kind: string;
+  category: DiscountCategoryId;
+  /**
+   * What the discount actually is.
+   *
+   * EMPTY until the committee says. Never fill this from a guess, a review
+   * site, or another school's list.
+   */
+  terms: string;
+  /** null means nobody has said either way. Not the same as false. */
+  studentIdRequired: boolean | null;
+  /**
+   * Overrides the Google Maps query when the supplied name is ambiguous.
+   *
+   * Empty for a name that already resolves to the right place. There is no
+   * stored URL anywhere in this record on purpose: the map link is derived
+   * from the name, so it cannot drift out of date or be quietly invented.
+   */
+  mapsQuery?: string;
+  /** Words a student would type. "boba", "late night", "cheap food". */
+  aliases?: string;
 }
 
 export interface SgUpdate {

@@ -12,7 +12,9 @@
     "verify": "npm run lint && npm run typecheck && npm run build",
     "check:links": "node scripts/check-links.mjs",
     "resources:export": "node scripts/resources-csv.mjs export",
-    "resources:import": "node scripts/resources-csv.mjs import"
+    "resources:import": "node scripts/resources-csv.mjs import",
+    "content:export": "node scripts/content-csv.mjs export",
+    "content:import": "node scripts/content-csv.mjs import"
   },
   "dependencies": {
     "next": "16.3.4",

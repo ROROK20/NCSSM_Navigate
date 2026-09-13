@@ -64,6 +64,11 @@ export const moreDirectories = [
     label: "Academic help",
     blurb: "Who helps with a subject, and when they are free.",
   },
+  {
+    href: "/discounts",
+    label: "Student discounts",
+    blurb: "Durham places that give students a deal.",
+  },
 ] as const;
 
 /**

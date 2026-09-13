@@ -102,6 +102,26 @@ export const OPPORTUNITY_CATEGORIES = [
 export type OpportunityCategoryId =
   (typeof OPPORTUNITY_CATEGORIES)[number]["id"];
 
+/* -------------------------------------------------------- discount buckets */
+
+/**
+ * What a business sells, not what deal it offers.
+ *
+ * The deals are unknown. The food is not, so this is the axis that can honestly
+ * be filtered on, and with a list this short the chip counts double as the menu
+ * of what is on offer.
+ */
+export const DISCOUNT_CATEGORIES = [
+  { id: "pizza", label: "Pizza", tone: "one" },
+  { id: "mexican", label: "Mexican", tone: "three" },
+  { id: "korean", label: "Korean", tone: "six" },
+  { id: "indian", label: "Indian", tone: "seven" },
+  { id: "bubble-tea", label: "Bubble tea", tone: "four" },
+  { id: "ice-cream", label: "Ice cream", tone: "two" },
+] as const;
+
+export type DiscountCategoryId = (typeof DISCOUNT_CATEGORIES)[number]["id"];
+
 /* ----------------------------------------------------------- issue buckets */
 
 export const ISSUE_CATEGORIES = [
@@ -187,12 +207,14 @@ function index<T extends { id: string }>(rows: readonly T[]) {
 }
 
 export const RESOURCE_CATEGORY_BY_ID = index(RESOURCE_CATEGORIES);
+export const DISCOUNT_CATEGORY_BY_ID = index(DISCOUNT_CATEGORIES);
 export const OPPORTUNITY_CATEGORY_BY_ID = index(OPPORTUNITY_CATEGORIES);
 export const ISSUE_CATEGORY_BY_ID = index(ISSUE_CATEGORIES);
 export const ISSUE_STATUS_BY_ID = index(ISSUE_STATUSES);
 export const PLATFORM_BY_ID = index(PLATFORMS);
 
 export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id);
+export const DISCOUNT_CATEGORY_IDS = DISCOUNT_CATEGORIES.map((c) => c.id);
 export const OPPORTUNITY_CATEGORY_IDS = OPPORTUNITY_CATEGORIES.map((c) => c.id);
 export const ISSUE_CATEGORY_IDS = ISSUE_CATEGORIES.map((c) => c.id);
 export const ISSUE_STATUS_IDS = ISSUE_STATUSES.map((s) => s.id);

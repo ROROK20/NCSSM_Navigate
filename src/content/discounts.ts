@@ -22,6 +22,12 @@ import type { StudentDiscount } from "./types";
  * Menu items are deliberately absent from `aliases` unless the business's own
  * listing named them: nobody here has read a menu.
  *
+ * `website` is set on three of the seven. Each was opened and shows that
+ * business's own Durham address on the page. The other four have no site of
+ * their own that could be confirmed, and a directory listing is not one:
+ * Devil's NY Pizzeria answers a bot check rather than a page, so there is
+ * nothing to confirm and it is left empty rather than guessed at.
+ *
  * Editable as a spreadsheet: `npm run content:export discounts`.
  */
 export const studentDiscounts: StudentDiscount[] = [
@@ -50,6 +56,7 @@ export const studentDiscounts: StudentDiscount[] = [
     name: "Quickly Tea House",
     kind: "Bubble tea, instant ramen, popcorn chicken",
     category: "bubble-tea",
+    website: "https://www.quicklydurham.com/",
     terms: "",
     studentIdRequired: null,
     aliases:
@@ -60,6 +67,7 @@ export const studentDiscounts: StudentDiscount[] = [
     name: "Del Rancho",
     kind: "Mexican",
     category: "mexican",
+    website: "https://delranchomexicangrill.com/",
     terms: "",
     studentIdRequired: null,
     aliases:
@@ -80,6 +88,7 @@ export const studentDiscounts: StudentDiscount[] = [
     name: "Chicken Bee",
     kind: "Korean fried chicken, ramen",
     category: "korean",
+    website: "https://chickenbee.com/",
     terms: "",
     studentIdRequired: null,
     aliases:

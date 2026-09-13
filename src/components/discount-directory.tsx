@@ -28,6 +28,8 @@ export interface DiscountView {
   categoryLabel: string;
   categoryTone: Tone;
   mapsUrl: string;
+  /** The business's own site. Empty for most of them. */
+  website: string;
   terms: string;
   studentIdRequired: boolean | null;
   aliases: string;
@@ -174,6 +176,23 @@ function DiscountRow({ discount }: { discount: DiscountView }) {
               ? discount.terms
               : "Ask at the counter. SG has the name but not the deal."}
           </p>
+
+          {/*
+            Only where the business has a page of its own. Maps already carries
+            hours, phone and photos, so this earns its place by going to a
+            menu, and most rows correctly have nothing here.
+          */}
+          {discount.website ? (
+            <a
+              href={discount.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 inline-flex items-center gap-1 text-[13px] font-medium text-accent underline decoration-transparent underline-offset-2 transition hover:decoration-current"
+            >
+              Their own site
+              <ArrowUpRight />
+            </a>
+          ) : null}
         </div>
 
         {/* The tag sits beside the list, not inside it: a `dl` may only

@@ -28,6 +28,7 @@ export default function DiscountsPage() {
       // can drift out of date or be invented. `mapsQuery` only exists for a
       // name that needs disambiguating.
       mapsUrl: mapsSearchUrl(discount.mapsQuery || `${discount.name} Durham NC`),
+      website: discount.website ?? "",
       terms: discount.terms,
       studentIdRequired: discount.studentIdRequired,
       aliases: [discount.aliases, discountSharedAliases]

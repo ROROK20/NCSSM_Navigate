@@ -71,6 +71,9 @@ async function collect() {
     ["resources", "src/content/resources.ts", /id: "([^"]+)"[\s\S]*?officialUrl: "([^"]+)"/g],
     ["opportunities", "src/content/opportunities.ts", /id: "([^"]+)"[\s\S]*?registrationUrl: "([^"]+)"/g],
     ["sg documents", "src/content/site.ts", /id: "([^"]+)",\s*\n\s*title: "[^"]*",[\s\S]*?url: "(https?:[^"]+)"/g],
+    // Most discount rows have no website, and a row without one simply does
+    // not match: `collect` skips any chunk the pattern misses.
+    ["discounts", "src/content/discounts.ts", /id: "([^"]+)"[\s\S]*?website: "(https?:[^"]+)"/g],
   ];
 
   const rows = [];

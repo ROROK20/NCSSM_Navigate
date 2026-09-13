@@ -33,6 +33,7 @@ const TAXONOMY = new URL("../src/content/taxonomy.ts", import.meta.url);
  *  - `tribool` true / false / null, where null means nobody has said
  *  - `date`    YYYY-MM-DD or null
  *  - `handle`  a social handle with no @ and no URL
+ *  - `url`     an http(s) address, or empty
  *  - `long`    like `string`, emitted wrapped onto its own line
  */
 const DATASETS = {
@@ -45,6 +46,7 @@ const DATASETS = {
       { key: "name", kind: "string", required: true },
       { key: "kind", kind: "string", required: true },
       { key: "category", kind: "enum", from: "DISCOUNT_CATEGORIES", required: true },
+      { key: "website", kind: "url", emit: "when-set" },
       // Allowed to be empty on purpose: an unknown discount must stay unknown.
       { key: "terms", kind: "string" },
       { key: "studentIdRequired", kind: "tribool" },
@@ -309,6 +311,13 @@ if (mode === "export") {
       if (field.kind === "date") {
         if (raw && !/^\d{4}-\d{2}-\d{2}$/.test(raw))
           bad(`${field.key} "${raw}" must be YYYY-MM-DD or empty`);
+        row[field.key] = raw;
+        continue;
+      }
+
+      if (field.kind === "url") {
+        if (raw && !/^https?:\/\/\S+$/.test(raw))
+          bad(`${field.key} "${raw}" must be an http(s) URL or empty`);
         row[field.key] = raw;
         continue;
       }

@@ -151,6 +151,16 @@ export interface StudentDiscount {
   /** null means nobody has said either way. Not the same as false. */
   studentIdRequired: boolean | null;
   /**
+   * The business's own site, where it has one.
+   *
+   * Empty is the normal case, not a gap to fill: Google Maps already carries
+   * hours, phone and photos, so this earns its place only by going somewhere
+   * Maps does not, which in practice means a menu. Add a URL only after
+   * opening it and seeing this business's own address on the page. `npm run
+   * check:links` covers these, so a dead one fails rather than rots.
+   */
+  website?: string;
+  /**
    * Overrides the Google Maps query when the supplied name is ambiguous.
    *
    * Empty for a name that already resolves to the right place. There is no

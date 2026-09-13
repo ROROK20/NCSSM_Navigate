@@ -122,6 +122,24 @@ export const DISCOUNT_CATEGORIES = [
 
 export type DiscountCategoryId = (typeof DISCOUNT_CATEGORIES)[number]["id"];
 
+/* --------------------------------------------------------- amenity buckets */
+
+/**
+ * The physical things students hunt for.
+ *
+ * Add a kind here before adding rows of it. Nothing else needs editing: the
+ * chips, counts and dots all read from this array.
+ */
+export const AMENITY_CATEGORIES = [
+  { id: "printer", label: "Printers", tone: "one" },
+  { id: "water", label: "Water refill", tone: "four" },
+  { id: "microwave", label: "Microwaves", tone: "three" },
+  { id: "vending", label: "Vending machines", tone: "six" },
+  { id: "sanitary", label: "Sanitary products", tone: "two" },
+] as const;
+
+export type AmenityCategoryId = (typeof AMENITY_CATEGORIES)[number]["id"];
+
 /* ----------------------------------------------------------- issue buckets */
 
 export const ISSUE_CATEGORIES = [
@@ -208,6 +226,7 @@ function index<T extends { id: string }>(rows: readonly T[]) {
 
 export const RESOURCE_CATEGORY_BY_ID = index(RESOURCE_CATEGORIES);
 export const DISCOUNT_CATEGORY_BY_ID = index(DISCOUNT_CATEGORIES);
+export const AMENITY_CATEGORY_BY_ID = index(AMENITY_CATEGORIES);
 export const OPPORTUNITY_CATEGORY_BY_ID = index(OPPORTUNITY_CATEGORIES);
 export const ISSUE_CATEGORY_BY_ID = index(ISSUE_CATEGORIES);
 export const ISSUE_STATUS_BY_ID = index(ISSUE_STATUSES);
@@ -215,6 +234,7 @@ export const PLATFORM_BY_ID = index(PLATFORMS);
 
 export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id);
 export const DISCOUNT_CATEGORY_IDS = DISCOUNT_CATEGORIES.map((c) => c.id);
+export const AMENITY_CATEGORY_IDS = AMENITY_CATEGORIES.map((c) => c.id);
 export const OPPORTUNITY_CATEGORY_IDS = OPPORTUNITY_CATEGORIES.map((c) => c.id);
 export const ISSUE_CATEGORY_IDS = ISSUE_CATEGORIES.map((c) => c.id);
 export const ISSUE_STATUS_IDS = ISSUE_STATUSES.map((s) => s.id);

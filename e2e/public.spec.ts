@@ -53,6 +53,7 @@ test("every top-level route returns a page, not an error", async ({ page }) => {
     "/resources",
     "/academic-help",
     "/discounts",
+    "/amenities",
     "/opportunities",
     "/report",
     "/updates",
@@ -221,6 +222,31 @@ test("student discounts name the place without inventing the deal", async ({
   await search.fill("");
   await page.getByRole("button", { name: /^Mexican/ }).click();
   await expect(page.getByText("2 places match your search")).toBeVisible();
+
+  expect(errors).toEqual([]);
+});
+
+test("the amenity finder says nothing rather than guessing a location", async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+  await page.goto("/amenities");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Amenities");
+  await expect(page.getByText("Nothing has been logged yet")).toBeVisible();
+
+  // No controls over an empty set. A search that can only fail is theatre.
+  await expect(page.getByRole("searchbox")).toHaveCount(0);
+
+  // The failure this page exists to avoid: a room number nobody stood in front
+  // of. Until somebody walks the buildings, there are none to print.
+  const body = await page.locator("main").innerText();
+  expect(body, "no invented room numbers").not.toMatch(/\b(room|rm\.?)\s*\d/i);
+  expect(body, "no invented floors").not.toMatch(/\b\d(st|nd|rd|th)\s+floor\b/i);
+
+  await expect(
+    page.getByRole("link", { name: /Tell SG where one is/ }),
+  ).toBeVisible();
 
   expect(errors).toEqual([]);
 });

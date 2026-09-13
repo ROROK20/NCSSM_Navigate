@@ -31,6 +31,7 @@ const TAXONOMY = new URL("../src/content/taxonomy.ts", import.meta.url);
  *  - `enum`    validated against a taxonomy array named by `from`
  *  - `bool`    true / false
  *  - `tribool` true / false / null, where null means nobody has said
+ *  - `date`    YYYY-MM-DD or null
  *  - `long`    like `string`, emitted wrapped onto its own line
  */
 const DATASETS = {
@@ -48,6 +49,24 @@ const DATASETS = {
       { key: "studentIdRequired", kind: "tribool" },
       { key: "mapsQuery", kind: "string", emit: "when-set" },
       { key: "aliases", kind: "long", emit: "when-set" },
+    ],
+  },
+  amenities: {
+    file: "../src/content/amenities.ts",
+    exportName: "amenities",
+    typeName: "Amenity",
+    fields: [
+      { key: "id", kind: "id" },
+      { key: "name", kind: "string", required: true },
+      { key: "category", kind: "enum", from: "AMENITY_CATEGORIES", required: true },
+      { key: "building", kind: "string", required: true },
+      { key: "floor", kind: "string" },
+      { key: "place", kind: "string" },
+      { key: "notes", kind: "string" },
+      { key: "aliases", kind: "long", emit: "when-set" },
+      // Empty means nobody has stood in front of it, which is the honest
+      // answer and must survive the round-trip as an empty rather than today.
+      { key: "lastChecked", kind: "date" },
     ],
   },
 };
@@ -75,9 +94,15 @@ function splitAround(text, exportName) {
   const marker = `export const ${exportName}`;
   const at = text.indexOf(marker);
   if (at === -1) throw new Error(`Could not find "export const ${exportName}".`);
-  const end = text.indexOf("\n];\n", at);
-  if (end === -1) throw new Error(`Could not find the end of ${exportName}.`);
-  return { header: text.slice(0, at), footer: text.slice(end + "\n];\n".length) };
+  // `\n];\n` for a populated array, `[];\n` for an empty one. The `[]` inside
+  // the type annotation cannot match: it is followed by " =", never ";".
+  const rest = text.slice(at);
+  const end = rest.match(/\n\];\n|\[\];\n/);
+  if (!end) throw new Error(`Could not find the end of ${exportName}.`);
+  return {
+    header: text.slice(0, at),
+    footer: rest.slice((end.index ?? 0) + end[0].length),
+  };
 }
 
 /**
@@ -150,6 +175,10 @@ function serialize({ header, footer }, dataset, rows) {
         lines.push(`    ${field.key}: ${value === null ? "null" : value},`);
         continue;
       }
+      if (field.kind === "date") {
+        lines.push(`    ${field.key}: ${value ? q(value) : "null"},`);
+        continue;
+      }
       if (when === "when-set" && !value) continue;
       if (field.kind === "long") {
         lines.push(`    ${field.key}:\n      ${q(value)},`);
@@ -160,9 +189,12 @@ function serialize({ header, footer }, dataset, rows) {
     return `  {\n${lines.join("\n")}\n  },`;
   };
 
-  return `${header}export const ${dataset.exportName}: ${dataset.typeName}[] = [
-${rows.map(record).join("\n")}
-];
+  // An empty dataset is a normal state here, not a failure, so it serialises
+  // as `= []` rather than as a literal with a blank line inside it.
+  const body = rows.map(record).join("\n");
+  return `${header}export const ${dataset.exportName}: ${dataset.typeName}[] = [${
+    body ? `\n${body}\n` : ""
+  }];
 ${footer}`;
 }
 
@@ -251,6 +283,13 @@ if (mode === "export") {
           row[field.key] = null;
           bad(`${field.key} "${raw}" must be yes, no, or empty for unknown`);
         }
+        continue;
+      }
+
+      if (field.kind === "date") {
+        if (raw && !/^\d{4}-\d{2}-\d{2}$/.test(raw))
+          bad(`${field.key} "${raw}" must be YYYY-MM-DD or empty`);
+        row[field.key] = raw;
         continue;
       }
 

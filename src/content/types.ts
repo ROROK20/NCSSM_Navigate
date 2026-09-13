@@ -10,6 +10,7 @@
 import type {
   ResourceCategoryId,
   DiscountCategoryId,
+  AmenityCategoryId,
   OpportunityCategoryId,
   IssueCategoryId,
   IssueStatusId,
@@ -156,6 +157,47 @@ export interface StudentDiscount {
   mapsQuery?: string;
   /** Words a student would type. "boba", "late night", "cheap food". */
   aliases?: string;
+}
+
+/**
+ * A physical thing on campus: a printer, a refill station, a microwave.
+ *
+ * WHY THIS IS NOT A `Resource`.
+ *
+ * `Resource` requires `officialUrl`, `platform`, `loginRequired` and
+ * `verificationStatus`. Every one of those describes a web destination, and
+ * an amenity has none: it has a building and a floor. Making `officialUrl`
+ * optional to fit would cost two things worth more than the saved type. The
+ * link checker's guarantee that every resource row is a URL it can test would
+ * become "every row except the ones that are not", and the directory UI would
+ * grow a no-URL branch through the title, the platform rail and the login chip
+ * for rows that are not resources at all.
+ *
+ * The parts worth sharing are shared anyway: the same `aliases` field, the
+ * same `scoreMatch`, the same `FilterBar`. What differs is the payload, and
+ * that is exactly what a separate type is for.
+ *
+ * A wrong row here costs a student a walk to the third floor for a printer
+ * that is not there, so `lastChecked` records when somebody last stood in
+ * front of the thing, and null - nobody ever has - is shown, not hidden.
+ */
+export interface Amenity {
+  id: string;
+  /** What it is, as a student would point at it: "Colour printer". */
+  name: string;
+  category: AmenityCategoryId;
+  /** Building name as it appears on campus signage. */
+  building: string;
+  /** "2nd floor", "Ground floor". Empty when the building has one level. */
+  floor: string;
+  /** Room number, or the landmark you walk to: "the lounge past the stairwell". */
+  place: string;
+  /** Anything that changes the trip: "takes card only", "out of order". */
+  notes: string;
+  /** Words a student would type: "print in colour", "fill my water bottle". */
+  aliases?: string;
+  /** ISO date somebody last confirmed it in person. null means nobody has. */
+  lastChecked: string | null;
 }
 
 export interface SgUpdate {

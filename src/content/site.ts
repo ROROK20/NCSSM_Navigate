@@ -69,6 +69,11 @@ export const moreDirectories = [
     label: "Student discounts",
     blurb: "Durham places that give students a deal.",
   },
+  {
+    href: "/amenities",
+    label: "Amenities",
+    blurb: "The nearest printer, microwave, or refill station.",
+  },
 ] as const;
 
 /**

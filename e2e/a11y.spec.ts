@@ -6,7 +6,7 @@ import AxeBuilder from "@axe-core/playwright";
  * someone manually tabbing through the site.
  */
 
-const ROUTES = ["/", "/resources", "/academic-help", "/discounts", "/opportunities", "/report", "/updates", "/sg"];
+const ROUTES = ["/", "/resources", "/academic-help", "/discounts", "/amenities", "/opportunities", "/report", "/updates", "/sg"];
 
 test("every page has exactly one h1 and a skip link that takes focus", async ({
   page,
@@ -69,7 +69,7 @@ test("the mobile menu opens, navigates, and closes itself", async ({ page }) => 
  * so it gets a test rather than a note in a document.
  */
 test.describe("WCAG AA", () => {
-  const ROUTES = ["/", "/resources", "/academic-help", "/discounts", "/opportunities", "/report", "/updates", "/sg", "/admin"];
+  const ROUTES = ["/", "/resources", "/academic-help", "/discounts", "/amenities", "/opportunities", "/report", "/updates", "/sg", "/admin"];
 
   for (const scheme of ["light", "dark"] as const) {
     test(`no violations in ${scheme} mode`, async ({ page }) => {

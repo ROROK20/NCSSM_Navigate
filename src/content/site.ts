@@ -35,58 +35,120 @@ export const site = {
 } as const;
 
 /**
- * Top navigation.
+ * Every destination on the site, grouped the way a student would look for it.
  *
- * Identical in both stages apart from the last item, because a demo that hides
- * half the product demonstrates half the product. Expectations are set by the
- * banner above the header and again on the form itself, which is the right
- * place for them - not by removing the page.
+ * One list, because there are now ten of these and they were previously
+ * described in four places: the header, the mobile sheet, the homepage, and
+ * the footer. The header carried five of them and the mobile menu carried the
+ * same five, which meant half the site was reachable only from the homepage.
+ *
+ * `inNav` is the handful that earn a slot in the top bar. Everything else is
+ * one tap away behind "More" on desktop and listed in full in the mobile
+ * sheet, so no page is ever a dead end.
  */
-export const nav = [
-  { href: "/resources", label: "Resources" },
-  { href: "/opportunities", label: "Opportunities" },
-  { href: "/report", label: "Report an issue" },
-  { href: "/updates", label: "SG updates" },
-  { href: "/sg", label: isDemo ? "The proposal" : "About SG" },
-] as const;
+export interface Destination {
+  href: string;
+  label: string;
+  /** One line, used in the menus and on the homepage index. */
+  blurb: string;
+  /** Shown in the top bar. Everything else lives behind "More". */
+  inNav?: boolean;
+}
 
-/**
- * Directories that are not one of the four primary actions.
- *
- * The top navigation stays at five items on purpose. Adding every directory to
- * it turns a wayfinding bar into a menu you have to read, which is the thing
- * this site exists to spare people. These are listed on the homepage under the
- * primary actions and in the footer instead.
- */
-export const moreDirectories = [
+export interface SiteSection {
+  id: string;
+  label: string;
+  items: Destination[];
+}
+
+export const siteSections: SiteSection[] = [
   {
-    href: "/academic-help",
-    label: "Academic help",
-    blurb: "Who helps with a subject, and when they are free.",
+    id: "find",
+    label: "Find something",
+    items: [
+      {
+        href: "/resources",
+        label: "Resources",
+        blurb: "Every NCSSM system, searchable by what you are trying to do.",
+        inNav: true,
+      },
+      {
+        href: "/academic-help",
+        label: "Academic help",
+        blurb: "Who helps with a subject, and when they are free.",
+      },
+      {
+        href: "/amenities",
+        label: "Amenities",
+        blurb: "The nearest printer, microwave, or refill station.",
+      },
+      {
+        href: "/clubs",
+        label: "Clubs",
+        blurb: "What each club does, when it meets, who to email.",
+      },
+    ],
   },
   {
-    href: "/discounts",
-    label: "Student discounts",
-    // "Working now" sits beside this on the homepage, so the blurb has to
-    // carry the limit: the places are confirmed, the deals are not.
-    blurb: "Durham places SG collected. The deals are not confirmed yet.",
+    id: "durham",
+    label: "Around Durham",
+    items: [
+      {
+        href: "/opportunities",
+        label: "Opportunities",
+        blurb: "Hackathons, competitions, volunteering, and events.",
+        inNav: true,
+      },
+      {
+        href: "/discounts",
+        label: "Student discounts",
+        // "Working now" sits beside this on the homepage, so the blurb has to
+        // carry the limit: the places are confirmed, the deals are not.
+        blurb: "Durham places SG collected. The deals are not confirmed yet.",
+      },
+    ],
   },
   {
-    href: "/amenities",
-    label: "Amenities",
-    blurb: "The nearest printer, microwave, or refill station.",
+    id: "student-government",
+    label: "Student Government",
+    items: [
+      {
+        href: "/report",
+        label: "Report an issue",
+        blurb: "Tell SG what is not working. Anonymously, if you want.",
+        inNav: true,
+      },
+      {
+        href: "/updates",
+        label: "SG updates",
+        blurb: "Where each reported problem has got to.",
+        inNav: true,
+      },
+      {
+        href: "/transparency",
+        label: "SG transparency",
+        blurb: "Meetings, proposals, and replies to student feedback.",
+      },
+      {
+        href: isDemo ? "/sg" : "/sg",
+        label: isDemo ? "The proposal" : "About SG",
+        blurb: isDemo
+          ? "What this is, what works today, and what adopting it would take."
+          : "What Student Government does, and what it cannot do.",
+        inNav: true,
+      },
+    ],
   },
-  {
-    href: "/clubs",
-    label: "Clubs",
-    blurb: "What each club does, when it meets, who to email.",
-  },
-  {
-    href: "/transparency",
-    label: "SG transparency",
-    blurb: "Meetings, proposals, and replies to student feedback.",
-  },
-] as const;
+];
+
+/** Flat list, in section order. The menus and the sitemap read from this. */
+export const destinations: Destination[] = siteSections.flatMap((s) => s.items);
+
+/** The top bar. Deliberately short; "More" carries the rest. */
+export const nav = destinations.filter((item) => item.inNav);
+
+/** Everything the top bar does not have room for. */
+export const moreDirectories = destinations.filter((item) => !item.inNav);
 
 /**
  * The homepage shortlist, in order.

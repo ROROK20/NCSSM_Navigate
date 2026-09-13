@@ -44,6 +44,71 @@ test("the page never scrolls sideways on a phone", async ({ page }) => {
   }
 });
 
+/**
+ * Every destination reachable from every page.
+ *
+ * The bar carried five of ten links and the phone sheet carried the same five,
+ * so half the site existed only on the homepage. A student who landed on
+ * /resources from a shared link could not get to /clubs at all.
+ */
+const DESTINATIONS = [
+  "Resources",
+  "Academic help",
+  "Amenities",
+  "Clubs",
+  "Opportunities",
+  "Student discounts",
+  "Report an issue",
+  "SG updates",
+  "SG transparency",
+];
+
+test("the phone menu lists every destination, from a page that is not home", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/resources");
+  await page.getByRole("button", { name: "Open menu" }).click();
+
+  const menu = page.locator("#mobile-nav");
+  for (const label of DESTINATIONS) {
+    await expect(
+      menu.getByRole("link", { name: label, exact: true }),
+      `${label} in the phone menu`,
+    ).toBeVisible();
+  }
+});
+
+test("the desktop More menu reaches the pages the bar has no room for", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/resources");
+
+  const more = page.getByRole("button", { name: "More" });
+  await expect(more).toHaveAttribute("aria-expanded", "false");
+  await more.click();
+  await expect(more).toHaveAttribute("aria-expanded", "true");
+
+  const panel = page.locator("#more-menu");
+  for (const label of DESTINATIONS) {
+    await expect(
+      panel.getByRole("link", { name: label, exact: true }),
+      `${label} in the More menu`,
+    ).toBeVisible();
+  }
+
+  // Escape closes it and hands focus back, so a keyboard user is not stranded.
+  await page.keyboard.press("Escape");
+  await expect(panel).toHaveCount(0);
+  await expect(more).toBeFocused();
+
+  await more.click();
+  await panel.getByRole("link", { name: "Clubs", exact: true }).click();
+  await expect(page).toHaveURL(/\/clubs$/);
+  await expect(page.locator("#more-menu")).toHaveCount(0);
+});
+
 test("the mobile menu opens, navigates, and closes itself", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");

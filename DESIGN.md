@@ -83,6 +83,12 @@ row keys, and table headers.
   the eye lands. The example chips under the search ("stressed", "broken dryer")
   demonstrate alias matching, which is otherwise invisible.
 - Sticky elements: header at `top-0`, directory filter bars at `top-14`.
+- Navigation reads from one grouped list, `siteSections` in `src/content/site.ts`.
+  The bar shows the handful flagged `inNav`; a "More" disclosure holds the full
+  index on desktop, and the phone sheet lists every destination grouped. Each
+  entry carries a one-line blurb, attached with `aria-describedby` and hidden
+  from the accessible name, so a screen reader announces "Clubs" rather than
+  "Clubs What each club does, when it meets, who to email."
 - Category chip rows bleed to the screen edge on mobile via negative margins, so
   they read as scrollable rather than clipped.
 

@@ -84,25 +84,45 @@ function doPost(e) {
  *
  * With no parameters it is a health check.
  *
- * With ?sheet=updates and the token, it returns the public status board as
- * JSON, so the site can read entries an officer typed into a spreadsheet
- * instead of losing them on the next deploy. Only the Updates tab is ever
- * readable this way. The Submissions tab is write-only, by omission: there is
- * no code path here that returns it.
+ * With ?sheet=<name> and the token, it returns one readable tab as JSON, so
+ * the site can read entries an officer typed into a spreadsheet instead of
+ * losing them on the next deploy.
  *
- * Add a second tab named "Updates" with these headers, in this order:
+ * READABLE is an allow-list, and the Submissions tab is deliberately not in
+ * it. That tab is write-only by construction rather than by convention: there
+ * is no value of ?sheet= that reaches it, so a leaked token cannot read one
+ * student's report. Adding a tab here makes it world-readable to anyone
+ * holding the token, so add only tabs meant to be public.
+ *
+ * TAB: "Updates" - the issue status board.
  *   id | title | category | status | dateUpdated | summary | nextStep
  *
- * category must be one of: academics, residential-life, dining,
- * transportation, technology, student-life, accessibility, other
- * status must be one of: received, under-review, referred, in-progress,
- * awaiting-response, resolved, unable-to-pursue
+ *   category: academics, residential-life, dining, transportation,
+ *   technology, student-life, accessibility, other
+ *   status: received, under-review, referred, in-progress, awaiting-response,
+ *   resolved, unable-to-pursue
+ *
+ * TAB: "Feed" - what Student Government itself is doing. Separate from the
+ * board above: that one follows a student's problem, this one follows SG.
+ *   id | kind | date | title | body | stage | example
+ *
+ *   kind: meeting, proposal, response
+ *   stage (proposals only, otherwise leave empty): drafted, before-senate,
+ *   passed-senate, with-administration, adopted, not-pursued
+ *   example: leave empty. "yes" marks a row as an illustration rather than
+ *   something that happened, and the site labels it as one.
+ *
+ * The moment the Feed tab has a single row, the site stops showing its own
+ * built-in examples entirely.
  */
-var UPDATES_SHEET = "Updates";
+var READABLE = { updates: "Updates", feed: "Feed" };
 
 function doGet(e) {
-  var wants = e && e.parameter && e.parameter.sheet;
-  if (wants !== "updates") {
+  var wants = (e && e.parameter && e.parameter.sheet) || "";
+  var tab = Object.prototype.hasOwnProperty.call(READABLE, wants)
+    ? READABLE[wants]
+    : null;
+  if (!tab) {
     return reply(200, { ok: true, service: "ncssm-navigate-store" });
   }
 
@@ -111,8 +131,12 @@ function doGet(e) {
     return reply(401, { ok: false, error: "unauthorized" });
   }
 
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(UPDATES_SHEET);
-  if (!sheet || sheet.getLastRow() < 2) return reply(200, { ok: true, updates: [] });
+  var body = { ok: true };
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(tab);
+  if (!sheet || sheet.getLastRow() < 2) {
+    body[wants] = [];
+    return reply(200, body);
+  }
 
   var values = sheet.getDataRange().getValues();
   var head = values[0].map(function (h) { return String(h).trim(); });
@@ -130,7 +154,8 @@ function doGet(e) {
     if (row.id && row.title) rows.push(row);
   }
 
-  return reply(200, { ok: true, updates: rows });
+  body[wants] = rows;
+  return reply(200, body);
 }
 
 function getSheet() {

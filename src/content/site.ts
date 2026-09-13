@@ -79,6 +79,11 @@ export const moreDirectories = [
     label: "Clubs",
     blurb: "What each club does, when it meets, who to email.",
   },
+  {
+    href: "/transparency",
+    label: "SG transparency",
+    blurb: "Meetings, proposals, and replies to student feedback.",
+  },
 ] as const;
 
 /**

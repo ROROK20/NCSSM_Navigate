@@ -235,6 +235,85 @@ export const ISSUE_STATUSES = [
 
 export type IssueStatusId = (typeof ISSUE_STATUSES)[number]["id"];
 
+/* -------------------------------------------------- SG transparency feed */
+
+/**
+ * What a feed entry is.
+ *
+ * Distinct from ISSUE_CATEGORIES on purpose: those describe a student's
+ * problem, these describe Student Government's own activity.
+ */
+export const SG_FEED_KINDS = [
+  {
+    id: "meeting",
+    label: "Meeting highlight",
+    blurb: "What was discussed and decided at a meeting.",
+    tone: "one",
+  },
+  {
+    id: "proposal",
+    label: "Policy proposal",
+    blurb: "Something SG is trying to change, and where it has got to.",
+    tone: "three",
+  },
+  {
+    id: "response",
+    label: "Response to feedback",
+    blurb: "SG answering something students raised.",
+    tone: "five",
+  },
+] as const;
+
+export type SgFeedKindId = (typeof SG_FEED_KINDS)[number]["id"];
+
+/**
+ * Where a proposal stands.
+ *
+ * "Passed Senate" and "Adopted" are deliberately different stages. Senate
+ * voting for something is not the same as it being in force, and a board that
+ * blurs the two lets SG take credit for a change that never happened.
+ */
+export const SG_PROPOSAL_STAGES = [
+  {
+    id: "drafted",
+    label: "Drafted",
+    description: "Written up. Not yet in front of Senate.",
+    tone: "neutral",
+  },
+  {
+    id: "before-senate",
+    label: "Before Senate",
+    description: "On the agenda, or being debated.",
+    tone: "info",
+  },
+  {
+    id: "passed-senate",
+    label: "Passed Senate",
+    description: "Senate voted for it. Nothing has changed yet.",
+    tone: "active",
+  },
+  {
+    id: "with-administration",
+    label: "With the administration",
+    description: "Handed to the office that owns the decision.",
+    tone: "warn",
+  },
+  {
+    id: "adopted",
+    label: "Adopted",
+    description: "In force. Something actually changed.",
+    tone: "done",
+  },
+  {
+    id: "not-pursued",
+    label: "Not pursued",
+    description: "Voted down, withdrawn, or outside what SG can do.",
+    tone: "closed",
+  },
+] as const;
+
+export type SgProposalStageId = (typeof SG_PROPOSAL_STAGES)[number]["id"];
+
 /* ------------------------------------------------------------- lookup maps */
 
 function index<T extends { id: string }>(rows: readonly T[]) {
@@ -248,6 +327,8 @@ export const RESOURCE_CATEGORY_BY_ID = index(RESOURCE_CATEGORIES);
 export const DISCOUNT_CATEGORY_BY_ID = index(DISCOUNT_CATEGORIES);
 export const AMENITY_CATEGORY_BY_ID = index(AMENITY_CATEGORIES);
 export const CLUB_CATEGORY_BY_ID = index(CLUB_CATEGORIES);
+export const SG_FEED_KIND_BY_ID = index(SG_FEED_KINDS);
+export const SG_PROPOSAL_STAGE_BY_ID = index(SG_PROPOSAL_STAGES);
 export const OPPORTUNITY_CATEGORY_BY_ID = index(OPPORTUNITY_CATEGORIES);
 export const ISSUE_CATEGORY_BY_ID = index(ISSUE_CATEGORIES);
 export const ISSUE_STATUS_BY_ID = index(ISSUE_STATUSES);
@@ -257,6 +338,8 @@ export const RESOURCE_CATEGORY_IDS = RESOURCE_CATEGORIES.map((c) => c.id);
 export const DISCOUNT_CATEGORY_IDS = DISCOUNT_CATEGORIES.map((c) => c.id);
 export const AMENITY_CATEGORY_IDS = AMENITY_CATEGORIES.map((c) => c.id);
 export const CLUB_CATEGORY_IDS = CLUB_CATEGORIES.map((c) => c.id);
+export const SG_FEED_KIND_IDS = SG_FEED_KINDS.map((k) => k.id);
+export const SG_PROPOSAL_STAGE_IDS = SG_PROPOSAL_STAGES.map((s) => s.id);
 export const OPPORTUNITY_CATEGORY_IDS = OPPORTUNITY_CATEGORIES.map((c) => c.id);
 export const ISSUE_CATEGORY_IDS = ISSUE_CATEGORIES.map((c) => c.id);
 export const ISSUE_STATUS_IDS = ISSUE_STATUSES.map((s) => s.id);

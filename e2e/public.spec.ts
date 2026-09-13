@@ -58,6 +58,7 @@ test("every top-level route returns a page, not an error", async ({ page }) => {
     "/opportunities",
     "/report",
     "/updates",
+    "/transparency",
     "/sg",
     "/admin",
   ]) {
@@ -300,6 +301,40 @@ test("SG updates board shows statuses and never leaks submission details", async
   await expect(
     page.getByRole("heading", { name: "More quiet study space in the evenings" }),
   ).toHaveCount(0);
+});
+
+test("the transparency feed labels its examples as examples", async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+  await page.goto("/transparency");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "SG transparency",
+  );
+
+  // Every shipped row is an illustration, and says so on the row rather than
+  // only in a notice somebody may have scrolled past. A fabricated meeting on
+  // a transparency page is the worst thing this site could publish.
+  await expect(page.getByText("Every entry below is an example")).toBeVisible();
+  const rows = page.locator("ul > li").filter({ hasText: "Example entry" });
+  await expect(rows).toHaveCount(3);
+
+  // It is a different board from the issue tracker, and each names the other.
+  await expect(page.getByRole("link", { name: "issue tracker" })).toBeVisible();
+  await page.goto("/updates");
+  await page.getByRole("link", { name: "SG transparency" }).first().click();
+  await expect(page).toHaveURL(/\/transparency$/);
+
+  // Proposals carry a stage, and passing Senate is not the same as adopted.
+  await expect(page.getByText("Before Senate").first()).toBeVisible();
+  await expect(page.getByText("Nothing has changed yet")).toBeVisible();
+
+  // Filtering by kind leaves only that kind on the board.
+  await page.getByRole("button", { name: /^Policy proposal/ }).click();
+  await expect(page.getByText("1 entry matches your filters")).toBeVisible();
+
+  expect(errors).toEqual([]);
 });
 
 test("unknown routes render the 404 page", async ({ page }) => {

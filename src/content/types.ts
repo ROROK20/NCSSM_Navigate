@@ -12,6 +12,8 @@ import type {
   DiscountCategoryId,
   AmenityCategoryId,
   ClubCategoryId,
+  SgFeedKindId,
+  SgProposalStageId,
   OpportunityCategoryId,
   IssueCategoryId,
   IssueStatusId,
@@ -251,6 +253,43 @@ export interface SgUpdate {
   /** Sanitized, public-safe summary. Reviewed before publishing. */
   summary: string;
   nextStep?: string | null;
+}
+
+/**
+ * One entry in the Student Government transparency feed.
+ *
+ * NOT the same thing as an SgUpdate. An SgUpdate follows a problem a student
+ * reported, through stages, to a resolution. This follows Student Government
+ * itself: what was discussed at a meeting, what it is trying to change, and
+ * what it said back when students raised something.
+ *
+ * The two boards are separate because they answer different questions. "Is
+ * anyone doing anything about the dryers" and "what did SG actually do this
+ * week" are not the same question, and one board answering both ends up
+ * answering neither.
+ *
+ * Officers maintain this in a spreadsheet, not in TypeScript. See
+ * `fetchSheetFeed` in `src/lib/content.ts`.
+ */
+export interface SgFeedEntry {
+  id: string;
+  kind: SgFeedKindId;
+  /** ISO date of the meeting, or of the last movement on a proposal. */
+  date: string;
+  title: string;
+  /** The substance, in language a student who was not there can follow. */
+  body: string;
+  /** Only meaningful when `kind` is "proposal". Null otherwise. */
+  stage: SgProposalStageId | null;
+  /**
+   * True when this row is a shipped example rather than something that
+   * happened.
+   *
+   * Every seed row sets it. The UI labels those rows and says so at the top of
+   * the page, because a fabricated meeting on a transparency page is the worst
+   * thing this site could publish.
+   */
+  example: boolean;
 }
 
 export interface SgDocument {

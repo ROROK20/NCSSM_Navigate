@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getUpdates } from "@/lib/content";
 import { ISSUE_STATUSES, ISSUE_STATUS_BY_ID } from "@/content/taxonomy";
 import { UpdatesBoard, type UpdateView } from "@/components/updates-board";
@@ -53,6 +54,22 @@ export default async function UpdatesPage() {
         emails, room numbers, or quoted descriptions appear here, one entry often
         covers several reports about the same thing, and being listed is not a
         promise it will be solved.
+      </p>
+
+      {/*
+        Two boards a click apart are easy to confuse, so each says what the
+        other is. This one follows a reported problem; the other follows SG.
+      */}
+      <p className="caveat mt-2 max-w-3xl">
+        This board follows problems students reported. For what Student
+        Government itself has been doing, see{" "}
+        <Link
+          href="/transparency"
+          className="text-accent underline underline-offset-2"
+        >
+          SG transparency
+        </Link>
+        .
       </p>
 
       {isDemo && !collectsForCandidate ? <DemoSubmissions /> : null}

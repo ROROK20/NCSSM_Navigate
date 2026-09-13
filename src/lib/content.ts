@@ -2,8 +2,19 @@ import "server-only";
 import { resources as seedResources } from "@/content/resources";
 import { opportunities as seedOpportunities } from "@/content/opportunities";
 import { sgUpdates as seedUpdates } from "@/content/updates";
-import type { Opportunity, Resource, SgUpdate } from "@/content/types";
-import { ISSUE_CATEGORY_IDS, ISSUE_STATUS_IDS } from "@/content/taxonomy";
+import { sgFeed as seedFeed } from "@/content/sg-feed";
+import type {
+  Opportunity,
+  Resource,
+  SgFeedEntry,
+  SgUpdate,
+} from "@/content/types";
+import {
+  ISSUE_CATEGORY_IDS,
+  ISSUE_STATUS_IDS,
+  SG_FEED_KIND_IDS,
+  SG_PROPOSAL_STAGE_IDS,
+} from "@/content/taxonomy";
 import { readJson, writeJson } from "./store";
 
 /**
@@ -163,6 +174,83 @@ export async function getUpdates(): Promise<SgUpdate[]> {
   return [...byId.values()].sort((a, b) =>
     b.dateUpdated.localeCompare(a.dateUpdated),
   );
+}
+
+/**
+ * Student Government's own activity, typed into the Sheet's "Feed" tab.
+ *
+ * Same contract as the status board above: optional, cached for a few minutes,
+ * and every failure swallowed. A transparency page that 500s because a
+ * spreadsheet was slow has failed at the one thing it exists to do.
+ */
+async function fetchSheetFeed(): Promise<SgFeedEntry[]> {
+  const store = process.env.ISSUE_STORE_URL;
+  if (!store) return [];
+
+  try {
+    const url = new URL(store);
+    url.searchParams.set("sheet", "feed");
+
+    const response = await fetch(url, {
+      next: { revalidate: 300 },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) return [];
+
+    const data: unknown = await response.json();
+    const rows =
+      data && typeof data === "object" && "feed" in data
+        ? (data as { feed: unknown }).feed
+        : null;
+    if (!Array.isArray(rows)) return [];
+
+    return rows.flatMap((row): SgFeedEntry[] => {
+      if (!row || typeof row !== "object") return [];
+      const r = row as Record<string, string>;
+      if (!r.id || !r.title) return [];
+      if (!(SG_FEED_KIND_IDS as readonly string[]).includes(r.kind)) return [];
+
+      // A stage only means anything on a proposal, and an unrecognised one is
+      // dropped rather than rendered as an unlabelled pip.
+      const stage =
+        r.kind === "proposal" &&
+        (SG_PROPOSAL_STAGE_IDS as readonly string[]).includes(r.stage)
+          ? (r.stage as SgFeedEntry["stage"])
+          : null;
+
+      return [
+        {
+          id: r.id,
+          kind: r.kind as SgFeedEntry["kind"],
+          date: /^\d{4}-\d{2}-\d{2}$/.test(r.date)
+            ? r.date
+            : new Date().toISOString().slice(0, 10),
+          title: r.title,
+          body: r.body ?? "",
+          stage,
+          example: /^(true|yes|y|1|x)$/i.test(String(r.example ?? "").trim()),
+        },
+      ];
+    });
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * The transparency feed: the spreadsheet if it has anything, the examples if
+ * it does not.
+ *
+ * Deliberately a replacement rather than a merge, which is the opposite of how
+ * the status board layers its sources. The seed rows here are labelled
+ * examples, and an example meeting sitting in a list of real ones is exactly
+ * the confusion this page cannot afford. The moment officers have typed a
+ * single row, the placeholders are gone.
+ */
+export async function getSgFeed(): Promise<SgFeedEntry[]> {
+  const sheetFeed = await fetchSheetFeed();
+  const rows = sheetFeed.length > 0 ? sheetFeed : seedFeed;
+  return [...rows].sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /** `hidden` controls filtering; it must not be spread onto the record itself. */

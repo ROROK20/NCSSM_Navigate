@@ -12,6 +12,7 @@ import { scoreMatch } from "@/lib/search";
 import { formatDate } from "@/lib/format";
 import { FilterBar } from "./filter-bar";
 import { ContactNote } from "./contact-note";
+import { HoursTable } from "./hours-table";
 import {
   ArrowUpRight,
   Button,
@@ -54,6 +55,11 @@ export function ResourceDirectory({
           resource.audience,
           PLATFORM_BY_ID[resource.platform]?.label,
           resource.contactNote,
+          // Hours are on screen, so they have to be findable by what they say:
+          // "saturday", "brunch", "7:45am" are all things someone types.
+          resource.hours
+            ?.map((row) => `${row.days} ${row.period} ${row.time}`)
+            .join(" "),
         ]
           .filter(Boolean)
           .join(" "),
@@ -266,6 +272,13 @@ function ResourceRow({ resource }: { resource: Resource }) {
 
           {resource.contactNote ? (
             <ContactNote note={resource.contactNote} />
+          ) : null}
+
+          {resource.hours?.length ? (
+            <HoursTable
+              hours={resource.hours}
+              confirmed={resource.verificationStatus === "verified"}
+            />
           ) : null}
         </div>
 

@@ -23,6 +23,26 @@ import type {
  */
 export type VerificationStatus = "verified" | "needs-review" | "outdated";
 
+/**
+ * One serving window or opening window.
+ *
+ * Deliberately flat rather than nested by day, because this is the shape a
+ * spreadsheet holds: one line per window, the day group repeated. Anything
+ * nested would have to be flattened again for the CSV round-trip, and the
+ * flattening is where a schedule silently loses a row.
+ *
+ * `time` is free text so "Closed", "24 hours", and "By appointment" all work
+ * without a second field to say which kind of value this is.
+ */
+export interface HoursRow {
+  /** "Monday to Friday", "Saturday and Sunday", "Every day". */
+  days: string;
+  /** "Breakfast", "Lunch", "Dinner". Empty when there is one window a day. */
+  period: string;
+  /** "7:45am - 10:00am". */
+  time: string;
+}
+
 export interface Resource {
   id: string;
   name: string;
@@ -44,6 +64,15 @@ export interface Resource {
   /** Public office/department contact. Never an individual student. */
   contactEmail?: string;
   contactNote?: string;
+  /**
+   * Opening or serving hours, when a student's actual question is "is it open
+   * right now" rather than "where is the page".
+   *
+   * `verificationStatus` covers this too: a link checker can prove the page
+   * resolves, and proves nothing about whether breakfast still ends at ten, so
+   * hours on an unverified row are labelled unconfirmed in the UI.
+   */
+  hours?: HoursRow[];
   /**
    * True when the link lands on a system that requires an NCSSM account.
    * We only ever link out; we never proxy or store content behind these.

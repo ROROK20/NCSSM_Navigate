@@ -240,11 +240,18 @@ export const resources: Resource[] = [
     description:
       "What is being served, when the dining hall is open, and how to flag an allergy or dietary need.",
     aliases:
-      "food, dining hall, cafeteria, menu, meal, meals, allergy, allergies, vegetarian, vegan, gluten, breakfast, lunch, dinner, dining hours",
+      "food, dining hall, cafeteria, menu, meal, meals, allergy, allergies, vegetarian, vegan, gluten, breakfast, lunch, dinner, brunch, dining hours, serving hours, meal times, when does the dining hall close, when does the dining hall open, what time does dinner end, is breakfast still open, still serving, closing time, open now, is the dining hall open, weekend brunch, saturday brunch, sunday brunch",
     category: "dining-transportation",
     officialUrl: "https://ncssm-durham.campus-dining.com/",
     contactNote:
       "Meals are free to students. Vegetarian, vegan, and gluten-free options are provided; talk to dining staff about an allergy so it is on file.",
+    hours: [
+      { days: "Monday to Friday", period: "Breakfast", time: "7:45am - 10:00am" },
+      { days: "Monday to Friday", period: "Lunch", time: "11:30am - 1:30pm" },
+      { days: "Monday to Friday", period: "Dinner", time: "5:00pm - 7:30pm" },
+      { days: "Saturday and Sunday", period: "Brunch", time: "10:30am - 1:00pm" },
+      { days: "Saturday and Sunday", period: "Dinner", time: "5:00pm - 6:30pm" },
+    ],
     audience: "Residential students",
     loginRequired: false,
     platform: "web",

@@ -16,6 +16,13 @@
  */
 
 import { readFile, writeFile } from "node:fs/promises";
+import {
+  decodeHours,
+  encodeHours,
+  parseCsv,
+  toCsv as toCsvRows,
+  truthy,
+} from "./lib/csv.mjs";
 
 const FILE = new URL("../src/content/resources.ts", import.meta.url);
 const TAXONOMY = new URL("../src/content/taxonomy.ts", import.meta.url);
@@ -30,6 +37,7 @@ const COLUMNS = [
   "audience",
   "contactEmail",
   "contactNote",
+  "hours",
   "loginRequired",
   "platform",
   "lastVerified",
@@ -41,59 +49,7 @@ const VERIFICATION = ["verified", "needs-review", "outdated"];
 
 /* ------------------------------------------------------------------- csv */
 
-function toCsv(rows) {
-  const escape = (value) => {
-    const text = value === undefined || value === null ? "" : String(value);
-    return /[",\n\r]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
-  };
-  return [
-    COLUMNS.join(","),
-    ...rows.map((row) => COLUMNS.map((col) => escape(row[col])).join(",")),
-  ].join("\n");
-}
-
-/** Minimal RFC4180 parser: handles quotes, embedded commas, and newlines. */
-function parseCsv(text) {
-  const rows = [];
-  let row = [];
-  let field = "";
-  let quoted = false;
-
-  const clean = text.replace(/^﻿/, "").replace(/\r\n/g, "\n");
-
-  for (let i = 0; i < clean.length; i++) {
-    const char = clean[i];
-    if (quoted) {
-      if (char === '"') {
-        if (clean[i + 1] === '"') {
-          field += '"';
-          i++;
-        } else {
-          quoted = false;
-        }
-      } else {
-        field += char;
-      }
-    } else if (char === '"') {
-      quoted = true;
-    } else if (char === ",") {
-      row.push(field);
-      field = "";
-    } else if (char === "\n") {
-      row.push(field);
-      rows.push(row);
-      row = [];
-      field = "";
-    } else {
-      field += char;
-    }
-  }
-  if (field.length > 0 || row.length > 0) {
-    row.push(field);
-    rows.push(row);
-  }
-  return rows.filter((r) => r.some((cell) => cell.trim() !== ""));
-}
+const toCsv = (rows) => toCsvRows(COLUMNS, rows);
 
 /* ------------------------------------------------------ read the TS file */
 
@@ -132,6 +88,15 @@ function parseResources(text) {
       }
     };
     const bool = (key) => new RegExp(`(?:^|\\n)    ${key}: true`).test(record);
+    // `hours` is the one array field. It is generated one window per line, so
+    // it can be read back with the same literal-matching approach as the rest.
+    const hours = () => {
+      const block = record.match(/\n    hours: \[\n([\s\S]*?)\n    \],/);
+      if (!block) return [];
+      return [...block[1].matchAll(
+        /\{ days: "([^"]*)", period: "([^"]*)", time: "([^"]*)" \}/g,
+      )].map((m) => ({ days: m[1], period: m[2], time: m[3] }));
+    };
     const id = str("id");
     if (!id) continue;
     rows.push({
@@ -144,6 +109,7 @@ function parseResources(text) {
       audience: str("audience"),
       contactEmail: str("contactEmail"),
       contactNote: str("contactNote"),
+      hours: encodeHours(hours()),
       loginRequired: bool("loginRequired"),
       platform: str("platform"),
       lastVerified: str("lastVerified"),
@@ -173,6 +139,16 @@ function serialize(rows) {
     if (row.audience) lines.push(`    audience: ${q(row.audience)},`);
     if (row.contactEmail) lines.push(`    contactEmail: ${q(row.contactEmail)},`);
     if (row.contactNote) lines.push(`    contactNote: ${q(row.contactNote)},`);
+    if (row.hoursRows?.length) {
+      lines.push(`    hours: [`);
+      for (const hour of row.hoursRows) {
+        lines.push(
+          `      { days: ${q(hour.days)}, period: ${q(hour.period)}, ` +
+            `time: ${q(hour.time)} },`,
+        );
+      }
+      lines.push(`    ],`);
+    }
     lines.push(`    loginRequired: ${row.loginRequired},`);
     lines.push(`    platform: ${q(row.platform)},`);
     lines.push(
@@ -258,7 +234,6 @@ if (mode === "export") {
     process.exit(1);
   }
 
-  const truthy = (v) => /^(true|yes|y|1|x)$/i.test(String(v ?? "").trim());
   const errors = [];
   const seen = new Set();
   const rows = [];
@@ -276,6 +251,7 @@ if (mode === "export") {
       audience: get("audience"),
       contactEmail: get("contactEmail"),
       contactNote: get("contactNote"),
+      hours: get("hours"),
       loginRequired: truthy(get("loginRequired")),
       platform: get("platform"),
       lastVerified: get("lastVerified"),
@@ -284,6 +260,13 @@ if (mode === "export") {
     };
 
     const bad = (message) => errors.push(`  line ${line}: ${message}`);
+
+    // Decoded here rather than in the serializer so a mistyped schedule is
+    // reported with its line number and stops the whole import, in line with
+    // every other field: a half-written schedule is worse than none.
+    const decoded = decodeHours(row.hours);
+    decoded.errors.forEach(bad);
+    row.hoursRows = decoded.rows;
 
     if (!row.id) bad("id is required");
     else if (!/^[a-z0-9][a-z0-9-]*$/.test(row.id))

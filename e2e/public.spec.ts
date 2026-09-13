@@ -190,6 +190,9 @@ const PLAIN_LANGUAGE: Array<[query: string, expectedTopResult: string]> = [
   ["drop a class", "Academic advising"],
   ["leave campus for the weekend", "Orah"],
   ["vegetarian food", "Dining hall menus & hours"],
+  // Hours live on the row, so the question about hours has to reach the row.
+  ["when does the dining hall close", "Dining hall menus & hours"],
+  ["is breakfast still open", "Dining hall menus & hours"],
   ["join a club", "Clubs & organizations"],
   ["send my grades to a college", "Transcripts for college applications"],
   ["package delivery", "Mail room & package pickup"],

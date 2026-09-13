@@ -104,6 +104,15 @@ rows), empty (`EmptyState` with a clear-filters action), success (the report
 form's confirmation panel), and error (`error.tsx`, inline field errors, and a
 form-level alert that always offers the SG email as a fallback).
 
+`ReadinessTag` marks what each surface actually is: **Working now**, **Needs
+data**, **Examples only**, **Demo only**. It renders the same `StatusPip` the
+issue tracker uses, so the colours stay inside the set already checked in both
+themes, and it reads its label from one table in `src/content/readiness.ts`.
+The homepage, the page itself and the list on the proposal page all render from
+that table, which is the point: three places describing the same feature cannot
+drift into claiming different things. A route absent from the table renders no
+tag, because a page nobody has judged should not claim a status.
+
 ## Accessibility
 
 - Skip link is the first tab stop on every page.

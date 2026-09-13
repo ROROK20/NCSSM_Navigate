@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getSgFeed } from "@/lib/content";
@@ -54,7 +55,10 @@ export default async function TransparencyPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">
-        <Eyebrow>Student Government</Eyebrow>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Eyebrow>Student Government</Eyebrow>
+          <ReadinessTag href="/transparency" />
+        </div>
         <h1 className="display mt-3 text-ink">SG transparency</h1>
         <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted">
           What Student Government itself is doing: what came up at meetings,

@@ -5,9 +5,11 @@ import {
   ArrowRight,
   ButtonLink,
   Callout,
-  Chip,
   Eyebrow,
+  StatusPip,
 } from "@/components/ui";
+import { ReadinessTag } from "@/components/readiness-tag";
+import { READINESS_LEGEND, readinessOf } from "@/content/readiness";
 
 /**
  * The proposal page: what Navigate is, what it already does, and what
@@ -18,6 +20,73 @@ import {
  * campaign page that overclaims is worse than none, because the whole argument
  * is that this one was built rather than promised.
  */
+
+/**
+ * Every surface, in the order a reader should meet them: what works today
+ * first, what needs data second, what needs the office last.
+ *
+ * The status beside each row is not written here. It comes from
+ * `readiness.ts`, the same table the homepage and the pages themselves read,
+ * so this page cannot drift into claiming more than they do.
+ */
+const BUILT = [
+  {
+    href: "/resources",
+    title: "A searchable resource directory",
+    body: "One list covering academic support, counseling, residential life, dining, transport, technology, and forms. Search by what you are trying to do rather than the department that owns it.",
+  },
+  {
+    href: "/resources",
+    title: "Search that speaks like a student",
+    body: "Every entry carries the words people actually type. Searching \u201cstressed\u201d finds Counseling; \u201cbroken dryer\u201d finds the maintenance request. No AI, so it is instant and cannot invent a link.",
+  },
+  {
+    href: "/academic-help",
+    title: "Who helps with this subject, and when",
+    body: "Teacher office hours, peer TAs, the Writing Center and advising, grouped by subject instead of by which office runs them. Type the subject, or type that you are stuck.",
+  },
+  {
+    href: "/opportunities",
+    title: "An opportunities board for Durham",
+    body: "Hackathons, competitions, volunteering, and events, with dates, cost, and eligibility on every entry, and an explicit warning to verify before registering.",
+  },
+  {
+    href: "/discounts",
+    title: "Student discounts around Durham",
+    body: "The places Student Government has collected so far. Tapping one opens Google Maps for directions, hours, and phone.",
+  },
+  {
+    href: "/amenities",
+    title: "The nearest printer, microwave, or refill station",
+    body: "A finder for the small things nobody writes down, including sanitary product dispensers. Built and searchable, waiting on somebody to walk the buildings with a phone.",
+  },
+  {
+    href: "/clubs",
+    title: "A club directory you can search by what a club does",
+    body: "Not just by name: \u201cmath competitions\u201d should find the club whether or not the word is in its title. Meeting times, locations and contacts live in a spreadsheet officers keep, not in code.",
+  },
+  {
+    href: "/transparency",
+    title: "A transparency feed for SG itself",
+    body: "Meeting highlights, policy proposals and where each one stands, and answers to things students raised. Separate from the issue tracker, because what SG did this week and what happened to your report are different questions.",
+  },
+  {
+    href: "/report",
+    title: "Issue reporting, anonymous by choice",
+    body: "Validated, spam-resistant, and private by construction: an anonymous report stores no contact details at all, so there is nothing to leak later.",
+  },
+  {
+    href: "/updates",
+    title: "A public status board",
+    body: "Every issue gets a stage students can see, with no names, quotes, or room numbers. Being listed is never a promise it will be solved.",
+  },
+  {
+    href: "/admin",
+    title: "An editor SG can run without code",
+    body: "Officers update links, mark entries verified or outdated, and post status updates from a password-protected page. Handing this to next year's officers is a password, not a tutorial.",
+  },
+] as const;
+
 export function SgProposalView() {
   const who = stage.candidate.name;
 
@@ -29,11 +98,13 @@ export function SgProposalView() {
           Most of what students need already exists. Finding it is the problem.
         </h1>
         <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted">
-          Navigate is a working site, not a plan for one. Every page on this
-          domain does what it says: search the directory, submit an issue, watch
-          it land on the status board. The only thing missing is an office
-          behind it — until Student Government adopts it, submissions stay in
-          your own browser instead of reaching anyone.
+          Navigate is a working site, not a plan for one. Search the directory,
+          find who helps with a subject, submit an issue and watch it land on
+          the status board. Every page below is tagged with what it actually is
+          today: most of it works now, some of it is finished and waiting on
+          data to be collected, and two pages need an office behind them. Until
+          Student Government adopts it, a submission stays in your own browser
+          instead of reaching anyone.
         </p>
       </header>
 
@@ -80,71 +151,62 @@ export function SgProposalView() {
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
           Click anything in this list and try it. Nothing here is a mockup or a
-          screenshot — it is the finished thing, running.
+          screenshot. The tag on each row says what you will actually find,
+          because some of these are finished pages waiting on data somebody has
+          to go and collect, and a list that hid that would be the kind of
+          promise this site exists to avoid.
         </p>
 
         <ul className="mt-6 border-t border-line">
-          {[
-            {
-              href: "/resources",
-              title: "A searchable resource directory",
-              body: "One list covering academic support, counseling, residential life, dining, transport, technology, and forms. Search by what you are trying to do rather than the department that owns it.",
-              state: "live" as const,
-            },
-            {
-              href: "/resources",
-              title: "Search that speaks like a student",
-              body: "Every entry carries the words people actually type. Searching “stressed” finds Counseling; “broken dryer” finds the maintenance request. No AI, so it is instant and cannot invent a link.",
-              state: "live" as const,
-            },
-            {
-              href: "/opportunities",
-              title: "An opportunities board for Durham",
-              body: "Hackathons, competitions, volunteering, and events, with dates, cost, and eligibility on every entry, and an explicit warning to verify before registering.",
-              state: "live" as const,
-            },
-            {
-              href: "/report",
-              title: "Issue reporting, anonymous by choice",
-              body: "Validated, spam-resistant, and private by construction: an anonymous report stores no contact details at all, so there is nothing to leak later.",
-              state: "demo" as const,
-            },
-            {
-              href: "/updates",
-              title: "A public status board",
-              body: "Every issue gets a stage students can see, with no names, quotes, or room numbers. Being listed is never a promise it will be solved.",
-              state: "demo" as const,
-            },
-            {
-              href: "/admin",
-              title: "An editor SG can run without code",
-              body: "Officers update links, mark entries verified or outdated, and post status updates from a password-protected page. Handing this to next year's officers is a password, not a tutorial.",
-              state: "live" as const,
-            },
-          ].map((item) => (
-            <li key={item.title} className="border-b border-line">
-              <Link
-                href={item.href}
-                className="group flex flex-col gap-1.5 py-4 transition-colors hover:bg-sunken sm:-mx-3 sm:px-3"
-              >
-                <span className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium text-ink group-hover:text-accent">
-                    {item.title}
+          {BUILT.map((item) => {
+            const readiness = readinessOf(item.href);
+            return (
+              <li key={item.title} className="border-b border-line">
+                <Link
+                  href={item.href}
+                  className="group flex flex-col gap-1.5 py-4 transition-colors hover:bg-sunken sm:-mx-3 sm:px-3"
+                >
+                  <span className="flex flex-wrap items-center gap-2">
+                    <span className="font-medium text-ink group-hover:text-accent">
+                      {item.title}
+                    </span>
+                    <ReadinessTag href={item.href} />
+                    <ArrowRight className="text-faint transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
-                  {item.state === "demo" ? (
-                    <Chip tone="warn">Demo only</Chip>
-                  ) : (
-                    <Chip>Live now</Chip>
-                  )}
-                  <ArrowRight className="text-faint transition-transform duration-200 group-hover:translate-x-1" />
-                </span>
-                <span className="max-w-2xl text-sm leading-relaxed text-muted">
-                  {item.body}
-                </span>
-              </Link>
-            </li>
-          ))}
+                  <span className="max-w-2xl text-sm leading-relaxed text-muted">
+                    {item.body}
+                  </span>
+                  {readiness?.note ? (
+                    <span className="caveat max-w-2xl">{readiness.note}</span>
+                  ) : null}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
+
+        {/*
+          The legend is the honest half of the argument. Four states rather
+          than "done" and "not done", because the difference between a page
+          that needs an office and a page that needs somebody to walk the
+          buildings is the difference between what a vote buys and what it
+          does not.
+        */}
+        <div className="mt-8 border-t border-line pt-6">
+          <h3 className="label text-faint">What the tags mean</h3>
+          <dl className="mt-4 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+            {READINESS_LEGEND.map((entry) => (
+              <div key={entry.state} className="flex flex-col gap-1.5">
+                <dt>
+                  <StatusPip label={entry.label} tone={entry.tone} />
+                </dt>
+                <dd className="text-sm leading-relaxed text-muted">
+                  {entry.description}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </section>
 
       {/* --------------------------------------------- deliberate omissions */}

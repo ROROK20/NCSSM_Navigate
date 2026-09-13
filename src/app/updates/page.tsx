@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getUpdates } from "@/lib/content";
@@ -29,7 +30,10 @@ export default async function UpdatesPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">
-        <Eyebrow>Status board</Eyebrow>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Eyebrow>Status board</Eyebrow>
+          <ReadinessTag href="/updates" />
+        </div>
         <h1 className="display mt-3 text-ink">
           SG updates
         </h1>

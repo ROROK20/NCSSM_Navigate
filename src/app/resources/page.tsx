@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import { getResources } from "@/lib/content";
 import { ResourceDirectory } from "@/components/resource-directory";
@@ -31,7 +32,10 @@ export default async function ResourcesPage(props: PageProps<"/resources">) {
         they are readable without being the loudest thing here.
       */}
       <header className="pt-10 pb-5 sm:pt-14">
-        <p className="label text-faint">Directory</p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="label text-faint">Directory</p>
+          <ReadinessTag href="/resources" />
+        </div>
         <h1 className="display mt-3 text-ink">Resources</h1>
         <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
           Searchable by what you are trying to do, not by which system owns it.

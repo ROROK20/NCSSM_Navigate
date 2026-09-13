@@ -344,6 +344,68 @@ test("the transparency feed labels its examples as examples", async ({
   expect(errors).toEqual([]);
 });
 
+/**
+ * The demo/working distinction.
+ *
+ * This site is a candidate's proposal, so the difference between a page that
+ * works today and one that needs the office is the whole argument. It is also
+ * the easiest thing to quietly overclaim, which is why it is asserted rather
+ * than trusted: one table feeds the homepage, the pages, and the proposal
+ * list, and this test reads all three.
+ */
+test("every surface says whether it works today or is a demo", async ({
+  page,
+}) => {
+  const errors = watchConsole(page);
+
+  await page.goto("/");
+  const actions = page.getByRole("list").filter({ hasText: "Find a resource" });
+  await expect(
+    actions.getByRole("listitem").filter({ hasText: "Find a resource" }),
+  ).toContainText("Working now");
+  await expect(
+    actions.getByRole("listitem").filter({ hasText: "Report an issue" }),
+  ).toContainText("Demo only");
+  await expect(
+    actions.getByRole("listitem").filter({ hasText: "View SG updates" }),
+  ).toContainText("Demo only");
+
+  // The pages themselves carry the same label as the homepage promised.
+  for (const [path, label] of [
+    ["/resources", "Working now"],
+    ["/academic-help", "Working now"],
+    ["/discounts", "Working now"],
+    ["/amenities", "Needs data"],
+    ["/clubs", "Needs data"],
+    ["/transparency", "Examples only"],
+    ["/report", "Demo only"],
+    ["/updates", "Demo only"],
+  ] as const) {
+    await page.goto(path);
+    // Scoped to the page header inside <main>: the site's sticky nav is also
+    // a <header>, and it is the one .first() finds.
+    await expect(
+      page.locator("main header").first(),
+      `${path} readiness tag`,
+    ).toContainText(label);
+  }
+
+  // The proposal page explains what the four tags mean, so a reader who only
+  // sees a pill somewhere else can find out what it claims.
+  await page.goto("/sg");
+  await expect(page.getByText("What the tags mean")).toBeVisible();
+  for (const label of [
+    "Working now",
+    "Needs data",
+    "Examples only",
+    "Demo only",
+  ]) {
+    await expect(page.getByText(label).first()).toBeVisible();
+  }
+
+  expect(errors).toEqual([]);
+});
+
 test("unknown routes render the 404 page", async ({ page }) => {
   const response = await page.goto("/no-such-page");
   expect(response?.status()).toBe(404);

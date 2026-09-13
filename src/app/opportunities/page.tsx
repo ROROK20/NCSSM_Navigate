@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import { getOpportunities } from "@/lib/content";
 import {
@@ -42,7 +43,10 @@ export default async function OpportunitiesPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 pb-2 sm:pt-14">
-        <Eyebrow>Durham & beyond</Eyebrow>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Eyebrow>Durham & beyond</Eyebrow>
+          <ReadinessTag href="/opportunities" />
+        </div>
         <h1 className="display mt-3 text-ink">
           Opportunities
         </h1>

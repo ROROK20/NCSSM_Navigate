@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ReportForm } from "@/components/report-form";
@@ -18,7 +19,10 @@ export default function ReportPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
       <header className="pt-10 sm:pt-14">
-        <Eyebrow>Student Government</Eyebrow>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <Eyebrow>Student Government</Eyebrow>
+          <ReadinessTag href="/report" />
+        </div>
         <h1 className="display mt-3 text-ink">
           Report an issue
         </h1>

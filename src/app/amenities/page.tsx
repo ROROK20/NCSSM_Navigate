@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import { amenities as seedAmenities } from "@/content/amenities";
 import { AMENITY_CATEGORY_BY_ID } from "@/content/taxonomy";
@@ -37,7 +38,10 @@ export default function AmenitiesPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
       <header className="pt-10 pb-5 sm:pt-14">
-        <p className="label text-faint">On campus</p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="label text-faint">On campus</p>
+          <ReadinessTag href="/amenities" />
+        </div>
         <h1 className="display mt-3 text-ink">Amenities</h1>
         <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
           The nearest colour printer, water refill station, microwave, vending

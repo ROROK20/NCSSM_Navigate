@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import { clubs as seedClubs } from "@/content/clubs";
 import { CLUB_CATEGORY_BY_ID } from "@/content/taxonomy";
@@ -38,7 +39,10 @@ export default function ClubsPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
       <header className="pt-10 pb-5 sm:pt-14">
-        <p className="label text-faint">Student life</p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="label text-faint">Student life</p>
+          <ReadinessTag href="/clubs" />
+        </div>
         <h1 className="display mt-3 text-ink">Clubs</h1>
         <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
           What each club actually does, when it meets, and who to email.

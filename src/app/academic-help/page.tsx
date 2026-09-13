@@ -1,3 +1,4 @@
+import { ReadinessTag } from "@/components/readiness-tag";
 import type { Metadata } from "next";
 import { getResources } from "@/lib/content";
 import {
@@ -55,7 +56,10 @@ export default async function AcademicHelpPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-24 sm:px-6">
       <header className="pt-10 pb-5 sm:pt-14">
-        <p className="label text-faint">Academic support</p>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <p className="label text-faint">Academic support</p>
+          <ReadinessTag href="/academic-help" />
+        </div>
         <h1 className="display mt-3 text-ink">Academic help</h1>
         <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
           Who helps with the subject you are stuck in, and when they are free.

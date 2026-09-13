@@ -16,6 +16,7 @@ import {
   Eyebrow,
   type Tone,
 } from "@/components/ui";
+import { ReadinessTag } from "@/components/readiness-tag";
 import { SeedNotice } from "@/components/seed-notice";
 import { HeroSearch } from "@/components/hero-search";
 
@@ -209,7 +210,12 @@ export default async function HomePage() {
                       : "hover:bg-sunken",
                   ].join(" ")}
                 >
-                  <span className="label tnum text-muted">{action.index}</span>
+                  <span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                    <span className="label tnum text-muted">{action.index}</span>
+                    {/* Which of these four already work, said before the
+                        reader clicks rather than after. */}
+                    <ReadinessTag href={action.href} />
+                  </span>
                   <span className="flex items-center gap-2 text-xl font-semibold tracking-tight text-ink sm:text-2xl">
                     {action.title}
                     <ArrowRight className="text-accent transition-transform duration-200 group-hover:translate-x-1" />
@@ -253,6 +259,7 @@ export default async function HomePage() {
                     <span className="font-medium text-ink transition-colors group-hover:text-accent">
                       {item.label}
                     </span>
+                    <ReadinessTag href={item.href} />
                     <span className="min-w-0 flex-1 text-sm leading-relaxed text-muted">
                       {item.blurb}
                     </span>

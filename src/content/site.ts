@@ -67,7 +67,9 @@ export const moreDirectories = [
   {
     href: "/discounts",
     label: "Student discounts",
-    blurb: "Durham places that give students a deal.",
+    // "Working now" sits beside this on the homepage, so the blurb has to
+    // carry the limit: the places are confirmed, the deals are not.
+    blurb: "Durham places SG collected. The deals are not confirmed yet.",
   },
   {
     href: "/amenities",

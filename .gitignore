@@ -51,6 +51,7 @@ next-env.d.ts
 
 .next-e2e-*
 .data-e2e
+.data-e2e-collect
 test-results
 playwright-report
 

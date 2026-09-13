@@ -22,11 +22,13 @@ import type { StudentDiscount } from "./types";
  * Menu items are deliberately absent from `aliases` unless the business's own
  * listing named them: nobody here has read a menu.
  *
- * `website` is set on three of the seven. Each was opened and shows that
- * business's own Durham address on the page. The other four have no site of
- * their own that could be confirmed, and a directory listing is not one:
- * Devil's NY Pizzeria answers a bot check rather than a page, so there is
- * nothing to confirm and it is left empty rather than guessed at.
+ * `website` is set on four of the seven. Three were opened here and show that
+ * business's own Durham address on the page. devilspizzeria.com answers a
+ * Cloudflare bot check rather than a page, so no tool can confirm it; it is
+ * here because a person opened it in a browser and said it works, which is the
+ * same standard every other link on this site is held to. The remaining three
+ * have no site of their own that could be found, and a directory listing is
+ * not one.
  *
  * Editable as a spreadsheet: `npm run content:export discounts`.
  */
@@ -36,6 +38,7 @@ export const studentDiscounts: StudentDiscount[] = [
     name: "Devils NY Pizzeria",
     kind: "New York style pizza, pasta, calzones",
     category: "pizza",
+    website: "https://devilspizzeria.com/",
     terms: "",
     studentIdRequired: null,
     aliases:

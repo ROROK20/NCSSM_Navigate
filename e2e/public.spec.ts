@@ -215,11 +215,10 @@ test("student discounts name the place without inventing the deal", async ({
   await expect(link).toHaveAttribute("rel", /noopener/);
   await expect(link).toHaveAttribute("rel", /noreferrer/);
 
-  // Three of the seven have a page of their own, each one opened and showing
-  // that business's own Durham address. The other four correctly have none: a
-  // directory listing is not the business's own site.
+  // Four of the seven have a page of their own. The other three correctly have
+  // none: a directory listing is not the business's own site.
   const sites = page.getByRole("link", { name: /Their own site/ });
-  await expect(sites).toHaveCount(3);
+  await expect(sites).toHaveCount(4);
   await expect(sites.first()).toHaveAttribute("rel", /noopener/);
   await expect(sites.first()).toHaveAttribute("rel", /noreferrer/);
 

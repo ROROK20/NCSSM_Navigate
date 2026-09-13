@@ -32,5 +32,17 @@ import type { Amenity } from "./types";
  *    rather than stamping today on something you were told about.
  *  - Add the kind to AMENITY_CATEGORIES in taxonomy.ts before adding rows of
  *    a kind that is not there yet.
+ *
+ * BUILDING NAMES, from the campus map in the 2026-2027 Durham Student
+ * Handbook. Use these spellings so that searching one building returns
+ * everything in it rather than half of it:
+ *
+ *   Bryan (library on floor 1, cafeteria in the basement, Student Life
+ *   office), ETC (Educational Technology Complex: auditorium, lecture hall,
+ *   music suite, Woolworth Room), Hunt (student health clinic, 1st floor
+ *   east), Royall, Reynolds, Beall, Watts, Hill, Cottage, PEC (the gym),
+ *   FabLab, and the Modular Residence Halls.
+ *
+ * The campus is 1219 Broad Street, Durham NC 27705.
  */
 export const amenities: Amenity[] = [];

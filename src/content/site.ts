@@ -144,7 +144,13 @@ export const sgAbout = {
 };
 
 /**
- * SEED DATA — replace URLs before launch.
+ * Student Government's own documents.
+ *
+ * These pointed at a placeholder until the Durham SG site was found at
+ * dur-sg.ncssm.edu. Each URL below was opened and its page title checked.
+ * `minutes` and `voting-records` share a page because SG publishes them
+ * together, and `constitution` and `bylaws` share the Guiding Documents page
+ * for the same reason.
  *
  * `access: "internal"` rows render as a labelled row with no link. Use it for
  * anything that should not be handed to the public, even behind a login.
@@ -154,7 +160,7 @@ export const sgDocuments: SgDocument[] = [
     id: "constitution",
     title: "SG Constitution",
     description: "Structure of Student Government, offices, and election rules.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/operations/guiding-documents",
     access: "public",
     loginRequired: false,
     updated: null,
@@ -163,7 +169,7 @@ export const sgDocuments: SgDocument[] = [
     id: "bylaws",
     title: "Senate bylaws",
     description: "How Senate runs: quorum, voting, committees, and procedure.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/operations/guiding-documents",
     access: "public",
     loginRequired: false,
     updated: null,
@@ -173,7 +179,7 @@ export const sgDocuments: SgDocument[] = [
     title: "Senate minutes",
     description:
       "Notes from each Senate meeting, including what was discussed and decided.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/operations/voting-records-minutes",
     access: "public",
     loginRequired: true,
     updated: null,
@@ -182,7 +188,7 @@ export const sgDocuments: SgDocument[] = [
     id: "legislation",
     title: "Passed legislation & resolutions",
     description: "Resolutions Senate has voted on, with outcomes.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/operations/legislation_1",
     access: "public",
     loginRequired: true,
     updated: null,
@@ -191,7 +197,7 @@ export const sgDocuments: SgDocument[] = [
     id: "voting-records",
     title: "Voting records",
     description: "How each senator voted on recorded votes.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/operations/voting-records-minutes",
     access: "public",
     loginRequired: true,
     updated: null,
@@ -200,7 +206,7 @@ export const sgDocuments: SgDocument[] = [
     id: "funding-guidelines",
     title: "Club funding guidelines",
     description: "Criteria SG uses when reviewing funding requests.",
-    url: "https://www.ncssm.edu/student-life",
+    url: "https://dur-sg.ncssm.edu/clubs/clubs-and-funding",
     access: "public",
     loginRequired: false,
     updated: null,

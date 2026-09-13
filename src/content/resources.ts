@@ -61,11 +61,15 @@ export const resources: Resource[] = [
     description:
       "Nurses on campus for illness, injury, medication, and appointment scheduling. Start here before going off campus for care.",
     aliases:
-      "nurse, sick, ill, infirmary, medicine, medication, meds, prescription, fever, injury, hurt, doctor, appointment",
+      "nurse, sick, ill, infirmary, medicine, medication, meds, prescription, fever, injury, hurt, doctor, appointment, clinic hours, is the clinic open, hunt, concussion, form f, urgent care",
     category: "urgent-support",
     officialUrl: "https://www.ncssm.edu/residential/safety-support/health",
     contactNote:
-      "Clinic is open Monday to Friday, 8am to 4pm: clinic@ncssm.edu or 919-416-2892. Outside those hours go to a Community Coordinator desk; a CC on duty can reach the after-hours nursing line.",
+      "The clinic is in Hunt Residence Hall, 1st floor east: dur.clinic@ncssm.edu or 919-416-2892. Outside clinic hours go to a Community Coordinator desk; a CC on duty can reach the after-hours nursing line. If you are sent home ill you have to check out at the Bryan Student Life office, 919-416-2825.",
+    hours: [
+      { days: "Monday to Friday", period: "Clinic open", time: "8:00am - 4:00pm" },
+      { days: "Weekends and after hours", period: "Clinic closed", time: "See a Community Coordinator" },
+    ],
     audience: "Residential students",
     loginRequired: false,
     platform: "web",
@@ -244,7 +248,7 @@ export const resources: Resource[] = [
     category: "dining-transportation",
     officialUrl: "https://ncssm-durham.campus-dining.com/",
     contactNote:
-      "Meals are free to students. Vegetarian, vegan, and gluten-free options are provided; talk to dining staff about an allergy so it is on file.",
+      "Meals are free to students, all you care to eat: three a weekday and two at weekends. Vegetarian, vegan, and gluten-free options are provided; email dur.diningservices@ncssm.edu about an allergy or a dietary need so it is on file.",
     hours: [
       { days: "Monday to Friday", period: "Breakfast", time: "7:45am - 10:00am" },
       { days: "Monday to Friday", period: "Lunch", time: "11:30am - 1:30pm" },
@@ -327,7 +331,7 @@ export const resources: Resource[] = [
     description:
       "Schedule, attendance, report cards, and permissions. This is the system most official student records live in.",
     aliases:
-      "myschoolapp, sis, student portal, report card, attendance, my schedule, grades, transcript view",
+      "myschoolapp, bbsis, sis, student information system, student portal, report card, attendance, my schedule, grades, transcript view",
     category: "technology",
     officialUrl: "https://ncssm.myschoolapp.com",
     audience: "All students",
@@ -375,7 +379,7 @@ export const resources: Resource[] = [
     aliases:
       "start a club, new club, charter a club, club renewal, found a club",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
+    officialUrl: "https://dur-sg.ncssm.edu/clubs/clubs-and-funding",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -390,7 +394,7 @@ export const resources: Resource[] = [
     aliases:
       "money, funding, budget, reimbursement, club money, pay for, buy supplies, travel funding",
     category: "forms",
-    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
+    officialUrl: "https://dur-sg.ncssm.edu/clubs/clubs-and-funding",
     audience: "Club officers",
     loginRequired: true,
     platform: "form",
@@ -406,7 +410,7 @@ export const resources: Resource[] = [
     aliases:
       "clubs, organizations, activities, join a club, extracurriculars, what clubs exist",
     category: "student-life",
-    officialUrl: "https://www.ncssm.edu/residential/activities-clubs",
+    officialUrl: "https://dur-sg.ncssm.edu/clubs/chartered-clubs",
     audience: "All students",
     loginRequired: false,
     platform: "web",
@@ -555,11 +559,11 @@ export const resources: Resource[] = [
     description:
       "Reporting and support for sex discrimination, harassment, and sexual misconduct, including who the coordinator is.",
     aliases:
-      "harassment, sexual harassment, assault, discrimination, title 9, report misconduct, coordinator",
+      "harassment, sexual harassment, assault, discrimination, title 9, titleix, report misconduct, coordinator",
     category: "urgent-support",
-    officialUrl: "https://accessibility.ncssm.edu/",
+    officialUrl: "https://titleix.ncssm.edu/",
     contactNote:
-      "This is a formal reporting route with people trained for it. Navigate is not, and an issue like this should never go through the report form.",
+      "This is a formal reporting route with people trained for it. Navigate is not, and an issue like this should never go through the report form. The Title IX office is titleix@ncssm.edu.",
     audience: "All students",
     loginRequired: false,
     platform: "google",
@@ -1098,11 +1102,16 @@ export const resources: Resource[] = [
     description:
       "Book a time at the Durham student health clinic.",
     aliases:
-      "clinic appointment, see the nurse, book clinic, health appointment, medical appointment, sick",
+      "clinic appointment, see the nurse, book clinic, health appointment, medical appointment, sick, telehealth, drop in, walk in",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/ncssm.edu/healthandwellness/student-health/durham-student-health-clinic",
+    officialUrl:
+      "https://wellness.ncssm.edu/student-health/durham-student-health-clinic",
     contactNote:
-      "Clinic hours are Monday to Friday, 8am to 4pm. Outside those hours go to a Community Coordinator desk.",
+      "Book through Blackbaud or the clinic site: dur.clinic@ncssm.edu or 919-416-2892. The Durham clinic does not take drop-ins for non-emergencies. Outside clinic hours go to a Community Coordinator desk.",
+    hours: [
+      { days: "Monday to Friday", period: "Clinic open", time: "8:00am - 4:00pm" },
+      { days: "Weekends and after hours", period: "Clinic closed", time: "See a Community Coordinator" },
+    ],
     audience: "All students",
     loginRequired: true,
     platform: "google",
@@ -2597,7 +2606,7 @@ export const resources: Resource[] = [
     aliases:
       "report harassment, title ix report, sexual harassment, assault, misconduct, who do i tell",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix/reporting",
+    officialUrl: "https://titleix.ncssm.edu/reporting",
     contactNote:
       "This is a formal route with trained staff. Do not use Navigate's issue form for it.",
     audience: "All students",
@@ -2615,7 +2624,7 @@ export const resources: Resource[] = [
     aliases:
       "title ix faq, what happens, confidential, investigation, process, questions",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix/faq",
+    officialUrl: "https://titleix.ncssm.edu/faq",
     audience: "All students",
     loginRequired: false,
     platform: "google",
@@ -2631,7 +2640,7 @@ export const resources: Resource[] = [
     aliases:
       "title ix support, survivor resources, help after, advocate, support",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix/resources",
+    officialUrl: "https://titleix.ncssm.edu/resources",
     audience: "All students",
     loginRequired: false,
     platform: "google",
@@ -2647,7 +2656,7 @@ export const resources: Resource[] = [
     aliases:
       "consent, definition, what counts as, harassment meaning, retaliation",
     category: "urgent-support",
-    officialUrl: "https://sites.google.com/a/ncssm.edu/ncssm-title-ix/definitions",
+    officialUrl: "https://titleix.ncssm.edu/definitions",
     audience: "All students",
     loginRequired: false,
     platform: "google",
@@ -3348,5 +3357,135 @@ export const resources: Resource[] = [
     lastVerified: null,
     verificationStatus: "needs-review",
     featured: false,
+  },
+
+  /* ----------------------------------- from the 2026-2027 Durham handbook
+     and the Durham Student Government site at dur-sg.ncssm.edu.
+
+     These were missing because they are not reachable by crawling: the
+     handbook is a PDF, and the SG site is not linked from the pages the
+     directory was built from. Every URL below was opened and its page title
+     checked against what the row claims. */
+
+  {
+    id: "durham-sg-site",
+    name: "Durham Student Government site",
+    description:
+      "Student Government's own site: who the officers are, how SG is structured, and the pages behind club chartering, funding, and Senate.",
+    aliases:
+      "sg, sga, student government, sg website, senate, officers, who is in sg, student council",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-submit-help",
+    name: "Submit a problem to SG",
+    description:
+      "Student Government's own form for telling them something is not working. This is the route that exists today.",
+    aliases:
+      "tell sg, report to sg, sg help, submit help, something is broken, complain, ask sg for help",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/need-help/submit-help-here",
+    audience: "All students",
+    loginRequired: false,
+    platform: "form",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-progress",
+    name: "SG progress on student problems",
+    description:
+      "Student Government's own page for what it is working on and how far each thing has got.",
+    aliases:
+      "sg progress, what is sg doing, status, did anything happen, follow up",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/need-help/progress",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-meeting-schedule",
+    name: "Senate meeting schedule",
+    description:
+      "When Senate meets, so you can turn up or ask for time on the agenda.",
+    aliases:
+      "when does senate meet, sg meeting, senate schedule, meeting times, when is senate, attend senate",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/resources/meeting-schedule",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-voting-records",
+    name: "Senate voting records & minutes",
+    description:
+      "How each senator voted and what was said, meeting by meeting.",
+    aliases:
+      "minutes, voting record, how did they vote, senate minutes, what did senate decide, transparency",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/operations/voting-records-minutes",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-guiding-documents",
+    name: "SG constitution & guiding documents",
+    description:
+      "The rules Student Government runs by: constitution, bylaws, and procedure.",
+    aliases:
+      "constitution, bylaws, sg rules, guiding documents, how sg works, procedure",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/operations/guiding-documents",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "sg-join",
+    name: "Join Student Government",
+    description:
+      "How to run in an election or otherwise get involved in SG.",
+    aliases:
+      "run for senate, election, elections, join sg, become a senator, get involved, campaign",
+    category: "student-government",
+    officialUrl: "https://dur-sg.ncssm.edu/get-involved_1/join-sg",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
+  },
+  {
+    id: "institutional-policies",
+    name: "NCSSM institutional policies",
+    description:
+      "The school's published policies, as adopted by the Board of Trustees. The handbook points here for the full text.",
+    aliases:
+      "policy, policies, official policy, board of trustees, rules, what is the policy",
+    category: "forms",
+    officialUrl:
+      "https://www.ncssm.edu/about/leadership/board-of-trustees/institutional-policies",
+    audience: "All students",
+    loginRequired: false,
+    platform: "web",
+    lastVerified: null,
+    verificationStatus: "needs-review",
   },
 ];

@@ -51,6 +51,7 @@ test("every top-level route returns a page, not an error", async ({ page }) => {
   for (const path of [
     "/",
     "/resources",
+    "/academic-help",
     "/opportunities",
     "/report",
     "/updates",
@@ -136,6 +137,45 @@ test("opportunities are real programmes, filterable, with honest dates", async (
 
   // Nothing claims a date that was never confirmed.
   await expect(page.getByText("Ongoing").first()).toBeVisible();
+
+  expect(errors).toEqual([]);
+});
+
+test("the academic help finder groups routes by subject", async ({ page }) => {
+  const errors = watchConsole(page);
+  await page.goto("/academic-help");
+
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Academic help",
+  );
+
+  // Browsing is grouped by subject, so being stuck in one subject is one tap.
+  await expect(page.getByRole("heading", { name: /^Math/ })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /^Computer science/ }),
+  ).toBeVisible();
+
+  const results = page.locator('section[aria-label="Results"]');
+
+  // The chips are the same demonstration the homepage makes: a whole sentence
+  // that only resolves because of an aliases field.
+  await page.getByRole("button", { name: "stuck in math" }).click();
+  await expect(results.locator("li").first()).toContainText("math TA");
+
+  const search = page.getByRole("searchbox", { name: /Search by subject/i });
+
+  // A subject with no route of its own still has to reach the general one,
+  // because peer tutoring and a teacher's own office hours do cover it.
+  await search.fill("chemistry");
+  await expect(results.locator("li").first()).toContainText(
+    "Durham academic assistance",
+  );
+
+  // This page adds no destinations. Every row is an existing resource, opened
+  // on its own site.
+  const first = results.locator("li").first().getByRole("link").first();
+  await expect(first).toHaveAttribute("rel", /noopener/);
+  await expect(first).toHaveAttribute("rel", /noreferrer/);
 
   expect(errors).toEqual([]);
 });

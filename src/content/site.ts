@@ -51,6 +51,22 @@ export const nav = [
 ] as const;
 
 /**
+ * Directories that are not one of the four primary actions.
+ *
+ * The top navigation stays at five items on purpose. Adding every directory to
+ * it turns a wayfinding bar into a menu you have to read, which is the thing
+ * this site exists to spare people. These are listed on the homepage under the
+ * primary actions and in the footer instead.
+ */
+export const moreDirectories = [
+  {
+    href: "/academic-help",
+    label: "Academic help",
+    blurb: "Who helps with a subject, and when they are free.",
+  },
+] as const;
+
+/**
  * The homepage shortlist, in order.
  *
  * Deliberate rather than "whichever featured rows happen to be first in the

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { nav, site } from "@/content/site";
+import { moreDirectories, nav, site } from "@/content/site";
 import { isDemo } from "@/content/stage";
 import { ExternalLink } from "./ui";
 import { Mark } from "./mark";
@@ -25,7 +25,7 @@ export function SiteFooter() {
         <nav aria-label="Footer">
           <p className="label text-faint">Navigate</p>
           <ul className="mt-3 space-y-2">
-            {nav.map((item) => (
+            {[...nav, ...moreDirectories].map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}

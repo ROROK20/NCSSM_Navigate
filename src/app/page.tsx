@@ -4,7 +4,7 @@ import {
   OPPORTUNITY_CATEGORY_BY_ID,
   RESOURCE_CATEGORY_BY_ID,
 } from "@/content/taxonomy";
-import { homepagePicks, site } from "@/content/site";
+import { homepagePicks, moreDirectories, site } from "@/content/site";
 import { isDemo } from "@/content/stage";
 import { dateParts } from "@/lib/format";
 import {
@@ -223,6 +223,44 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
+
+      {/* ---------------------------------------------- secondary directories */}
+      {/*
+        Quieter than the block above on purpose. These are real destinations,
+        but a student arriving with a question reaches for one of the four
+        first, and a second identical grid would flatten that difference.
+      */}
+      {moreDirectories.length > 0 ? (
+        <section aria-labelledby="more-heading" className="border-b border-line">
+          <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-14">
+            <Eyebrow>Also here</Eyebrow>
+            <h2
+              id="more-heading"
+              className="mt-3 text-xl font-semibold tracking-tight text-ink"
+            >
+              More directories
+            </h2>
+            <ul className="mt-6 border-t border-line">
+              {moreDirectories.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="group flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b border-line px-1 py-3.5 transition-colors duration-150 hover:bg-sunken"
+                  >
+                    <span className="font-medium text-ink transition-colors group-hover:text-accent">
+                      {item.label}
+                    </span>
+                    <span className="min-w-0 flex-1 text-sm leading-relaxed text-muted">
+                      {item.blurb}
+                    </span>
+                    <ArrowRight className="shrink-0 text-accent transition-transform duration-200 group-hover:translate-x-1" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
 
       {/* ------------------------------------------------------- how it works */}
       <section aria-labelledby="how-heading">

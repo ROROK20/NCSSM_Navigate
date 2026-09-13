@@ -221,19 +221,23 @@ function ClubRow({ club }: { club: ClubView }) {
           </div>
         </div>
 
-        <dl className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col lg:gap-1.5">
-          <div className="flex gap-1.5">
-            <dt className="label shrink-0 text-faint">Meets</dt>
-            <dd className="text-[13px] text-muted">{when || "Not listed"}</dd>
-          </div>
-          <div className="flex gap-1.5">
-            <dt className="label shrink-0 text-faint">Where</dt>
-            <dd className="text-[13px] text-muted">
-              {club.location || "Not listed"}
-            </dd>
-          </div>
+        {/* The tag sits beside the list, not inside it: a `dl` may only
+            directly contain dt/dd groups. */}
+        <div className="flex flex-wrap items-start gap-x-5 gap-y-1.5 lg:flex-col lg:gap-1.5">
+          <dl className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col lg:gap-1.5">
+            <div className="flex gap-1.5">
+              <dt className="label shrink-0 text-faint">Meets</dt>
+              <dd className="text-[13px] text-muted">{when || "Not listed"}</dd>
+            </div>
+            <div className="flex gap-1.5">
+              <dt className="label shrink-0 text-faint">Where</dt>
+              <dd className="text-[13px] text-muted">
+                {club.location || "Not listed"}
+              </dd>
+            </div>
+          </dl>
           <CategoryTag label={club.categoryLabel} tone={club.categoryTone} />
-        </dl>
+        </div>
       </div>
     </li>
   );

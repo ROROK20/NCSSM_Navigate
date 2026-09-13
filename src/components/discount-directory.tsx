@@ -163,17 +163,16 @@ function DiscountRow({ discount }: { discount: DiscountView }) {
             The whole point of the page, so it is a sentence rather than a
             dash. A student who reads "10%" and is refused at the counter has
             been let down by this site, not by the shop.
+
+            When it is unknown this line carries the ACTION rather than
+            repeating the chip above it: seven rows each saying "not confirmed"
+            twice turned the page's one honest fact into wallpaper.
           */}
           <p className="mt-2 max-w-[62ch] text-[13px] leading-relaxed text-muted">
             <span className="label mr-1.5 text-faint">Discount</span>
-            {confirmed ? (
-              discount.terms
-            ) : (
-              <>
-                Not confirmed yet. SG has the name but not the deal, so ask at
-                the counter before you order.
-              </>
-            )}
+            {confirmed
+              ? discount.terms
+              : "Ask at the counter. SG has the name but not the deal."}
           </p>
         </div>
 
@@ -189,12 +188,6 @@ function DiscountRow({ discount }: { discount: DiscountView }) {
                   : discount.studentIdRequired
                     ? "Bring your student ID"
                     : "Not needed"}
-              </dd>
-            </div>
-            <div className="flex gap-1.5">
-              <dt className="label shrink-0 text-faint">Map</dt>
-              <dd className="text-[13px] text-muted">
-                Opens Google Maps for directions, hours, and phone
               </dd>
             </div>
           </dl>

@@ -45,7 +45,8 @@ export default function DiscountsPage() {
         <h1 className="display mt-3 text-ink">Student discounts</h1>
         <p className="mt-3.5 max-w-md text-[15px] leading-relaxed text-muted">
           Places near campus that give NCSSM students a discount, collected by
-          the SG discounts committee.
+          the SG discounts committee. Tapping a name opens Google Maps for
+          directions, hours, and phone.
         </p>
       </header>
 

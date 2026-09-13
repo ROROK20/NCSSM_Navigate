@@ -240,7 +240,10 @@ export default async function HomePage() {
             >
               More directories
             </h2>
-            <ul className="mt-6 border-t border-line">
+            {/* Narrower than the block above it. Full width left the arrow a
+                screen away from the label it belongs to, and the lower
+                priority of these is worth showing rather than stating. */}
+            <ul className="mt-6 max-w-3xl border-t border-line">
               {moreDirectories.map((item) => (
                 <li key={item.href}>
                   <Link

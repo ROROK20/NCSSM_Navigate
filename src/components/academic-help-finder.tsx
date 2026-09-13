@@ -248,8 +248,15 @@ function RouteRow({ route }: { route: HelpRouteView }) {
           </p>
         </div>
 
-        {/* Who is on the other end, and what opening it actually gives you. */}
-        <dl className="flex flex-wrap gap-x-5 gap-y-1 lg:flex-col lg:gap-1">
+        {/*
+          Who is on the other end, and what opening it actually gives you.
+
+          Stacked at every width rather than wrapping inline like the resource
+          directory's rail. Those values are tokens ("No sign-in", "Canvas");
+          these are short sentences, and flowing sentences inline put the login
+          marker halfway along a line on a phone.
+        */}
+        <dl className="flex flex-col gap-1">
           <div className="flex gap-1.5">
             <dt className="label shrink-0 text-faint">Who</dt>
             <dd className="text-[13px] text-muted">{route.who}</dd>
